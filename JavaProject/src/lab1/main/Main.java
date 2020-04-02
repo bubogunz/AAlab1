@@ -55,9 +55,10 @@ public class Main {
 		    long stop = System.nanoTime();
 		    
 		    long timeElapsed = stop - start;
-		    Double time = new Double(timeElapsed/1000000); 
+		    double time = timeElapsed;
+		    time = time/1000000000;
 		    buffer += "MST costs " + cost + "\n";
-		    buffer += "Time elapsed: " + time + "\n\n";
+		    buffer += "Time elapsed: " + time + "s\n\n";
 		    fw.write(buffer);
 		    
 //		    System.out.println(buffer);
