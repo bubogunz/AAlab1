@@ -27,50 +27,48 @@ public class Main {
 		    .collect(Collectors.toList());
 	    final File outputPath = new File("out.txt");
 	    FileWriter fw = new FileWriter(outputPath, true);
+	    
 	    mst_dataset.forEach(entryset -> { 
-		try {
-		    Graph G = new Graph();
-		    int cost = 0;
-//		    entryset = "mst_dataset/input_random_49_10000.txt";
+	    	try {
+		    	System.out.println("Input " + entryset);
 		    
-		    String buffer = new String("File:" + entryset + "\n");
-
+		    	Graph G = new Graph();
+		    	int cost = 0;
+		    	entryset = "mst_dataset/input_random_02_10.txt";
+		    
+		    	String buffer = new String("File:" + entryset + "\n");
 		   
-		    File myObj = new File(entryset);
-		    Scanner myReader = new Scanner(myObj);
-		    String line = myReader.nextLine();
+		    	File myObj = new File(entryset);
+		    	Scanner myReader = new Scanner(myObj);
+		    	String line = myReader.nextLine();
 		    
-		    
-		    G.buildNodes(new Integer(line.split(" ")[0]));
+		    	G.buildNodes(new Integer(line.split(" ")[0]));
 
-		    while (myReader.hasNextLine()) {
-			line = myReader.nextLine();
-			String[] data = line.split(" ");
-			G.addEdge(new Edge(new Integer(data[0]), new Integer(data[1]), new Integer(data[2])));
-		    }	
-		    myReader.close();
+		    	while (myReader.hasNextLine()) {
+		    		line = myReader.nextLine();
+		    		String[] data = line.split(" ");
+		    		G.addEdge(new Edge(new Integer(data[0]), new Integer(data[1]), new Integer(data[2])));
+		    	}	
+		    	
+		    	myReader.close();
 		    
-		    long start = System.nanoTime();
-		    cost = MinimumSpanningTreeFinding.Prim(G, 6);
-		    long stop = System.nanoTime();
+		    	long start = System.nanoTime();
+		    	cost = MinimumSpanningTreeFinding.NaiveKruskal(G);
+		    	long stop = System.nanoTime();
 		    
-		    long timeElapsed = stop - start;
-		    double time = timeElapsed;
-		    time = time/1000000000;
-		    buffer += "MST costs " + cost + "\n";
-		    buffer += "Time elapsed: " + time + "s\n\n";
-		    fw.write(buffer);
+		    	long timeElapsed = stop - start;
+		    	double time = timeElapsed;
+		    	time = time/1000000000;
+		    	buffer += "MST costs " + cost + "\n";
+		    	buffer += "Time elapsed: " + time + "s\n\n";
+		    	fw.write(buffer);
 		    
-//		    System.out.println(buffer);
-		    
-		}catch(FileNotFoundException e) { }
-		catch (IOException e) { }
-	    });
-	    fw.close();
-	} catch (IOException e) {
-	    e.printStackTrace();
-	}
-	
+			}catch(FileNotFoundException e) { }
+			catch (IOException e) { }
+	    	});
+	    	fw.close();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}	
     }
-
 }
