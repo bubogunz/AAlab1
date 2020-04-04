@@ -15,6 +15,7 @@ import java.util.stream.Stream;
 import lab1.algorithm.MinimumSpanningTreeFinding;
 import lab1.model.Edge;
 import lab1.model.Graph;
+import lab1.model.Node;
 
 public class Main {
 
@@ -41,12 +42,12 @@ public class Main {
 		    String line = myReader.nextLine();
 		    
 		    
-		    G.buildNodes(new Integer(line.split(" ")[0]));
+		    G.buildNodes(Integer.valueOf(line.split(" ")[0]));
 
 		    while (myReader.hasNextLine()) {
 			line = myReader.nextLine();
 			String[] data = line.split(" ");
-			G.addEdge(new Edge(new Integer(data[0]), new Integer(data[1]), new Integer(data[2])));
+			G.addEdge(new Edge(new Node(Integer.valueOf(data[0])), new Node(Integer.valueOf(data[1])), Integer.valueOf(data[2])));
 		    }	
 		    myReader.close();
 		    

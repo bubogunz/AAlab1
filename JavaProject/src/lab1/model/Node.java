@@ -4,32 +4,19 @@ import java.util.ArrayList;
 
 public final class Node {
     private Integer ID;
-    private Integer weight;
-    private Integer IDfather;
+    private Node IDfather;
     private ArrayList<Edge> adjacentList;
 
     public Node(Integer iD) {
 	super();
 	ID = iD;
-	this.weight = null;
-	this.IDfather = null;
 	this.adjacentList = new ArrayList<Edge>();
     }
 
     public Node(Node node) {
 	super();
-	this.ID = new Integer(node.ID);
-	this.weight = new Integer(node.weight);
-	this.IDfather = new Integer(node.IDfather);
+	this.ID = Integer.valueOf(node.ID);
 	this.adjacentList = new ArrayList<Edge>(node.adjacentList);
-    }
-
-    public Integer getIDfather() {
-	return IDfather;
-    }
-
-    public void setIDfather(Integer iDfather) {
-	IDfather = iDfather;
     }
 
     public Integer getID() {
@@ -38,16 +25,8 @@ public final class Node {
 
     public void setID(Integer iD) {
 	ID = iD;
-    }
-
-    public Integer getWeight() {
-	return weight;
-    }
-
-    public void setWeight(Integer weight) {
-	this.weight = weight;
-    }
-
+	}
+	
     public ArrayList<Edge> getAdjacentList() {
 	return adjacentList;
     }
@@ -58,7 +37,19 @@ public final class Node {
 
     public void updateAdjacentList(Edge edge) {
 	this.adjacentList.add(edge);
-    }
+	}
+	
+	public void removeEdgeFromAdjacentList(Edge edge) {
+	this.adjacentList.remove(edge);	
+	}
+
+	public ArrayList<Node> getAdjacentNodes() {
+		ArrayList<Node> adjacentNodes = new ArrayList<Node>(adjacentList.size());
+		for (Edge edge : adjacentList) {
+			adjacentNodes.add((ID == edge.getnode1().getID()) ? edge.getnode2() : edge.getnode1());
+		}
+		return adjacentNodes;
+	}
 
     @Override
     public int hashCode() {
@@ -67,7 +58,6 @@ public final class Node {
 	result = prime * result + ((ID == null) ? 0 : ID.hashCode());
 	result = prime * result + ((IDfather == null) ? 0 : IDfather.hashCode());
 	result = prime * result + ((adjacentList == null) ? 0 : adjacentList.hashCode());
-	result = prime * result + ((weight == null) ? 0 : weight.hashCode());
 	return result;
     }
 
@@ -94,11 +84,6 @@ public final class Node {
 	    if (other.adjacentList != null)
 		return false;
 	} else if (!adjacentList.equals(other.adjacentList))
-	    return false;
-	if (weight == null) {
-	    if (other.weight != null)
-		return false;
-	} else if (!weight.equals(other.weight))
 	    return false;
 	return true;
     }

@@ -1,42 +1,42 @@
 package lab1.model;
 
-public final class Edge {
+public final class Edge implements Comparable<Edge>{
 
-    private Integer nodeID1;
-    private Integer nodeID2;
+    private Node nodeID1;
+    private Node nodeID2;
     private Integer weight;
 
     public Edge() {
 	super();
     }
 
-    public Edge(Integer v1, Integer v2, Integer weight) {
+    public Edge(Node v1, Node v2, Integer weight) {
 	super();
-	this.nodeID1 = new Integer(v1);
-	this.nodeID2 = new Integer(v2);
+	this.nodeID1 = new Node(v1);
+	this.nodeID2 = new Node(v2);
 	this.weight = weight;
     }
     
     public Edge(Edge edge) {
-	this.nodeID1 = new Integer(edge.nodeID1);
-	this.nodeID2 = new Integer(edge.nodeID2);
-	this.weight = new Integer(edge.weight);
+	this.nodeID1 = new Node(edge.nodeID1);
+	this.nodeID2 = new Node(edge.nodeID2);
+	this.weight = Integer.valueOf(edge.weight);
     }
 
-    public Integer getnodeID1() {
+    public Node getnode1() {
 	return nodeID1;
     }
 
     public void setnodeID1(Integer v1) {
-	this.nodeID1 = v1;
+	this.nodeID1.setID(v1);
     }
 
-    public Integer getnodeID2() {
+    public Node getnode2() {
 	return nodeID2;
     }
 
     public void setnodeID2(Integer v2) {
-	this.nodeID2 = v2;
+	this.nodeID2.setID(v2);
     }
 
     public Integer getWeight() {
@@ -45,7 +45,7 @@ public final class Edge {
 
     public void setWeight(Integer weight) {
 	this.weight = weight;
-    }
+	}
 
     @Override
     public int hashCode() {
@@ -57,6 +57,7 @@ public final class Edge {
 	return result;
     }
 
+	// For underected graphs
     @Override
     public boolean equals(Object obj) {
 	if (this == obj)
@@ -66,21 +67,34 @@ public final class Edge {
 	if (getClass() != obj.getClass())
 	    return false;
 	Edge other = (Edge) obj;
-	if (nodeID1 == null) {
-	    if (other.nodeID1 != null)
-		return false;
-	} else if (!nodeID1.equals(other.nodeID1))
-	    return false;
-	if (nodeID2 == null) {
-	    if (other.nodeID2 != null)
-		return false;
-	} else if (!nodeID2.equals(other.nodeID2))
-	    return false;
-	if (weight == null) {
-	    if (other.weight != null)
-		return false;
-	} else if (!weight.equals(other.weight))
-	    return false;
-	return true;
-    }
+	// Verify that: (a,b) == (a,b) || (a,b) == (b,a)
+	if (nodeID1 != null && nodeID2 != null && other.getnode1() != null && other.getnode2() != null
+		&& ( (nodeID1.equals(other.getnode1()) && nodeID2.equals(other.getnode2()))
+		|| (nodeID1.equals(other.getnode2()) && nodeID2.equals(other.getnode1())) ) ) {
+		return true;
+	}
+	// Verify that: (a, null) == (a, null) || (a, null) == (null, a)
+	else if ( ((nodeID1 != null && nodeID2 == null) || (nodeID1 == null && nodeID2 != null))
+		&& ((other.getnode1() != null && other.getnode2() == null) || (other.getnode1() == null && other.getnode2() != null))
+		&& (nodeID1.equals(other.getnode1()) || nodeID1.equals(other.getnode2()))
+		|| nodeID2.equals(other.getnode1()) || nodeID2.equals(other.getnode2())) {
+		return true;
+	}
+	// Verify that: (null, null) == (null, null)
+	else if (nodeID1 == null && nodeID2 == null && other.getnode1() == null && other.getnode2() == null) {
+		return true;
+	}
+
+	return false;
+	}
+	
+	@Override
+	public int compareTo(Edge edge) {
+		if(this.weight > edge.weight) {
+			return 1;
+		} else if(this.weight < edge.weight) {
+			return -1;
+		}
+		return 0;
+	}
 }

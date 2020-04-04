@@ -34,7 +34,7 @@ public final class Graph {
 
     public void buildNodes(Integer n) {
 	for (int i = 1; i <= n.intValue(); i++) 
-	    this.nodes.add(new Node(i));
+	    this.nodes.add(new Node(i + this.nodes.size()));
     }
 
     public ArrayList<Edge> getEdges() {
@@ -48,16 +48,50 @@ public final class Graph {
     public void addEdge(Edge e) {
 	this.edges.add(e);
 	//add the edge to the node's adjacent list if it is not a loop
-	if(!e.getnodeID1().equals(e.getnodeID2())){
-	    this.nodes.get(e.getnodeID1()-1).updateAdjacentList(e);
-	    this.nodes.get(e.getnodeID2()-1).updateAdjacentList(e);
+	if(!e.getnode1().equals(e.getnode2()) && !this.existsEdge(e)){
+	    this.nodes.get(e.getnode1().getID()-1).updateAdjacentList(e);
+	    this.nodes.get(e.getnode2().getID()-1).updateAdjacentList(e);
 	}
     }
     
     public void addNode(Node n) {
 	if(!nodes.contains(n))
 	    nodes.add(n);
-    }
+	}
+	
+	public void removeNode(Node n) {
+	if(this.nodes.contains(n)) {
+		//removes all edges connected with selected node
+		for (int i = 0; i < this.edges.size(); i++) {
+			if (this.edges.get(i).getnode1().getID() == n.getID()
+				|| this.edges.get(i).getnode2().getID() == n.getID()) {
+					//update AdjacentList of selected node
+					n.removeEdgeFromAdjacentList(this.edges.get(i));
+					this.edges.remove(i);
+					i--;
+				}
+		}
+		this.nodes.remove(n);
+	}
+	}
+
+	public Integer getDimension() {
+		return nodes.size();
+	}
+
+	public Node getNodeByID(Integer ID) {
+		return nodes.get(ID - 1);
+	}
+
+	public Node opposite(Node node, Edge edge) {
+		if(edge.getnode1().equals(node)) {
+			return edge.getnode2();
+		}
+		else if (edge.getnode2().equals(node)) {
+			return edge.getnode1();
+		}
+		return null;
+	}
 
     @Override
     public int hashCode() {
@@ -90,5 +124,13 @@ public final class Graph {
 	return true;
     }
     
-    
+    private boolean existsEdge(Edge e) {
+	for (Edge edge : this.edges) {
+		if ((edge.getnode1().getID() == e.getnode1().getID() && edge.getnode2().getID() == e.getnode2().getID())
+		|| (edge.getnode1().getID() == e.getnode2().getID() && edge.getnode2().getID() == e.getnode1().getID())) {
+			return true;
+		}
+	}
+	return false;
+	}
 }
