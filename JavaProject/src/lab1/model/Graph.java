@@ -54,20 +54,22 @@ public final class Graph {
 		}
 		this.edges.add(e);
 		//add the edge to the node's adjacent list if it is not a loop edge
-		if(!e.getnodeID1().equals(e.getnodeID2())){
-			this.nodes.get(e.getnodeID1()-1).updateAdjacentList(edges.size()-1);
-			this.nodes.get(e.getnodeID2()-1).updateAdjacentList(edges.size()-1);
-		}
+//		if(!e.getnodeID1().equals(e.getnodeID2())){
+		this.nodes.get(e.getnodeID1()-1).updateAdjacentList(edges.size()-1);
+		this.nodes.get(e.getnodeID2()-1).updateAdjacentList(edges.size()-1);
+//		}
 	}	
 	
 	public Boolean hasCycle() {
 		DepthFirstSearch();
 		Boolean ret = false;
-		for (Edge edge : this.edges)
+		for (Edge edge : this.edges) {
 			if(edge.getLabel() == Label.BACK_EDGE && 
 				edge.getAncestor().equals(edge.getnodeID2())) 
 				ret = true;
-		clear();
+			edge.setAncestor(null);
+			edge.setLabel(null);
+		}
 		return ret;
 	}
 
@@ -95,11 +97,6 @@ public final class Graph {
 				}
 			}
 		}
-	}
-	
-	private void clear() {
-		this.edges.stream().forEach(edge -> edge.clear());
-		this.nodes.stream().forEach(node -> node.clear());
 	}
 
 	@Override

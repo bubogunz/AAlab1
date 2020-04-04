@@ -37,7 +37,9 @@ public final class Edge {
 		this.nodeID2 = new Integer(edge.nodeID2);
 		this.weight = new Integer(edge.weight);
 		this.label = edge.label;
-		this.ancestor = edge.getAncestor();
+		this.ancestor = edge.ancestor == null 
+				? null 
+						: new Integer(edge.getAncestor());
 	}
 
 	public Integer getnodeID1() {

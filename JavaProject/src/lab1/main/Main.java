@@ -20,7 +20,7 @@ import testprim.TestPrim;
 public class Main {
 
 	public static void main(String[] args) {
-		testPrim();
+		compute();
 	}
 
 	public static void compute() {
@@ -28,8 +28,8 @@ public class Main {
 		try (Stream<Path> walk = Files.walk(Paths.get("mst_dataset"))) {
 			List<String> mst_dataset = walk.filter(Files::isRegularFile).map(x -> x.toString()).sorted()
 					.collect(Collectors.toList());
-			final File outputPath = new File("Prim.txt");
-			//			final File outputPath = new File("NaiveKruskal.txt");
+//			final File outputPath = new File("Prim.txt");
+			final File outputPath = new File("NaiveKruskal.txt");
 			FileWriter fw = new FileWriter(outputPath, true);
 
 			mst_dataset.forEach(entryset -> {
@@ -38,7 +38,7 @@ public class Main {
 
 					Graph G = new Graph();
 					int cost = 0;
-					//entryset = "mst_dataset/input_random_02_10.txt";
+					entryset = "mst_dataset/input_random_03_10.txt";
 
 					String buffer = new String("File:" + entryset + "\n");
 
@@ -57,8 +57,8 @@ public class Main {
 					myReader.close();
 
 					long start = System.nanoTime();
-					//							cost = MinimumSpanningTreeFinding.NaiveKruskal(G);
-					cost = MinimumSpanningTreeFinding.Prim(G, 1);
+					cost = MinimumSpanningTreeFinding.NaiveKruskal(G);
+//					cost = MinimumSpanningTreeFinding.Prim(G, 1);
 					long stop = System.nanoTime();
 
 					long timeElapsed = stop - start;

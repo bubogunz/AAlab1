@@ -67,6 +67,7 @@ public final class MinimumSpanningTreeFinding {
 		A.buildNodes(G.getNodes().size());
 
 		for (Edge edge : edges) {
+//			Edge cleanEdge = new Edge(edge);
 			Graph B = new Graph(A);
 			B.addEdge(edge);
 			if(!B.hasCycle()) {

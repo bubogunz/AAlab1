@@ -270,3 +270,275 @@ File:mst_dataset/input_random_68_100000.txt
 MST costs -231011693
 Time elapsed: 26.80816509s
 
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 0.002786148s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 4.5401E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 3.55738E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 4.1901E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 3.08837E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 3.06757E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 3.00548E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 2.23447E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.87E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.96614E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.79861E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.66079E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.63914E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.87282E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.88908E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.81746E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.60481E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.80072E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 2.21331E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.659E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.77681E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.53258E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.64176E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.61164E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.56368E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.68932E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.41117E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.58454E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.38111E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.48107E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.24773E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.32099E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.24782E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.33165E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.02355E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 9.9662E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 9.7057E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 9.869E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.01017E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.07628E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.01253E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.08242E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.20807E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 9.7498E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.05113E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.03545E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 9.5835E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.07844E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 9.6543E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.00813E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.02362E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.02456E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 9.4379E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 9.6593E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.24398E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 9.7059E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.05796E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 9.5957E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 9.8287E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 9.1322E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 9.1249E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 9.9448E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 9.2023E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.01728E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 1.00262E-4s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 8.342E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 8.1933E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -51508
+Time elapsed: 8.2795E-5s
+
