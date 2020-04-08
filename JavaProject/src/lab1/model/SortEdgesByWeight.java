@@ -8,5 +8,4 @@ public class SortEdgesByWeight implements Comparator<Edge> {
 	return Integer.compare(arg0.getWeight().intValue(), 
 		arg1.getWeight().intValue());
     }
-
 }

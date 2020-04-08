@@ -1,3 +1,0 @@
-File:mst_dataset/input_random_02_10.txt
-MST costs 2126
-Time elapsed: 6.7285E-5s

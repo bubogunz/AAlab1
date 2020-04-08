@@ -18,7 +18,8 @@ public final class MinimumSpanningTreeFinding {
 			node.getIDfather().clear();
 			node.setWeight(Integer.MAX_VALUE);
 		});
-
+		
+//		G.getNodes().get(startID-1).setWeight(0);
 		G.getNodes().get(startID-1).setWeight(Integer.MIN_VALUE);
 
 		PriorityQueue<Node> Q = new PriorityQueue<Node>(G.getNodes().size(), new SortNodesByWeight());
@@ -67,7 +68,6 @@ public final class MinimumSpanningTreeFinding {
 		A.buildNodes(G.getNodes().size());
 
 		for (Edge edge : edges) {
-//			Edge cleanEdge = new Edge(edge);
 			Graph B = new Graph(A);
 			B.addEdge(edge);
 			if(!B.hasCycle()) {
@@ -75,7 +75,7 @@ public final class MinimumSpanningTreeFinding {
 				cost += edge.getWeight();
 			}	
 		}
-		System.out.println("MST cost: " + cost);
+//		System.out.println("MST cost: " + cost);
 		return cost;
 	}      
 }

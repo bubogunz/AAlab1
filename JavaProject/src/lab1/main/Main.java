@@ -15,12 +15,15 @@ import java.util.stream.Stream;
 import lab1.algorithm.MinimumSpanningTreeFinding;
 import lab1.model.Edge;
 import lab1.model.Graph;
+import testkruskal.TestNaiveKruskal;
 import testprim.TestPrim;
 
 public class Main {
 
 	public static void main(String[] args) {
-		compute();
+//		compute();
+//		testPrim();
+		TestNaiveKruskal.test();
 	}
 
 	public static void compute() {
@@ -38,7 +41,7 @@ public class Main {
 
 					Graph G = new Graph();
 					int cost = 0;
-					entryset = "mst_dataset/input_random_03_10.txt";
+//					entryset = "mst_dataset/input_random_03_10.txt";
 
 					String buffer = new String("File:" + entryset + "\n");
 

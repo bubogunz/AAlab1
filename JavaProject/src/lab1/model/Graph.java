@@ -56,7 +56,7 @@ public final class Graph {
 		//add the edge to the node's adjacent list if it is not a loop edge
 //		if(!e.getnodeID1().equals(e.getnodeID2())){
 		this.nodes.get(e.getnodeID1()-1).updateAdjacentList(edges.size()-1);
-		this.nodes.get(e.getnodeID2()-1).updateAdjacentList(edges.size()-1);
+			this.nodes.get(e.getnodeID2()-1).updateAdjacentList(edges.size()-1);
 //		}
 	}	
 	
