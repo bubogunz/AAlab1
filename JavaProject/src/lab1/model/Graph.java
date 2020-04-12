@@ -48,7 +48,7 @@ public final class Graph {
 
 	public void addEdge(Edge e) {
 		if(e.getnodeID1() > e.getnodeID2()) {
-			Integer tmp = new Integer(e.getnodeID1());
+			Integer tmp = Integer.valueOf(e.getnodeID1());
 			e.setnodeID1(e.getnodeID2());
 			e.setnodeID2(tmp);
 		}
@@ -73,6 +73,25 @@ public final class Graph {
 		return ret;
 	}
 
+	public Node getNodeByID(int id){
+		for(Node node : nodes){
+			if(node.getID() == id){
+				return node;
+			}
+		}
+		return null;
+	}
+
+	public Edge findEdge(Integer node1, Integer node2){
+		for(Edge edge : edges){
+			if((edge.getnodeID1() == node1 && edge.getnodeID2() == node2)
+			|| (edge.getnodeID1() == node1 && edge.getnodeID2() == node1)){
+				return edge;
+			}
+		}
+		return null;
+	}
+
 	private void DepthFirstSearch() {
 		for (Node node : this.nodes) 
 			if(!node.isVisited() && !node.getAdjacentList().isEmpty())
@@ -84,8 +103,8 @@ public final class Graph {
 		for (int i=0; i<this.nodes.get(start-1).getAdjacentList().size(); ++i) {
 			if(this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i)).getLabel() == null) {
 				Integer opposite = start.equals(this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i)).getnodeID2()) 
-						? new Integer(this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i)).getnodeID1())
-								: new Integer(this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i)).getnodeID2());
+						? Integer.valueOf(this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i)).getnodeID1())
+								: Integer.valueOf(this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i)).getnodeID2());
 				if(!this.nodes.get(opposite-1).isVisited()) {
 					this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i)).setLabel(Label.DISCOVERY_EDGE);
 					this.nodes.get(opposite-1).getIDfather().add(start);

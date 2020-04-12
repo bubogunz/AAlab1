@@ -8,12 +8,38 @@ import lab1.model.Edge;
 import lab1.model.Graph;
 import lab1.model.Node;
 import lab1.model.SortEdgesByWeight;
+import lab1.model.Pair;
+//import lab1.model.PriorityQueue;
 import lab1.model.SortNodesByWeight;
 
 public final class MinimumSpanningTreeFinding {
 
 	public static final int Prim(Graph G, Integer startID) {
 		int cost = 0;
+		// PriorityQueue<Integer> Q = new PriorityQueue<Integer>();
+		// G.getNodes().stream().forEach(node -> Q.insert(new Pair<Integer>(Integer.MAX_VALUE, node.getID())));
+		// Q.setByIndex(Q.indexOfObj(startID), new Pair<Integer>(0, startID));
+		// ArrayList<Integer> pi = new ArrayList<Integer>(G.getNodes().size());
+
+		// boolean[] polledNodes = new boolean[Q.size()];
+
+		// while(!Q.isEmpty()) {
+		// 	Pair<Integer> lightNode = Q.pop();
+		// 	polledNodes[lightNode.getObj() - 1] = true;
+
+		// 	if(pi.get(lightNode.getObj() - 1) != null) 
+		// 		cost += lightNode.getKey();
+
+		// 	for(Integer v : G.getNodeByID(lightNode.getObj()).getAdjacentList()){
+		// 		Edge uv = G.findEdge(lightNode.getObj(), v);
+		// 		if(polledNodes[v - 1] == false && uv != null && uv.getWeight() < lightNode.getKey()){
+		// 			pi.set(v - 1, lightNode.getObj());
+		// 			Q.setByIndex(Q.indexOfObj(v), new Pair<Integer>(uv.getWeight(), v));
+		// 		}
+		// 	}
+		// }
+
+
 		G.getNodes().stream().forEach(node -> {
 			node.getIDfather().clear();
 			node.setWeight(Integer.MAX_VALUE);

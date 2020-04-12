@@ -25,21 +25,21 @@ public final class Edge {
 
 	public Edge(Integer v1, Integer v2, Integer weight) {
 		super();
-		this.nodeID1 = new Integer(v1);
-		this.nodeID2 = new Integer(v2);
+		this.nodeID1 = Integer.valueOf(v1);
+		this.nodeID2 = Integer.valueOf(v2);
 		this.weight = weight;
 		this.label = null;
 		this.ancestor = null;
 	}
 
 	public Edge(Edge edge) {
-		this.nodeID1 = new Integer(edge.nodeID1);
-		this.nodeID2 = new Integer(edge.nodeID2);
-		this.weight = new Integer(edge.weight);
+		this.nodeID1 = Integer.valueOf(edge.nodeID1);
+		this.nodeID2 = Integer.valueOf(edge.nodeID2);
+		this.weight = Integer.valueOf(edge.weight);
 		this.label = edge.label;
 		this.ancestor = edge.ancestor == null 
 				? null 
-						: new Integer(edge.getAncestor());
+						: Integer.valueOf(edge.getAncestor());
 	}
 
 	public Integer getnodeID1() {
@@ -131,5 +131,10 @@ public final class Edge {
 		} else if (!weight.equals(other.weight))
 			return false;
 		return true;
-	}    
+	}
+	
+	@Override
+	public String toString(){
+		return "(" + nodeID1 + "," + nodeID2 + ")";
+	}
 }

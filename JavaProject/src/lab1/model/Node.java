@@ -23,10 +23,10 @@ public final class Node {
 		this.weight = n.weight;
 		this.IDfather = new ArrayList<Integer>(n.IDfather.size());
 		for (Integer idfat : n.IDfather) 
-			this.IDfather.add(new Integer(idfat));
+			this.IDfather.add(Integer.valueOf(idfat));
 		this.adjacentList = new ArrayList<Integer>(n.adjacentList.size());
 		for(Integer edgeadj : n.adjacentList) 
-			this.adjacentList.add(new Integer(edgeadj));
+			this.adjacentList.add(Integer.valueOf(edgeadj));
 		this.visited = n.visited;
 	}
 
@@ -121,6 +121,11 @@ public final class Node {
 		} else if (!weight.equals(other.weight))
 			return false;
 		return true;
+	}
+
+	@Override
+	public String toString(){
+		return "NodeID: " + ID;
 	}
 
 }

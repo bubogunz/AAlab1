@@ -23,7 +23,7 @@ public class TestNaiveKruskal {
 						String data2 = outSrc.nextLine();
 						String[] words2 = data2.split(" ");
 						if(words2[0].equals("MST")) {
-							assert new Integer(words1[2]).equals(new Integer(words2[2]));
+							assert Integer.valueOf(words1[2]).equals(Integer.valueOf(words2[2]));
 							skip = true;
 						}
 					}

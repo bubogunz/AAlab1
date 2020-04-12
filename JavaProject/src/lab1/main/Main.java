@@ -17,13 +17,15 @@ import lab1.model.Edge;
 import lab1.model.Graph;
 import testkruskal.TestNaiveKruskal;
 import testprim.TestPrim;
+import testprim.TestPriorityQueue;
 
 public class Main {
 
 	public static void main(String[] args) {
-//		compute();
-//		testPrim();
-		TestNaiveKruskal.test();
+		compute();
+		testPrim();
+//		TestNaiveKruskal.test();
+		// TestPriorityQueue.test();;
 	}
 
 	public static void compute() {
@@ -31,8 +33,8 @@ public class Main {
 		try (Stream<Path> walk = Files.walk(Paths.get("mst_dataset"))) {
 			List<String> mst_dataset = walk.filter(Files::isRegularFile).map(x -> x.toString()).sorted()
 					.collect(Collectors.toList());
-//			final File outputPath = new File("Prim.txt");
-			final File outputPath = new File("NaiveKruskal.txt");
+			final File outputPath = new File("Prim.txt");
+			//final File outputPath = new File("NaiveKruskal.txt");
 			FileWriter fw = new FileWriter(outputPath, true);
 
 			mst_dataset.forEach(entryset -> {
@@ -49,12 +51,12 @@ public class Main {
 					Scanner myReader = new Scanner(myObj);
 					String line = myReader.nextLine();
 
-					G.buildNodes(new Integer(line.split(" ")[0]));
+					G.buildNodes(Integer.valueOf(line.split(" ")[0]));
 
 					while (myReader.hasNextLine()) {
 						line = myReader.nextLine();
 						String[] data = line.split(" ");
-						G.addEdge(new Edge(new Integer(data[0]), new Integer(data[1]), new Integer(data[2])));
+						G.addEdge(new Edge(Integer.valueOf(data[0]), Integer.valueOf(data[1]), Integer.valueOf(data[2])));
 					}
 
 					myReader.close();
