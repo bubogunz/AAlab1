@@ -2,76 +2,89 @@ package lab1.algorithm;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.PriorityQueue;
+//import java.util.PriorityQueue;
 
 import lab1.model.Edge;
 import lab1.model.Graph;
 import lab1.model.Node;
+import lab1.model.SortEdgesByWeight;
+import lab1.model.Pair;
+import lab1.model.PriorityQueue;
+import lab1.model.SortNodesByWeight;
 
 public final class MinimumSpanningTreeFinding {
 
-    public static final int Prim(Graph G, Integer startID) {
-	int cost = 0;
-	ArrayList<Integer> pi = new ArrayList<Integer>(G.getDimension());
-	ArrayList<Integer> keys = new ArrayList<Integer>(G.getDimension());
-	G.getNodes().stream().forEach(node -> {
-		if(node.getID() == startID) {
-			keys.add(0);
-		} else {
-			keys.add(Integer.MAX_VALUE);
-		} 
-	});
-
-	PriorityQueue<Integer> Q = new PriorityQueue<Integer>(keys);
-
-	// all values have as value false
-	boolean[] polledNodes = new boolean[Q.size()];
-
-	while(!Q.isEmpty()) {
-		Integer nodeID = keys.indexOf(Q.poll());
-		Node lightNode = G.getNodeByID(nodeID);
-	    polledNodes[lightNode.getID().intValue()-1] = true;
-
-	    if(pi.get(nodeID - 1) != 0) {
-		//		System.out.println("Da nodo " + lightNode.getIDfather() + " a nodo " + lightNode.getID()
-		//		+ " con costo " + lightNode.getWeight());
-		cost += keys.get(nodeID);
+	public static final int Prim(Graph G, Node startID) {
+		int cost = 0;
+		PriorityQueue<Node> Q = new PriorityQueue<Node>();
+		G.getNodes().stream().forEach(node -> Q.insert(new Pair<Node>(Integer.MAX_VALUE, node)));
+		Q.setByIndex(Q.indexOfObj(startID), new Pair<Node>(0, startID));
+		ArrayList<Integer> pi = new ArrayList<Integer>(G.getNodes().size());
+		for(int i = 0; i < G.getNodes().size(); i++){
+			pi.add(null);
 		}
+		
+		boolean[] polledNodes = new boolean[Q.size()];
 
-	    for (Edge edge : lightNode.getAdjacentList()) {
-			Integer otherSideOfTheEdgeNode = G.opposite(lightNode, edge).getID();
+		while(!Q.isEmpty()) {
+			Pair<Node> q = Q.pop();
+			Node lightNode = q.getObj();
+			polledNodes[lightNode.getID() - 1] = true;
+			cost += q.getKey();
 
-			if(polledNodes[otherSideOfTheEdgeNode.intValue() - 1] == false 
-				&& edge.getWeight() < keys.get(otherSideOfTheEdgeNode - 1)) {
 
-				pi.set(nodeID, otherSideOfTheEdgeNode - 1);
-				Q.remove(keys.get(otherSideOfTheEdgeNode - 1));
-				keys.set(otherSideOfTheEdgeNode, edge.getWeight());
-			    Q.offer(otherSideOfTheEdgeNode);
+			for(Node v : lightNode.getAdjacentList()){
+				Integer edgeWeight = lightNode.getWeightOfAdjacentNode(v.getID());
+				if(polledNodes[v.getID() - 1] == false && edgeWeight < Q.findKey(v)){
+					pi.set(v.getID() - 1, lightNode.getID());
+					Q.setByIndex(Q.indexOfObj(v), new Pair<Node>(edgeWeight, v));
+				}
 			}
-	    }
-	}
-	return cost;
-    }
-
-    public static final int NaiveKruskal(Graph G) {
-	int cost = 0;
-
-	ArrayList<Edge> edges = new ArrayList<Edge>(G.getEdges());
-	Collections.sort(edges);
-
-	Graph A = new Graph();
-
-	for(int i=0; i < G.getDimension() - 1; i++) {
-		Graph tmpGraph = new Graph(A);
-		Edge currentEdge = edges.get(i);
-		tmpGraph.addEdge(currentEdge);
-		tmpGraph.addNode(currentEdge.getnode1());
-		tmpGraph.addNode(currentEdge.getnode2());
-		if(!NodeSearch.Cyclicity(tmpGraph)) {
-			A = tmpGraph;
-			cost += currentEdge.getWeight();
 		}
+
+
+// 		G.getNodes().stream().forEach(node -> {
+// 			node.getIDfather().clear();
+// 			node.setWeight(Integer.MAX_VALUE);
+// 		});
+		
+// //		G.getNodes().get(startID-1).setWeight(0);
+// 		G.getNodes().get(startID-1).setWeight(Integer.MIN_VALUE);
+
+// 		PriorityQueue<Node> Q = new PriorityQueue<Node>(G.getNodes().size(), new SortNodesByWeight());
+
+// 		G.getNodes().stream().forEach(node -> Q.offer(node));
+
+// 		int[] polledNodes = new int[Q.size()];
+
+// 		while(!Q.isEmpty()) {
+// 			Node lightNode = Q.poll();
+// 			polledNodes[lightNode.getID().intValue()-1] = 1;
+
+// 			if(!lightNode.getIDfather().isEmpty()) 
+// 				cost += lightNode.getWeight();
+
+// 			for (int i=0; i<lightNode.getAdjacentList().size(); ++i) {				
+
+// 				Integer otherSideOfTheEdgeNodeID = lightNode.getID().equals(
+// 						G.getEdges().get(lightNode.getAdjacentList().get(i)).getnodeID1())
+// 						? Integer.valueOf(G.getEdges().get(lightNode.getAdjacentList().get(i)).getnodeID2()) 
+// 								: Integer.valueOf(G.getEdges().get(lightNode.getAdjacentList().get(i)).getnodeID1());
+
+// 				Node otherSideOfTheEdgeNode = G.getNodes().get(otherSideOfTheEdgeNodeID-1);
+
+// 				if(polledNodes[otherSideOfTheEdgeNode.getID().intValue()-1] == 0 
+// 						&& G.getEdges().get(lightNode.getAdjacentList().get(i)).getWeight()
+// 						.compareTo(otherSideOfTheEdgeNode.getWeight()) < 0 ) {
+// 					Q.remove(otherSideOfTheEdgeNode);
+// 					otherSideOfTheEdgeNode.getIDfather().add(lightNode.getID());
+// 					otherSideOfTheEdgeNode.setWeight(
+// 							G.getEdges().get(lightNode.getAdjacentList().get(i)).getWeight());
+// 					Q.offer(otherSideOfTheEdgeNode);
+// 				}
+// 			}
+// 		}
+		return cost;
 	}
 
 	return cost;
