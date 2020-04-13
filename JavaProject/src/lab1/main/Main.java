@@ -26,7 +26,7 @@ public class Main {
 		compute("prim");
 		testPrim();
 //		TestNaiveKruskal.test();
-		// TestPriorityQueue.test();;
+		// TestPriorityQueue.test();
 	}
 
 	public static void compute(String algorithm) throws InterruptedException {
@@ -96,6 +96,8 @@ public class Main {
 		}
 	}
 	
-    }
-
+	public static void testPrim() {
+		try { TestPrim.test(); }
+		catch(AssertionError e) { System.out.println("test not passed.");}
+	}
 }

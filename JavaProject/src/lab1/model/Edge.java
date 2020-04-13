@@ -81,28 +81,60 @@ public final class Edge {
 	public void setAncestor(Integer ancestor) {
 		this.ancestor = ancestor;
 	}
-	// Verify that: (a, null) == (a, null) || (a, null) == (null, a)
-	else if ( ((nodeID1 != null && nodeID2 == null) || (nodeID1 == null && nodeID2 != null))
-		&& ((other.getnode1() != null && other.getnode2() == null) || (other.getnode1() == null && other.getnode2() != null))
-		&& (nodeID1.equals(other.getnode1()) || nodeID1.equals(other.getnode2()))
-		|| nodeID2.equals(other.getnode1()) || nodeID2.equals(other.getnode2())) {
-		return true;
-	}
-	// Verify that: (null, null) == (null, null)
-	else if (nodeID1 == null && nodeID2 == null && other.getnode1() == null && other.getnode2() == null) {
-		return true;
+	
+	public void clear() {
+		this.label = null;
+		this.ancestor = null;
 	}
 
-	return false;
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((ancestor == null) ? 0 : ancestor.hashCode());
+		result = prime * result + ((label == null) ? 0 : label.hashCode());
+		result = prime * result + ((nodeID1 == null) ? 0 : nodeID1.hashCode());
+		result = prime * result + ((nodeID2 == null) ? 0 : nodeID2.hashCode());
+		result = prime * result + ((weight == null) ? 0 : weight.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Edge other = (Edge) obj;
+		if (ancestor == null) {
+			if (other.ancestor != null)
+				return false;
+		} else if (!ancestor.equals(other.ancestor))
+			return false;
+		if (label != other.label)
+			return false;
+		if (nodeID1 == null) {
+			if (other.nodeID1 != null)
+				return false;
+		} else if (!nodeID1.equals(other.nodeID1))
+			return false;
+		if (nodeID2 == null) {
+			if (other.nodeID2 != null)
+				return false;
+		} else if (!nodeID2.equals(other.nodeID2))
+			return false;
+		if (weight == null) {
+			if (other.weight != null)
+				return false;
+		} else if (!weight.equals(other.weight))
+			return false;
+		return true;
 	}
 	
 	@Override
-	public int compareTo(Edge edge) {
-		if(this.weight > edge.weight) {
-			return 1;
-		} else if(this.weight < edge.weight) {
-			return -1;
-		}
-		return 0;
+	public String toString(){
+		return "(" + nodeID1 + "," + nodeID2 + ")";
 	}
 }

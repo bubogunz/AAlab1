@@ -87,6 +87,24 @@ public final class MinimumSpanningTreeFinding {
 		return cost;
 	}
 
-	return cost;
-    }
+	public static final int NaiveKruskal(Graph G) {
+		int cost = 0;
+
+		ArrayList<Edge> edges = new ArrayList<Edge>(G.getEdges());
+		Collections.sort(edges, new SortEdgesByWeight());
+
+		Graph A = new Graph();
+		A.buildNodes(G.getNodes().size());
+
+		for (Edge edge : edges) {
+			Graph B = new Graph(A);
+			B.addEdge(edge);
+			if(!B.hasCycle()) {
+				A.addEdge(edge);
+				cost += edge.getWeight();
+			}	
+		}
+//		System.out.println("MST cost: " + cost);
+		return cost;
+	}      
 }

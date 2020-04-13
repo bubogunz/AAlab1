@@ -2,81 +2,48 @@ package lab1.model;
 
 import java.util.ArrayList;
 
+import lab1.model.Edge.Label;
+
 public final class Graph {
 
-    private ArrayList<Node> nodes;
-    private ArrayList<Edge> edges;
+	private ArrayList<Node> nodes;
+	private ArrayList<Edge> edges;
 
-    public Graph() {
-	super();
-	this.nodes = new ArrayList<Node>();
-	this.edges = new ArrayList<Edge>();
-    }
-
-    public Graph(ArrayList<Node> nodes, ArrayList<Edge> edges) {
-	super();
-	this.nodes = nodes;
-	this.edges = edges;
-    }
-    
-    public Graph(Graph graph) {
-	this.nodes = new ArrayList<Node>(graph.nodes);
-	this.edges = new ArrayList<Edge>(graph.edges);
-    }
-
-    public ArrayList<Node> getNodes() {
-	return nodes;
-    }
-
-    public void setNodes(ArrayList<Node> nodes) {
-	this.nodes = nodes;
-    }
-
-    public void buildNodes(Integer n) {
-	for (int i = 1; i <= n.intValue(); i++) 
-	    this.nodes.add(new Node(i + this.nodes.size()));
-    }
-
-    public ArrayList<Edge> getEdges() {
-	return edges;
-    }
-
-    public void setEdges(ArrayList<Edge> edges) {
-	this.edges = edges;
-    }
-
-    public void addEdge(Edge e) {
-	this.edges.add(e);
-	//add the edge to the node's adjacent list if it is not a loop
-	if(!e.getnode1().equals(e.getnode2()) && !this.existsEdge(e)){
-	    this.nodes.get(e.getnode1().getID()-1).updateAdjacentList(e);
-	    this.nodes.get(e.getnode2().getID()-1).updateAdjacentList(e);
-	}
-    }
-    
-    public void addNode(Node n) {
-	if(!nodes.contains(n))
-	    nodes.add(n);
+	public Graph() {
+		super();
+		this.nodes = new ArrayList<Node>();
+		this.edges = new ArrayList<Edge>();
 	}
 	
-	public void removeNode(Node n) {
-	if(this.nodes.contains(n)) {
-		//removes all edges connected with selected node
-		for (int i = 0; i < this.edges.size(); i++) {
-			if (this.edges.get(i).getnode1().getID() == n.getID()
-				|| this.edges.get(i).getnode2().getID() == n.getID()) {
-					//update AdjacentList of selected node
-					n.removeEdgeFromAdjacentList(this.edges.get(i));
-					this.edges.remove(i);
-					i--;
-				}
-		}
-		this.nodes.remove(n);
-	}
+	//deep copy
+	public Graph(Graph graph) {
+		nodes = new ArrayList<Node>(graph.nodes.size());
+		edges = new ArrayList<Edge>(graph.edges.size());
+		for (Node node : graph.nodes) 
+			this.nodes.add(new Node(node));
+		for (Edge edge : graph.edges) 
+			this.edges.add(edge);
 	}
 
-	public Integer getDimension() {
-		return nodes.size();
+	public ArrayList<Node> getNodes() {
+		return nodes;
+	}
+
+	public void setNodes(ArrayList<Node> nodes) {
+		this.nodes = new ArrayList<Node>(nodes);
+	}
+
+	public void buildNodes(Integer n) {
+		for (int i = 1; i <= n.intValue(); i++) 
+			this.nodes.add(new Node(i));
+	}
+
+	public ArrayList<Edge> getEdges() {
+		return edges;
+	}
+
+	public void setEdges(ArrayList<Edge> edges) {
+		this.edges = new ArrayList<Edge>(edges);
 	}
 
 	public void addEdge(Edge e) {
@@ -159,6 +126,35 @@ public final class Graph {
 			}
 		}
 	}
-	return false;
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((edges == null) ? 0 : edges.hashCode());
+		result = prime * result + ((nodes == null) ? 0 : nodes.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Graph other = (Graph) obj;
+		if (edges == null) {
+			if (other.edges != null)
+				return false;
+		} else if (!edges.equals(other.edges))
+			return false;
+		if (nodes == null) {
+			if (other.nodes != null)
+				return false;
+		} else if (!nodes.equals(other.nodes))
+			return false;
+		return true;
 	}
 }
