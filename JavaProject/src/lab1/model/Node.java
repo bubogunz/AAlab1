@@ -7,7 +7,7 @@ public final class Node {
 	private Integer weight;
 	private ArrayList<Integer> IDfather;
 	private ArrayList<Node> adjacentList;
-	private ArrayList<Pair<Integer>> adjacentWeights;
+	private ArrayList<Integer> adjacentWeights;
 	private Boolean visited = false;
 
 	public Node(Integer iD) {
@@ -16,7 +16,7 @@ public final class Node {
 		this.weight = null;
 		this.IDfather = new ArrayList<Integer>();
 		this.adjacentList = new ArrayList<Node>();
-		this.adjacentWeights = new ArrayList<Pair<Integer>>();
+		this.adjacentWeights = new ArrayList<Integer>();
 	}
 	
 	//deep copy
@@ -30,8 +30,8 @@ public final class Node {
 		for(Node edgeadj : n.adjacentList) 
 			this.adjacentList.add(edgeadj);
 		this.visited = n.visited;
-		this.adjacentWeights = new ArrayList<Pair<Integer>>(n.adjacentWeights.size());
-		for(Pair<Integer> weight : n.adjacentWeights)
+		this.adjacentWeights = new ArrayList<Integer>(n.adjacentWeights.size());
+		for(Integer weight : n.adjacentWeights)
 			this.adjacentWeights.add(weight);
 	}
 
@@ -70,7 +70,11 @@ public final class Node {
 
 	public void updateAdjacentList(Node node, Integer weight) {
 		this.adjacentList.add(node);
-		this.adjacentWeights.add(new Pair<Integer>(node.getID(), weight));
+		this.adjacentWeights.add(weight);
+	}
+
+	public void setAdjacentWeights(ArrayList<Integer> adjacentList) {
+		this.adjacentWeights = adjacentList;
 	}
 
 	public void setVisited() {
@@ -86,12 +90,14 @@ public final class Node {
 		this.visited = false;
 	}
 
-	public Integer getWeightOfAdjacentNode(Integer nodeID){
-		for(Pair<Integer> pair : adjacentWeights){
-			if(pair.getKey() == nodeID)
-				return pair.getObj();
-		}
-		return null;
+	public ArrayList<Integer> getAdjacentWeights(){
+		return adjacentWeights;
+	}
+
+	public void updateAdjacentWeight(Integer ID, Integer weight){
+		for(int i = 0; i < adjacentWeights.size(); i++)
+			if(adjacentList.get(i).getID() == ID)
+				adjacentWeights.set(i, weight);
 	}
 
 	@Override

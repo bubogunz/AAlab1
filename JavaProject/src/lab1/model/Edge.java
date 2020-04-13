@@ -135,6 +135,6 @@ public final class Edge {
 	
 	@Override
 	public String toString(){
-		return "(" + nodeID1 + "," + nodeID2 + ")";
+		return "(" + nodeID1 + ", " + nodeID2 + "; " + weight + ")";
 	}
 }

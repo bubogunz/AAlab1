@@ -53,16 +53,18 @@ public final class Graph {
 			e.setnodeID2(tmp);
 		}
 		// if node already exists, updatte the weight
-		boolean nodeExist = false;
-		for(int i = 0; i < edges.size() && !nodeExist; i++){
+		boolean edegeExist = false;
+		for(int i = 0; i < edges.size() && !edegeExist; i++){
 			if(edges.get(i).getnodeID1() == e.getnodeID1() && edges.get(i).getnodeID2() == e.getnodeID2()){
-				nodeExist = true;
+				edegeExist = true;
 				if(edges.get(i).getWeight() > e.getWeight()){
 					edges.get(i).setWeight(e.getWeight());
+					this.nodes.get(e.getnodeID1().getID() - 1).updateAdjacentWeight(e.getnodeID2().getID(), e.getWeight());
+					this.nodes.get(e.getnodeID2().getID() - 1).updateAdjacentWeight(e.getnodeID1().getID(), e.getWeight());
 				}
 			}
 		}
-		if(!nodeExist){
+		if(!edegeExist){
 			this.edges.add(e);
 			//add the edge to the node's adjacent list if it is not a loop edge
 			if(!e.getnodeID1().getID().equals(e.getnodeID2().getID())){
@@ -127,6 +129,15 @@ public final class Graph {
 		}
 	}
 
+	public boolean Cyclicity (Graph G){
+		DepthFirstSearch();
+		for(Edge edge : edges)
+			if(edge.getLabel() == Label.BACK_EDGE)
+				return true;
+		
+		return false;
+	}
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -156,5 +167,9 @@ public final class Graph {
 		} else if (!nodes.equals(other.nodes))
 			return false;
 		return true;
+	}
+
+	public int getDimension() {
+		return nodes.size();
 	}
 }

@@ -31,12 +31,12 @@ public class Main {
 
 	public static void compute(String algorithm) throws InterruptedException {
 		// fetch files
-		try (Stream<Path> walk = Files.walk(Paths.get("mst_dataset"))) {
+		try (Stream<Path> walk = Files.walk(Paths.get("JavaProject/mst_dataset"))) {
 			List<String> mst_dataset = walk.filter(Files::isRegularFile).map(x -> x.toString()).sorted()
 					.collect(Collectors.toList());
 			String file = new String();  
 			if(algorithm == "prim"){
-				file = "Prim.txt";
+				file = "JavaProject/Prim.txt";
 			} else if(algorithm == "naivekruskal"){
 				file = "NaiveKruskal.txt";
 			} else{
@@ -45,7 +45,8 @@ public class Main {
 			final File outputPath = new File(file);
 			FileWriter fw = new FileWriter(outputPath, false);
 
-			mst_dataset.forEach(entryset -> {
+			mst_dataset.stream().forEach(entryset -> {
+				// String entryset = mst_dataset.get(1);
 				try {
 					System.out.println("Input " + entryset);
 
