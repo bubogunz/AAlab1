@@ -8,10 +8,10 @@ public class TestPrim {
 
 	public static final void test() {
 		try {
-			File src = new File("JavaProject/src/lab1/test/results.txt");
+			File src = new File("src/lab1/test/results.txt");
 			Scanner scanSrc = new Scanner(src);
 			
-			File out = new File("JavaProject/Prim.txt");
+			File out = new File("Prim.txt");
 			Scanner outSrc = new Scanner(out);
 			
 			while (scanSrc.hasNextLine()) {
