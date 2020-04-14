@@ -1,17 +1,17 @@
-package testprim;
+package lab1.test.testkruskal;
 
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 
-public class TestPrim {
+public class TestNaiveKruskal {
 
 	public static final void test() {
 		try {
 			File src = new File("test/results.txt");
 			Scanner scanSrc = new Scanner(src);
 			
-			File out = new File("Prim.txt");
+			File out = new File("NaiveKruskal.txt");
 			Scanner outSrc = new Scanner(out);
 			
 			while (scanSrc.hasNextLine()) {

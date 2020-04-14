@@ -15,9 +15,9 @@ import java.util.stream.Stream;
 import lab1.algorithm.MinimumSpanningTreeFinding;
 import lab1.model.Edge;
 import lab1.model.Graph;
-import testkruskal.TestNaiveKruskal;
-import testprim.TestPrim;
-import testprim.TestPriorityQueue;
+import lab1.test.testkruskal.TestNaiveKruskal;
+import lab1.test.testprim.TestPrim;
+import lab1.test.testprim.TestPriorityQueue;
 
 public class Main {
 
