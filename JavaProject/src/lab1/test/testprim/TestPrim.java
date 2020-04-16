@@ -14,6 +14,8 @@ public class TestPrim {
 			File out = new File("Prim.txt");
 			Scanner outSrc = new Scanner(out);
 			
+			
+			int i = 1;
 			while (scanSrc.hasNextLine()) {
 				String data1 = scanSrc.nextLine();
 				String[] words1 =  data1.split(" ");
@@ -23,8 +25,9 @@ public class TestPrim {
 						String data2 = outSrc.nextLine();
 						String[] words2 = data2.split(" ");
 						if(words2[0].equals("MST")) {
-							assert Integer.valueOf(words1[2]).equals(Integer.valueOf(words2[2]));
+							assert Integer.valueOf(words1[2]).equals(Integer.valueOf(words2[2])) : "MST of dataset " + i + " is wrong";
 							skip = true;
+							i++;
 						}
 					}
 				}						

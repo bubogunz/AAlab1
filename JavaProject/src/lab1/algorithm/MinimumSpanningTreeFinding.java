@@ -2,7 +2,6 @@ package lab1.algorithm;
 
 import java.util.ArrayList;
 import java.util.Collections;
-//import java.util.PriorityQueue;
 
 import lab1.model.Edge;
 import lab1.model.Graph;
@@ -10,7 +9,6 @@ import lab1.model.Node;
 import lab1.model.SortEdgesByWeight;
 import lab1.model.Pair;
 import lab1.model.PriorityQueue;
-import lab1.model.SortNodesByWeight;
 
 public final class MinimumSpanningTreeFinding {
 
@@ -31,6 +29,7 @@ public final class MinimumSpanningTreeFinding {
 			Node lightNode = q.getObj();
 			polledNodes[lightNode.getID() - 1] = true;
 			cost += q.getKey();
+			//System.out.println("Aggiungo costo lato " + q.getObj().getID() + ": " + q.getKey());
 
 			for(int i = 0; i < lightNode.getAdjacentList().size(); i++){
 				Integer edgeWeight = lightNode.getAdjacentWeights().get(i);

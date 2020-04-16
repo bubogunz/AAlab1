@@ -52,7 +52,7 @@ public final class Graph {
 			e.setnodeID1(e.getnodeID2());
 			e.setnodeID2(tmp);
 		}
-		// if node already exists, updatte the weight
+		// if node already exists, update the weight
 		boolean edegeExist = false;
 		for(int i = 0; i < edges.size() && !edegeExist; i++){
 			if(edges.get(i).getnodeID1() == e.getnodeID1() && edges.get(i).getnodeID2() == e.getnodeID2()){

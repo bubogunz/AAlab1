@@ -14,7 +14,6 @@ import java.util.stream.Stream;
 
 import lab1.algorithm.MinimumSpanningTreeFinding;
 import lab1.model.Edge;
-import lab1.model.Node;
 import lab1.model.Graph;
 import lab1.test.testkruskal.TestNaiveKruskal;
 import lab1.test.testprim.TestPrim;
@@ -46,7 +45,8 @@ public class Main {
 			FileWriter fw = new FileWriter(outputPath, false);
 
 			mst_dataset.stream().forEach(entryset -> {
-				// String entryset = mst_dataset.get(1);
+			// for(int i = 0; i<22; i++){
+				// String entryset = mst_dataset.get(21);
 				try {
 					System.out.println("Input " + entryset);
 
@@ -90,6 +90,7 @@ public class Main {
 				} catch (IOException e) {
 				}
 			});
+			// }
 			fw.close();
 			System.out.println("Finish!");
 		} catch (IOException e) {
@@ -99,6 +100,6 @@ public class Main {
 	
 	public static void testPrim() {
 		try { TestPrim.test(); }
-		catch(AssertionError e) { System.out.println("test not passed.");}
+		catch(AssertionError e) { System.out.println("test not passed. " + e.getMessage());}
 	}
 }
