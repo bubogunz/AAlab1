@@ -1,4 +1,4 @@
-package lab1.test.testprim;
+package lab1.test;
 
 import lab1.model.PriorityQueue;
 import lab1.model.Pair;

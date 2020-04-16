@@ -8,7 +8,6 @@ import lab1.model.Edge;
 import lab1.model.Graph;
 import lab1.model.Node;
 import lab1.model.SortEdgesByWeight;
-import lab1.model.Pair;
 //import lab1.model.PriorityQueue;
 import lab1.model.SortNodesByWeight;
 
@@ -65,8 +64,8 @@ public final class MinimumSpanningTreeFinding {
 
 				Integer otherSideOfTheEdgeNodeID = lightNode.getID().equals(
 						G.getEdges().get(lightNode.getAdjacentList().get(i)).getnodeID1())
-						? new Integer(G.getEdges().get(lightNode.getAdjacentList().get(i)).getnodeID2()) 
-								: new Integer(G.getEdges().get(lightNode.getAdjacentList().get(i)).getnodeID1());
+						? Integer.valueOf(G.getEdges().get(lightNode.getAdjacentList().get(i)).getnodeID2()) 
+								: Integer.valueOf(G.getEdges().get(lightNode.getAdjacentList().get(i)).getnodeID1());
 
 				Node otherSideOfTheEdgeNode = G.getNodes().get(otherSideOfTheEdgeNodeID-1);
 

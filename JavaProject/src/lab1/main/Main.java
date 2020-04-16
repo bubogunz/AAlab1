@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -15,26 +16,30 @@ import java.util.stream.Stream;
 import lab1.algorithm.MinimumSpanningTreeFinding;
 import lab1.model.Edge;
 import lab1.model.Graph;
-import lab1.test.testkruskal.TestNaiveKruskal;
-import lab1.test.testprim.TestPrim;
-import lab1.test.testprim.TestPriorityQueue;
+import lab1.test.TestAlgorithm;
+import lab1.test.TestPriorityQueue;
 
 public class Main {
 
 	public static void main(String[] args) {
-		compute();
-		testPrim();
-//		TestNaiveKruskal.test();
-		// TestPriorityQueue.test();;
+		// compute("kruskal");
+		test("kruskal");
+		// TestPriorityQueue.test();
 	}
 
-	public static void compute() {
+	public static void compute(String algorithm) {
 		// fetch files
 		try (Stream<Path> walk = Files.walk(Paths.get("mst_dataset"))) {
 			List<String> mst_dataset = walk.filter(Files::isRegularFile).map(x -> x.toString()).sorted()
 					.collect(Collectors.toList());
-			final File outputPath = new File("Prim.txt");
-			//final File outputPath = new File("NaiveKruskal.txt");
+			final File outputPath;
+			if(algorithm == "prim")
+				outputPath = new File("Prim.txt");
+			else if(algorithm == "kruskal")
+				outputPath = new File("NaiveKruskal.txt");
+			else
+				throw new InvalidParameterException("Wrong choose of algorithm");
+
 			FileWriter fw = new FileWriter(outputPath, true);
 
 			mst_dataset.forEach(entryset -> {
@@ -62,8 +67,10 @@ public class Main {
 					myReader.close();
 
 					long start = System.nanoTime();
-					cost = MinimumSpanningTreeFinding.NaiveKruskal(G);
-//					cost = MinimumSpanningTreeFinding.Prim(G, 1);
+					if(algorithm == "prim")
+						cost = MinimumSpanningTreeFinding.Prim(G, 1);
+					else if(algorithm == "kruskal")
+						cost = MinimumSpanningTreeFinding.NaiveKruskal(G);
 					long stop = System.nanoTime();
 
 					long timeElapsed = stop - start;
@@ -79,13 +86,15 @@ public class Main {
 			});
 			fw.close();
 			System.out.println("Finish!");
+
+			test(algorithm);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static void testPrim() {
-		try { TestPrim.test(); }
-		catch(AssertionError e) { System.out.println("test not passed.");}
+	public static void test(String algorithm) {
+		try { TestAlgorithm.test(algorithm); }
+		catch(AssertionError e) { System.out.println("Test not passed." + e.getMessage());}
 	}
 }
