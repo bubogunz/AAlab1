@@ -9,80 +9,36 @@ import lab1.model.Node;
 import lab1.model.SortEdgesByWeight;
 import lab1.model.Pair;
 import lab1.model.PriorityQueue;
+import lab1.model.DisjointSet;
 
 public final class MinimumSpanningTreeFinding {
 
 	public static final int Prim(Graph G, Node startID) {
 		int cost = 0;
 		PriorityQueue<Node> Q = new PriorityQueue<Node>();
-		G.getNodes().stream().forEach(node -> Q.insert(new Pair<Node>(Integer.MAX_VALUE, node)));
-		Q.setByIndex(Q.indexOfObj(startID), new Pair<Node>(0, startID));
+		G.getNodes().stream().forEach(node -> Q.insert(new Pair<Node>(Integer.MAX_VALUE, node)));//O(n)
+		Q.setByIndex(Q.indexOfObj(startID), new Pair<Node>(0, startID));//O(log n)
 		ArrayList<Integer> pi = new ArrayList<Integer>(G.getNodes().size());
-		for(int i = 0; i < G.getNodes().size(); i++){
+		for(int i = 0; i < G.getNodes().size(); i++)//O(n)
 			pi.add(null);
-		}
 		
 		boolean[] polledNodes = new boolean[Q.size()];
 		
-		while(!Q.isEmpty()) {
-			Pair<Node> q = Q.pop();
+		while(!Q.isEmpty()) {//O(n)
+			Pair<Node> q = Q.pop();//O(log n)
 			Node lightNode = q.getObj();
 			polledNodes[lightNode.getID() - 1] = true;
 			cost += q.getKey();
-			//System.out.println("Aggiungo costo lato " + q.getObj().getID() + ": " + q.getKey());
 
-			for(int i = 0; i < lightNode.getAdjacentList().size(); i++){
-				Integer edgeWeight = lightNode.getAdjacentWeights().get(i);
-				Node v = lightNode.getAdjacentList().get(i);
-				if(polledNodes[v.getID() - 1] == false && edgeWeight < Q.findKey(v)){
+			for(Edge edge : lightNode.getAdjacentList()){//O(m)
+				Integer edgeWeight = edge.getWeight();
+				Node v = Graph.getOpposite(edge, lightNode);
+				if(polledNodes[v.getID() - 1] == false && edgeWeight < Q.findKey(v)){//O(log n)
 					pi.set(v.getID() - 1, lightNode.getID());
-					Q.setByIndex(Q.indexOfObj(v), new Pair<Node>(edgeWeight, v));
+					Q.setByIndex(Q.indexOfObj(v), new Pair<Node>(edgeWeight, v));//O(log n)
 				}
 			}
 		}
-
-
-// 		G.getNodes().stream().forEach(node -> {
-// 			node.getIDfather().clear();
-// 			node.setWeight(Integer.MAX_VALUE);
-// 		});
-		
-// //		G.getNodes().get(startID-1).setWeight(0);
-// 		startID.setWeight(Integer.MIN_VALUE);
-
-// 		PriorityQueue<Node> Q = new PriorityQueue<Node>();
-
-// 		G.getNodes().stream().forEach(node -> Q.insert(new Pair<Node>(node.getWeight(), node)));
-
-// 		int[] polledNodes = new int[Q.size()];
-
-// 		while(!Q.isEmpty()) {
-// 			Node lightNode = Q.pop().getObj();
-// 			polledNodes[lightNode.getID().intValue()-1] = 1;
-
-// 			if(!lightNode.getIDfather().isEmpty()) 
-// 				cost += lightNode.getWeight();
-
-// 			for (int i=0; i<lightNode.getAdjacentList().size(); ++i) {				
-
-// 				Integer otherSideOfTheEdgeNodeID = lightNode.getID().equals(
-// 						G.getEdges().get(lightNode.getAdjacentList().get(i).getID() - 1).getnodeID1().getID())
-// 						? Integer.valueOf(G.getEdges().get(lightNode.getAdjacentList().get(i).getID()).getnodeID2().getID()) 
-// 								: Integer.valueOf(G.getEdges().get(lightNode.getAdjacentList().get(i).getID()).getnodeID1().getID());
-
-// 				Node otherSideOfTheEdgeNode = G.getNodes().get(otherSideOfTheEdgeNodeID-1);
-
-// 				if(polledNodes[otherSideOfTheEdgeNode.getID().intValue()-1] == 0 
-// 						&& G.getEdges().get(lightNode.getAdjacentList().get(i).getID()).getWeight()
-// 						.compareTo(otherSideOfTheEdgeNode.getWeight()) < 0 ) {
-// 					Q.removeByIndex(Q.indexOfObj(otherSideOfTheEdgeNode));
-// 					otherSideOfTheEdgeNode.getIDfather().add(lightNode.getID());
-// 					Integer newWeight = G.getEdges().get(lightNode.getAdjacentList().get(i).getID()).getWeight();
-// 					otherSideOfTheEdgeNode.setWeight(newWeight);
-// 					Q.insert(new Pair<Node>(newWeight, otherSideOfTheEdgeNode));
-// 				}
-// 			}
-// 		}
 		return cost;
 	}
 
@@ -90,20 +46,58 @@ public final class MinimumSpanningTreeFinding {
 		int cost = 0;
 
 		ArrayList<Edge> edges = new ArrayList<Edge>(G.getEdges());
-		Collections.sort(edges, new SortEdgesByWeight());
-
+		Collections.sort(edges, new SortEdgesByWeight());//O(log n)
+		
 		Graph A = new Graph();
-		A.buildNodes(G.getNodes().size());
+		A.buildNodes(G.getNodes().size());//O(n)
+		
+		for (Edge edge : edges) {//O(m)
 
-		for (Edge edge : edges) {
-			Graph B = new Graph(A);
-			B.addEdge(edge);
-			if(!B.hasCycle()) {
-				A.addEdge(edge);
+			Edge edgetmp = new Edge(A.getNodeByID(edge.getnodeID1().getID()), A.getNodeByID(edge.getnodeID2().getID()), edge.getWeight());
+			Node tmp1 = edgetmp.getnodeID1();
+			Node tmp2 = edgetmp.getnodeID2();
+
+			A.getEdges().add(edgetmp);
+			tmp1.updateAdjacentList(edgetmp);
+			tmp2.updateAdjacentList(edgetmp);
+
+			if(!A.cyclicity())//O(m)
 				cost += edge.getWeight();
+			else{
+				A.getEdges().remove(A.getEdges().size() - 1);
+				tmp1.getAdjacentList().remove(tmp1.getAdjacentList().size() - 1);
+				tmp2.getAdjacentList().remove(tmp2.getAdjacentList().size() - 1);
 			}	
 		}
-//		System.out.println("MST cost: " + cost);
 		return cost;
-	}      
+	}
+
+	public static final int Kruskal(Graph G){
+		int cost = 0;
+
+		ArrayList<Edge> edges = new ArrayList<Edge>(G.getEdges());
+		Collections.sort(edges, new SortEdgesByWeight());//O(log n)
+		
+		Graph A = new Graph();
+		A.buildNodes(G.getNodes().size());//O(n)
+
+		DisjointSet ds = new DisjointSet(A.getNodes().size());
+		
+		for(Edge edge : edges){
+			if(ds.find(edge.getnodeID1().getID() - 1) != ds.find(edge.getnodeID2().getID() - 1)){
+				Edge edgetmp = new Edge(A.getNodeByID(edge.getnodeID1().getID()), A.getNodeByID(edge.getnodeID2().getID()), edge.getWeight());
+				Node tmp1 = edgetmp.getnodeID1();
+				Node tmp2 = edgetmp.getnodeID2();
+
+				A.getEdges().add(edgetmp);
+				tmp1.updateAdjacentList(edgetmp);
+				tmp2.updateAdjacentList(edgetmp);
+
+				ds.union(edge.getnodeID1().getID() - 1, edge.getnodeID2().getID() - 1);
+
+				cost += edge.getWeight();
+			}
+		}
+		return cost;
+	}
 }

@@ -3,45 +3,35 @@ package lab1.model;
 import java.util.ArrayList;
 
 public final class Node {
-	private Integer ID;
-	private Integer weight;
-	private ArrayList<Integer> IDfather;
-	private ArrayList<Node> adjacentList;
-	private ArrayList<Integer> adjacentWeights;
+	private Integer ID = null;
+	private Integer weight = null;
+	private Node Father = null;
+	//ID dei lati adiacenti
+	private ArrayList<Edge> adjacentList = new ArrayList<Edge>();
 	private Boolean visited = false;
 
-	public Node(Integer iD) {
-		super();
-		ID = iD;
-		this.weight = null;
-		this.IDfather = new ArrayList<Integer>();
-		this.adjacentList = new ArrayList<Node>();
-		this.adjacentWeights = new ArrayList<Integer>();
+	public Node(Integer id){
+		ID = id;
 	}
 	
 	//deep copy
 	public Node(Node n) {
 		this.ID = n.ID;
 		this.weight = n.weight;
-		this.IDfather = new ArrayList<Integer>(n.IDfather.size());
-		for (Integer idfat : n.IDfather) 
-			this.IDfather.add(Integer.valueOf(idfat));
-		this.adjacentList = new ArrayList<Node>(n.adjacentList.size());
-		for(Node edgeadj : n.adjacentList) 
+		this.Father = n.Father;
+		this.adjacentList = new ArrayList<Edge>(n.adjacentList.size());
+		for(Edge edgeadj : n.adjacentList) 
 			this.adjacentList.add(edgeadj);
 		this.visited = n.visited;
-		this.adjacentWeights = new ArrayList<Integer>(n.adjacentWeights.size());
-		for(Integer weight : n.adjacentWeights)
-			this.adjacentWeights.add(weight);
 	}
 
 
-	public ArrayList<Integer> getIDfather() {
-		return IDfather;
+	public Node getFather() {
+		return Father;
 	}
 
-	public void setIDfather(ArrayList<Integer> iDfather) {
-		IDfather = new ArrayList<Integer>(iDfather);
+	public void setFather(Node father) {
+		this.Father = father;
 	}
 
 	public Integer getID() {
@@ -60,21 +50,16 @@ public final class Node {
 		this.weight = weight;
 	}
 
-	public ArrayList<Node> getAdjacentList() {
+	public ArrayList<Edge> getAdjacentList() {
 		return adjacentList;
 	}
 
-	public void setAdjacentList(ArrayList<Node> adjacentList) {
+	public void setAdjacentList(ArrayList<Edge> adjacentList) {
 		this.adjacentList = adjacentList;
 	}
 
-	public void updateAdjacentList(Node node, Integer weight) {
-		this.adjacentList.add(node);
-		this.adjacentWeights.add(weight);
-	}
-
-	public void setAdjacentWeights(ArrayList<Integer> adjacentList) {
-		this.adjacentWeights = adjacentList;
+	public void updateAdjacentList(Edge edge) {
+		this.adjacentList.add(edge);
 	}
 
 	public void setVisited() {
@@ -86,18 +71,8 @@ public final class Node {
 	}
 	
 	public void clear() {
-		this.IDfather.clear();
+		this.Father = null;
 		this.visited = false;
-	}
-
-	public ArrayList<Integer> getAdjacentWeights(){
-		return adjacentWeights;
-	}
-
-	public void updateAdjacentWeight(Integer ID, Integer weight){
-		for(int i = 0; i < adjacentWeights.size(); i++)
-			if(adjacentList.get(i).getID() == ID)
-				adjacentWeights.set(i, weight);
 	}
 
 	@Override
@@ -105,7 +80,7 @@ public final class Node {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((ID == null) ? 0 : ID.hashCode());
-		result = prime * result + ((IDfather == null) ? 0 : IDfather.hashCode());
+		result = prime * result + ((Father == null) ? 0 : Father.hashCode());
 		result = prime * result + ((adjacentList == null) ? 0 : adjacentList.hashCode());
 		result = prime * result + ((weight == null) ? 0 : weight.hashCode());
 		return result;

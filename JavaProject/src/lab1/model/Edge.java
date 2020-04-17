@@ -7,21 +7,11 @@ public final class Edge {
 		BACK_EDGE
 	}
 
-	private Node nodeID1;
-	private Node nodeID2;
-	private Integer weight;
-	private Label label;
-	private Integer ancestor;
-
-
-	public Edge() {
-		super();
-		this.nodeID1 = null;
-		this.nodeID2 = null;
-		this.weight = null;
-		this.label = null;
-		this.ancestor = null;
-	}
+	private Node nodeID1 = null;
+	private Node nodeID2 = null;
+	private Integer weight = null;
+	private Label label = null;
+	private Node ancestor = null;
 
 	public Edge(Node v1, Node v2, Integer weight) {
 		super();
@@ -38,8 +28,7 @@ public final class Edge {
 		this.weight = Integer.valueOf(edge.weight);
 		this.label = edge.label;
 		this.ancestor = edge.ancestor == null 
-				? null 
-						: Integer.valueOf(edge.getAncestor());
+				? null : edge.getAncestor();
 	}
 
 	public Node getnodeID1() {
@@ -74,11 +63,11 @@ public final class Edge {
 		this.label = label;
 	}
 
-	public Integer getAncestor() {
+	public Node getAncestor() {
 		return ancestor;
 	}
 
-	public void setAncestor(Integer ancestor) {
+	public void setAncestor(Node ancestor) {
 		this.ancestor = ancestor;
 	}
 	

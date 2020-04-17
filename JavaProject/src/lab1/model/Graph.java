@@ -20,9 +20,13 @@ public final class Graph {
 		nodes = new ArrayList<Node>(graph.nodes.size());
 		edges = new ArrayList<Edge>(graph.edges.size());
 		for (Node node : graph.nodes) 
-			this.nodes.add(new Node(node));
-		for (Edge edge : graph.edges) 
-			this.edges.add(edge);
+			this.nodes.add(new Node(node.getID()));
+		for (Edge edge : graph.edges){
+			Edge e = new Edge(getNodeByID(edge.getnodeID1().getID()), getNodeByID(edge.getnodeID2().getID()), edge.getWeight());
+			this.edges.add(e);
+			this.nodes.get(e.getnodeID1().getID() - 1).updateAdjacentList(e);
+			this.nodes.get(e.getnodeID2().getID() - 1).updateAdjacentList(e);
+		}
 	}
 
 	public ArrayList<Node> getNodes() {
@@ -52,25 +56,21 @@ public final class Graph {
 			e.setnodeID1(e.getnodeID2());
 			e.setnodeID2(tmp);
 		}
-		// if node already exists, update the weight
+		// if edge already exists, update the weight
 		boolean edegeExist = false;
 		for(int i = 0; i < edges.size() && !edegeExist; i++){
 			if(edges.get(i).getnodeID1() == e.getnodeID1() && edges.get(i).getnodeID2() == e.getnodeID2()){
 				edegeExist = true;
-				if(edges.get(i).getWeight() > e.getWeight()){
+				if(edges.get(i).getWeight() > e.getWeight())
 					edges.get(i).setWeight(e.getWeight());
-					this.nodes.get(e.getnodeID1().getID() - 1).updateAdjacentWeight(e.getnodeID2().getID(), e.getWeight());
-					this.nodes.get(e.getnodeID2().getID() - 1).updateAdjacentWeight(e.getnodeID1().getID(), e.getWeight());
-				}
 			}
 		}
-		if(!edegeExist){
+		boolean loop = e.getnodeID1().getID().equals(e.getnodeID2().getID());
+		if(!edegeExist && !loop){
 			this.edges.add(e);
 			//add the edge to the node's adjacent list if it is not a loop edge
-			if(!e.getnodeID1().getID().equals(e.getnodeID2().getID())){
-				this.nodes.get(e.getnodeID1().getID() - 1).updateAdjacentList(e.getnodeID2(), e.getWeight());
-				this.nodes.get(e.getnodeID2().getID() - 1).updateAdjacentList(e.getnodeID1(), e.getWeight());
-			}
+			this.nodes.get(e.getnodeID1().getID() - 1).updateAdjacentList(e);
+			this.nodes.get(e.getnodeID2().getID() - 1).updateAdjacentList(e);
 		}
 	}
 	
@@ -79,11 +79,15 @@ public final class Graph {
 		Boolean ret = false;
 		for (Edge edge : this.edges) {
 			if(edge.getLabel() == Label.BACK_EDGE && 
-				edge.getAncestor().equals(edge.getnodeID2().getID())) 
+				edge.getAncestor().getID().equals(edge.getnodeID2().getID())) 
 				ret = true;
 			edge.setAncestor(null);
 			edge.setLabel(null);
 		}
+		for(Node node : this.nodes)
+			node.clear();
+		for(Edge edge : this.edges)
+			edge.clear();
 		return ret;
 	}
 
@@ -103,39 +107,53 @@ public final class Graph {
 		return null;
 	}
 
+	//cerca esegue una ricerca anche per i grafi non connessi
 	private void DepthFirstSearch() {
 		for (Node node : this.nodes) 
-			if(!node.isVisited() && !node.getAdjacentList().isEmpty())
-				DepthFirstSearch(node.getID());
+			if(!node.isVisited() && !node.getAdjacentList().isEmpty()){
+				this.DepthFirstSearchCore(node);
+			}
 	}
 
-	private void DepthFirstSearch(Integer start) {
-		this.nodes.get(start-1).setVisited();
-		for (int i=0; i<this.nodes.get(start-1).getAdjacentList().size(); ++i) {
-			if(this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i).getID()).getLabel() == null) {
-				Integer opposite = start.equals(this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i).getID()).getnodeID2().getID()) 
-						? Integer.valueOf(this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i).getID()).getnodeID1().getID())
-								: Integer.valueOf(this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i).getID()).getnodeID2().getID());
-				if(!this.nodes.get(opposite-1).isVisited()) {
-					this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i).getID()).setLabel(Label.DISCOVERY_EDGE);
-					this.nodes.get(opposite-1).getIDfather().add(start);
-					DepthFirstSearch(opposite);
-			    } 
-				else {
-					this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i).getID()).setLabel(Label.BACK_EDGE);		
-					this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i).getID()).setAncestor(Integer.max(start, opposite));
+	private void DepthFirstSearchCore(Node start){
+		start.setVisited();
+		for(Edge edge : start.getAdjacentList()){
+			if(edge.getLabel() == null){
+				Node w = Graph.getOpposite(edge, start);
+				if(!w.isVisited()){
+					edge.setLabel(Label.DISCOVERY_EDGE);
+					w.setFather(start);
+					DepthFirstSearchCore(w);
+				}
+				else{
+					edge.setAncestor(w);
+					edge.setLabel(Label.BACK_EDGE);
 				}
 			}
 		}
 	}
 
-	public boolean Cyclicity (Graph G){
-		DepthFirstSearch();
-		for(Edge edge : edges)
-			if(edge.getLabel() == Label.BACK_EDGE)
-				return true;
-		
-		return false;
+	public boolean cyclicity (){
+		this.DepthFirstSearch();
+		boolean ret = false;
+		for(Edge edge : this.edges){
+			if(edge.getLabel() != null && edge.getLabel() == Label.BACK_EDGE 
+				&& ((edge.getAncestor() == edge.getnodeID1()) || (edge.getAncestor() == edge.getnodeID2())))
+				ret = true;
+		}
+		for(Node node : this.nodes)
+			node.clear();
+		for(Edge edge : this.edges)
+			edge.clear();
+		return ret;
+	}
+
+	public static Node getOpposite(Edge e, Node n){
+		if(e.getnodeID1().getID() == n.getID())
+			return e.getnodeID2();
+		else if(e.getnodeID2().getID() == n.getID())
+			return e.getnodeID1();
+		return null;
 	}
 
 	@Override

@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.security.InvalidParameterException;
 import java.util.List;
 import java.util.Scanner;
 import java.util.stream.Collectors;
@@ -15,38 +16,39 @@ import java.util.stream.Stream;
 import lab1.algorithm.MinimumSpanningTreeFinding;
 import lab1.model.Edge;
 import lab1.model.Graph;
-import lab1.test.testkruskal.TestNaiveKruskal;
-import lab1.test.testprim.TestPrim;
-import lab1.test.testprim.TestPriorityQueue;
+import lab1.test.TestAlgorithm;
+import lab1.test.TestPriorityQueue;
+import lab1.test.TestDisjoinSet;
 
 public class Main {
 
 	public static void main(String[] args) throws InterruptedException {
-		compute("prim");
-		testPrim();
-//		TestNaiveKruskal.test();
+		compute("kruskal");
+		// test("prim");
 		// TestPriorityQueue.test();
+		// TestDisjoinSet.test();
 	}
 
 	public static void compute(String algorithm) throws InterruptedException {
 		// fetch files
 		try (Stream<Path> walk = Files.walk(Paths.get("mst_dataset"))) {
 			List<String> mst_dataset = walk.filter(Files::isRegularFile).map(x -> x.toString()).sorted()
-					.collect(Collectors.toList());
-			String file = new String();  
-			if(algorithm == "prim"){
-				file = "Prim.txt";
-			} else if(algorithm == "naivekruskal"){
-				file = "NaiveKruskal.txt";
-			} else{
-				throw new InterruptedException("Bad algorithm selection");
-			}
-			final File outputPath = new File(file);
+					.collect(Collectors.toList());  
+			final File outputPath ;
+			
+			if(algorithm == "prim")
+				outputPath = new File("Prim.txt");
+			else if(algorithm == "naivekruskal")
+				outputPath = new File("NaiveKruskal.txt");
+			else if(algorithm == "kruskal")
+				outputPath = new File("Kruskal.txt");
+			else
+				throw new InvalidParameterException("Wrong choose of algorithm");
 			FileWriter fw = new FileWriter(outputPath, false);
 
 			mst_dataset.stream().forEach(entryset -> {
-			// for(int i = 0; i<22; i++){
-				// String entryset = mst_dataset.get(21);
+			// for(int i = 0; i<43; i++){
+				// String entryset = mst_dataset.get(i);
 				try {
 					System.out.println("Input " + entryset);
 
@@ -72,11 +74,15 @@ public class Main {
 					myReader.close();
 
 					long start = System.nanoTime();
-					if(algorithm == "prim"){
+					if(algorithm == "prim")
 						cost = MinimumSpanningTreeFinding.Prim(G, G.getNodeByID(1));
-					} else if(algorithm == "naivekruskal"){
+					else if(algorithm == "naivekruskal")
 						cost = MinimumSpanningTreeFinding.NaiveKruskal(G);
-					}
+					else if(algorithm == "kruskal")
+						cost = MinimumSpanningTreeFinding.Kruskal(G);
+					else
+						throw new InvalidParameterException("Wrong choose of algorithm");
+
 					long stop = System.nanoTime();
 
 					long timeElapsed = stop - start;
@@ -93,13 +99,16 @@ public class Main {
 			// }
 			fw.close();
 			System.out.println("Finish!");
+
+			
+			test(algorithm);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public static void testPrim() {
-		try { TestPrim.test(); }
-		catch(AssertionError e) { System.out.println("test not passed. " + e.getMessage());}
+	public static void test(String algorithm) {
+		try { TestAlgorithm.test(algorithm); }
+		catch(AssertionError e) { System.out.println("Test not passed. " + e.getMessage());}
 	}
 }

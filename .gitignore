@@ -27,3 +27,5 @@ hs_err_pid*
 
 # Results
 Prim.txt
+NaiveKruskal.txt
+Kruskal.txt
