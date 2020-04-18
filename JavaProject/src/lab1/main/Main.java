@@ -23,7 +23,7 @@ import lab1.test.TestDisjoinSet;
 public class Main {
 
 	public static void main(String[] args) throws InterruptedException {
-		compute("kruskal");
+		compute("prim");
 		// test("prim");
 		// TestPriorityQueue.test();
 		// TestDisjoinSet.test();
@@ -46,9 +46,9 @@ public class Main {
 				throw new InvalidParameterException("Wrong choose of algorithm");
 			FileWriter fw = new FileWriter(outputPath, false);
 
-			mst_dataset.stream().forEach(entryset -> {
-			// for(int i = 0; i<43; i++){
-				// String entryset = mst_dataset.get(i);
+			// mst_dataset.stream().forEach(entryset -> {
+			for(int i = 0; i<43; i++){
+				String entryset = mst_dataset.get(i);
 				try {
 					System.out.println("Input " + entryset);
 
@@ -95,8 +95,8 @@ public class Main {
 				} catch (FileNotFoundException e) {
 				} catch (IOException e) {
 				}
-			});
-			// }
+			// });
+			}
 			fw.close();
 			System.out.println("Finish!");
 

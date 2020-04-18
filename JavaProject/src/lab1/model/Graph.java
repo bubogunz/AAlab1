@@ -84,10 +84,6 @@ public final class Graph {
 			edge.setAncestor(null);
 			edge.setLabel(null);
 		}
-		for(Node node : this.nodes)
-			node.clear();
-		for(Edge edge : this.edges)
-			edge.clear();
 		return ret;
 	}
 

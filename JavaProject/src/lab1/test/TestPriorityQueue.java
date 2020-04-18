@@ -1,37 +1,26 @@
 package lab1.test;
 
-import lab1.model.PriorityQueue;
-import lab1.model.Pair;
+import lab1.model.PriorityQueuee;
 
 public class TestPriorityQueue {
     public static final void test(){
-        PriorityQueue<Integer> Q = new PriorityQueue<Integer>();
-        Q.insert(new Pair<Integer>(13, null));
-        Q.insert(new Pair<Integer>(5, null));
-        Q.insert(new Pair<Integer>(20, 28));
-        Q.insert(new Pair<Integer>(12, null));
-        Q.insert(new Pair<Integer>(34, null));
-        Q.insert(new Pair<Integer>(6, null));
-        Q.insert(new Pair<Integer>(8, null));
-        Q.insert(new Pair<Integer>(13, null));
+        PriorityQueuee<Integer> Q = new PriorityQueuee<Integer>();
+        Q.insert(12);
+        System.out.println(Q.pop());
+        Q.insert(5);
+        Q.insert(20);
+        Q.insert(43);
+        Q.insert(54);
+        Q.insert(1);
+        Q.insert(32);
+        Q.insert(4);
         Q.print();
         System.out.println();
-
-        Q.removeByKey(12);
+        Q.remove(1);
         Q.print();
         System.out.println();
-
-        Q.pop();
+        Q.remove(54);
         Q.print();
-
-        System.out.println(Q.findObj(20));
-
-        Q.setByKey(20, new Pair<Integer>(14, 12));
-        Q.print();
-        System.out.println(Q.findObj(14));
-        Q.setByIndex(1, new Pair<Integer>(9, 11));
-        Q.print();
-        System.out.println(Q.findKey(11));
+        System.out.println();
     }
-
 }

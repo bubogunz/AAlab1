@@ -2,7 +2,7 @@ package lab1.model;
 
 import java.util.ArrayList;
 
-public final class Node {
+public final class Node implements Comparable<Node>{
 	private Integer ID = null;
 	private Integer weight = null;
 	private Node Father = null;
@@ -126,6 +126,15 @@ public final class Node {
 	@Override
 	public String toString(){
 		return "NodeID: " + ID;
+	}
+
+	@Override
+    public int compareTo(Node n) {
+		if(this.weight > n.weight)
+			return 1;
+		else if(this.weight == n.weight)
+			return 0;
+		return -1;
 	}
 
 }

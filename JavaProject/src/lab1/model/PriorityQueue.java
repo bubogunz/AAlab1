@@ -53,7 +53,7 @@ public class PriorityQueue<T> {
     private void minHeapify(int pos) 
     {
         if (!isLeaf(pos)) {
-            if (leftChild(pos) != (Queue.size() - 1)){
+            if (rightChild(pos) < Queue.size()){
                     if(Queue.get(pos).getKey() > Queue.get(leftChild(pos)).getKey() 
                     || Queue.get(pos).getKey() > Queue.get(rightChild(pos)).getKey()) {
 
@@ -67,10 +67,8 @@ public class PriorityQueue<T> {
                     }
                 } 
             }
-            else if(Queue.get(pos).getKey() > Queue.get(leftChild(pos)).getKey()){
-                swap(pos, leftChild(pos)); 
-                    minHeapify(leftChild(pos));
-            }
+            else if(Queue.get(pos).getKey() > Queue.get(leftChild(pos)).getKey())
+                swap(pos, leftChild(pos));
         } 
     }
 
