@@ -12,6 +12,7 @@
 
 # Package Files #
 .attach*
+.project
 *.jar
 *.war
 *.nar
