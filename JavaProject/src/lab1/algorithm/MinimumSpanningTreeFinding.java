@@ -13,6 +13,7 @@ import lab1.model.DisjointSet;
 
 public final class MinimumSpanningTreeFinding {
 
+
 	public static final int Prim(Graph G, Node start) {
 		
 		int cost = 0;

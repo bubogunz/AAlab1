@@ -21,6 +21,7 @@ public final class Graph {
 		edges = new ArrayList<Edge>(graph.edges.size());
 		this.nodes = graph.nodes;
 		this.edges = graph.edges;
+
 	}
 
 	public ArrayList<Node> getNodes() {
@@ -73,6 +74,7 @@ public final class Graph {
 	public Node getNodeByID(int id){
 		if(id <= nodes.size())
 			return nodes.get(id - 1);
+
 		return null;
 	}
 

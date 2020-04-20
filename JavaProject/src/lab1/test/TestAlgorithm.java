@@ -22,6 +22,7 @@ public class TestAlgorithm {
 			else{
 				scanSrc.close();
 				throw new InvalidParameterException("Wrong choice of algorithm");
+
 			}
 			Scanner outSrc = new Scanner(out);
 			

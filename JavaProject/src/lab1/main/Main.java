@@ -17,6 +17,7 @@ import lab1.algorithm.MinimumSpanningTreeFinding;
 import lab1.model.Edge;
 import lab1.model.Graph;
 import lab1.test.TestAlgorithm;
+
 import lab1.test.TestMinHeap;
 
 public class Main {

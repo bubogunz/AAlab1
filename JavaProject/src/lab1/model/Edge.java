@@ -24,7 +24,6 @@ public final class Edge implements Comparable<Edge> {
 		this.node2 = v2;
 		this.weight = weight;
 		this.label = null;
-//		this.ancestor = null;
 	}
 
 	public Edge(Edge edge) {
@@ -54,6 +53,7 @@ public final class Edge implements Comparable<Edge> {
 
 	public void setNode2(Node node2) {
 		this.node2 = node2;
+
 	}
 
 	public Integer getWeight() {
@@ -103,6 +103,7 @@ public final class Edge implements Comparable<Edge> {
 			if (other.node2 != null)
 				return false;
 		} else if (!node2.getID().equals(other.node2.getID()))
+
 			return false;
 		if (weight == null) {
 			if (other.weight != null)
@@ -124,5 +125,6 @@ public final class Edge implements Comparable<Edge> {
 		else if(weight == e.weight)
 			return 0;
 		return -1;
+
 	}
 }

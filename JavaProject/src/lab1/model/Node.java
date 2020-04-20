@@ -79,9 +79,7 @@ public final class Node implements Comparable<Node>{
 		this.father = null;
 		this.visited = false;
 	}
-
-
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -109,6 +107,7 @@ public final class Node implements Comparable<Node>{
 		} else if (other.father != null 
 				&& !father.getID().equals(other.father.getID()))
 			return false;
+
 		if (ID == null) {
 			if (other.ID != null)
 				return false;
@@ -135,6 +134,7 @@ public final class Node implements Comparable<Node>{
 			if (other.visited != null)
 				return false;
 		} else if (!visited.equals(other.visited))
+
 			return false;
 		if (weight == null) {
 			if (other.weight != null)
@@ -157,5 +157,4 @@ public final class Node implements Comparable<Node>{
 			return 0;
 		return -1;
 	}
-
 }
