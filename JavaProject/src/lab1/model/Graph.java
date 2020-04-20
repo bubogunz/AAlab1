@@ -15,14 +15,13 @@ public final class Graph {
 		this.edges = new ArrayList<Edge>();
 	}
 	
-	//deep copy
+	//shallow copy
 	public Graph(Graph graph) {
 		nodes = new ArrayList<Node>(graph.nodes.size());
 		edges = new ArrayList<Edge>(graph.edges.size());
-		for (Node node : graph.nodes) 
-			this.nodes.add(new Node(node));
-		for (Edge edge : graph.edges) 
-			this.edges.add(edge);
+		this.nodes = graph.nodes;
+		this.edges = graph.edges;
+
 	}
 
 	public ArrayList<Node> getNodes() {
@@ -45,75 +44,69 @@ public final class Graph {
 	public void setEdges(ArrayList<Edge> edges) {
 		this.edges = new ArrayList<Edge>(edges);
 	}
-
+	
 	public void addEdge(Edge e) {
-		if(e.getnodeID1() > e.getnodeID2()) {
-			Integer tmp = Integer.valueOf(e.getnodeID1());
-			e.setnodeID1(e.getnodeID2());
-			e.setnodeID2(tmp);
+		if(e.getNode1().getID().compareTo(e.getNode2().getID()) > 0) {
+			Node tmp = e.getNode1();
+			e.setNode1(e.getNode2());
+			e.setNode2(tmp);
 		}
 		this.edges.add(e);
-		//add the edge to the node's adjacent list if it is not a loop edge
-//		if(!e.getnodeID1().equals(e.getnodeID2())){
-		this.nodes.get(e.getnodeID1()-1).updateAdjacentList(edges.size()-1);
-			this.nodes.get(e.getnodeID2()-1).updateAdjacentList(edges.size()-1);
-//		}
-	}	
+		this.nodes.get(e.getNode1().getID()-1).updateAdjacentList(e);
+		if(!e.getNode1().getID().equals(e.getNode2().getID()))
+			this.nodes.get(e.getNode2().getID()-1).updateAdjacentList(e);
+
+	}
 	
 	public Boolean hasCycle() {
 		DepthFirstSearch();
 		Boolean ret = false;
 		for (Edge edge : this.edges) {
-			if(edge.getLabel() == Label.BACK_EDGE && 
-				edge.getAncestor().equals(edge.getnodeID2())) 
+			if(edge.getLabel() == Label.BACK_EDGE) 
 				ret = true;
-			edge.setAncestor(null);
 			edge.setLabel(null);
+			edge.getNode1().setVisited(false);
+			edge.getNode2().setVisited(false);
 		}
 		return ret;
 	}
 
 	public Node getNodeByID(int id){
-		for(Node node : nodes){
-			if(node.getID() == id){
-				return node;
-			}
-		}
+		if(id <= nodes.size())
+			return nodes.get(id - 1);
+
 		return null;
 	}
 
 	public Edge findEdge(Integer node1, Integer node2){
 		for(Edge edge : edges){
-			if((edge.getnodeID1() == node1 && edge.getnodeID2() == node2)
-			|| (edge.getnodeID1() == node1 && edge.getnodeID2() == node1)){
+			if((edge.getNode1().getID() == node1 && edge.getNode2().getID() == node2)
+			|| (edge.getNode1().getID() == node2 && edge.getNode2().getID() == node1)){
 				return edge;
 			}
 		}
 		return null;
 	}
 
+	//computes DFS even in non-connected graphs
 	private void DepthFirstSearch() {
 		for (Node node : this.nodes) 
-			if(!node.isVisited() && !node.getAdjacentList().isEmpty())
-				DepthFirstSearch(node.getID());
+			if(!node.isVisited() && !node.getAdjacentList().isEmpty()){
+				this.DepthFirstSearchCore(node);
+			}
 	}
 
-	private void DepthFirstSearch(Integer start) {
-		this.nodes.get(start-1).setVisited();
-		for (int i=0; i<this.nodes.get(start-1).getAdjacentList().size(); ++i) {
-			if(this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i)).getLabel() == null) {
-				Integer opposite = start.equals(this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i)).getnodeID2()) 
-						? Integer.valueOf(this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i)).getnodeID1())
-								: Integer.valueOf(this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i)).getnodeID2());
-				if(!this.nodes.get(opposite-1).isVisited()) {
-					this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i)).setLabel(Label.DISCOVERY_EDGE);
-					this.nodes.get(opposite-1).getIDfather().add(start);
-					DepthFirstSearch(opposite);
-			    } 
-				else {
-					this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i)).setLabel(Label.BACK_EDGE);		
-					this.edges.get(this.nodes.get(start-1).getAdjacentList().get(i)).setAncestor(Integer.max(start, opposite));
+	private void DepthFirstSearchCore(Node start){
+		start.setVisited(true);
+		for(Edge edge : start.getAdjacentList()){
+			if(edge.getLabel() == null){
+				Node opposite = this.nodes.get(edge.getOpposite(start).getID() - 1);
+				if(!opposite.isVisited()){
+					edge.setLabel(Label.DISCOVERY_EDGE);
+					DepthFirstSearchCore(opposite);
 				}
+				else 
+					edge.setLabel(Label.BACK_EDGE);
 			}
 		}
 	}
@@ -147,5 +140,9 @@ public final class Graph {
 		} else if (!nodes.equals(other.nodes))
 			return false;
 		return true;
+	}
+
+	public int getDimension() {
+		return nodes.size();
 	}
 }

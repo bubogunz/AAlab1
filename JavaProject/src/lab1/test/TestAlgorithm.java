@@ -15,11 +15,14 @@ public class TestAlgorithm {
 			File out;
 			if(algorithm == "prim")
 				out = new File("Prim.txt");
-			else if(algorithm == "kruskal")
+			else if(algorithm == "naivekruskal")
 				out = new File("NaiveKruskal.txt");
+			else if(algorithm == "kruskal")
+				out = new File("Kruskal.txt");
 			else{
 				scanSrc.close();
-				throw new InvalidParameterException("Wrong choose of algorithm");
+				throw new InvalidParameterException("Wrong choice of algorithm");
+
 			}
 			Scanner outSrc = new Scanner(out);
 			
@@ -37,8 +40,8 @@ public class TestAlgorithm {
 							skip = true;
 						}
 					}
+					count++;
 				}
-				count++;
 			}	
 				
 			System.out.println("Test passed.");
