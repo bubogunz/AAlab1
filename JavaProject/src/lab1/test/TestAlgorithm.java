@@ -21,7 +21,7 @@ public class TestAlgorithm {
 				out = new File("Kruskal.txt");
 			else{
 				scanSrc.close();
-				throw new InvalidParameterException("Wrong choose of algorithm");
+				throw new InvalidParameterException("Wrong choice of algorithm");
 			}
 			Scanner outSrc = new Scanner(out);
 			

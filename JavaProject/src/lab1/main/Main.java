@@ -17,14 +17,14 @@ import lab1.algorithm.MinimumSpanningTreeFinding;
 import lab1.model.Edge;
 import lab1.model.Graph;
 import lab1.test.TestAlgorithm;
-import lab1.test.TestPriorityQueue;
-import lab1.test.TestDisjoinSet;
+import lab1.test.TestMinHeap;
 
 public class Main {
 
 	public static void main(String[] args) throws InterruptedException {
-		compute("prim");
-		// test("prim");
+//		TestMinHeap.testStructure();
+		compute("kruskal"); 
+//		test("prim");
 		// TestPriorityQueue.test();
 		// TestDisjoinSet.test();
 	}
@@ -43,18 +43,19 @@ public class Main {
 			else if(algorithm == "kruskal")
 				outputPath = new File("Kruskal.txt");
 			else
-				throw new InvalidParameterException("Wrong choose of algorithm");
+				throw new InvalidParameterException("Wrong choice of algorithm");
 			FileWriter fw = new FileWriter(outputPath, false);
 
-			// mst_dataset.stream().forEach(entryset -> {
-			for(int i = 0; i<43; i++){
-				String entryset = mst_dataset.get(i);
+			 mst_dataset.stream().forEach(entryset -> {
+//			for(int i = 0; i<57; i++){
+//				String entryset = mst_dataset.get(i);
 				try {
-					System.out.println("Input " + entryset);
+//					entryset = "mst_dataset/input_random_57_40000.txt";
+					System.out.println("Input: " + entryset);
 
 					Graph G = new Graph();
 					int cost = 0;
-//					entryset = "mst_dataset/input_random_03_10.txt";
+					
 
 					String buffer = new String("File:" + entryset + "\n");
 
@@ -81,7 +82,7 @@ public class Main {
 					else if(algorithm == "kruskal")
 						cost = MinimumSpanningTreeFinding.Kruskal(G);
 					else
-						throw new InvalidParameterException("Wrong choose of algorithm");
+						throw new InvalidParameterException("Wrong choice of algorithm");
 
 					long stop = System.nanoTime();
 
@@ -95,13 +96,12 @@ public class Main {
 				} catch (FileNotFoundException e) {
 				} catch (IOException e) {
 				}
-			// });
-			}
+			 });
+//			}
 			fw.close();
 			System.out.println("Finish!");
-
-			
 			test(algorithm);
+			
 		} catch (IOException e) {
 			e.printStackTrace();
 		}

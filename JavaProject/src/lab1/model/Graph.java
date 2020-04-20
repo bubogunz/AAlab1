@@ -15,18 +15,12 @@ public final class Graph {
 		this.edges = new ArrayList<Edge>();
 	}
 	
-	//deep copy
+	//shallow copy
 	public Graph(Graph graph) {
 		nodes = new ArrayList<Node>(graph.nodes.size());
 		edges = new ArrayList<Edge>(graph.edges.size());
-		for (Node node : graph.nodes) 
-			this.nodes.add(new Node(node.getID()));
-		for (Edge edge : graph.edges){
-			Edge e = new Edge(getNodeByID(edge.getnodeID1().getID()), getNodeByID(edge.getnodeID2().getID()), edge.getWeight());
-			this.edges.add(e);
-			this.nodes.get(e.getnodeID1().getID() - 1).updateAdjacentList(e);
-			this.nodes.get(e.getnodeID2().getID() - 1).updateAdjacentList(e);
-		}
+		this.nodes = graph.nodes;
+		this.edges = graph.edges;
 	}
 
 	public ArrayList<Node> getNodes() {
@@ -49,40 +43,29 @@ public final class Graph {
 	public void setEdges(ArrayList<Edge> edges) {
 		this.edges = new ArrayList<Edge>(edges);
 	}
-
+	
 	public void addEdge(Edge e) {
-		if(e.getnodeID1().getID() > e.getnodeID2().getID()) {
-			Node tmp = e.getnodeID1();
-			e.setnodeID1(e.getnodeID2());
-			e.setnodeID2(tmp);
+		if(e.getNode1().getID().compareTo(e.getNode2().getID()) > 0) {
+			Node tmp = e.getNode1();
+			e.setNode1(e.getNode2());
+			e.setNode2(tmp);
 		}
-		// if edge already exists, update the weight
-		boolean edegeExist = false;
-		for(int i = 0; i < edges.size() && !edegeExist; i++){
-			if(edges.get(i).getnodeID1() == e.getnodeID1() && edges.get(i).getnodeID2() == e.getnodeID2()){
-				edegeExist = true;
-				if(edges.get(i).getWeight() > e.getWeight())
-					edges.get(i).setWeight(e.getWeight());
-			}
-		}
-		boolean loop = e.getnodeID1().getID().equals(e.getnodeID2().getID());
-		if(!edegeExist && !loop){
-			this.edges.add(e);
-			//add the edge to the node's adjacent list if it is not a loop edge
-			this.nodes.get(e.getnodeID1().getID() - 1).updateAdjacentList(e);
-			this.nodes.get(e.getnodeID2().getID() - 1).updateAdjacentList(e);
-		}
+		this.edges.add(e);
+		this.nodes.get(e.getNode1().getID()-1).updateAdjacentList(e);
+		if(!e.getNode1().getID().equals(e.getNode2().getID()))
+			this.nodes.get(e.getNode2().getID()-1).updateAdjacentList(e);
+
 	}
 	
 	public Boolean hasCycle() {
 		DepthFirstSearch();
 		Boolean ret = false;
 		for (Edge edge : this.edges) {
-			if(edge.getLabel() == Label.BACK_EDGE && 
-				edge.getAncestor().getID().equals(edge.getnodeID2().getID())) 
+			if(edge.getLabel() == Label.BACK_EDGE) 
 				ret = true;
-			edge.setAncestor(null);
 			edge.setLabel(null);
+			edge.getNode1().setVisited(false);
+			edge.getNode2().setVisited(false);
 		}
 		return ret;
 	}
@@ -95,15 +78,15 @@ public final class Graph {
 
 	public Edge findEdge(Integer node1, Integer node2){
 		for(Edge edge : edges){
-			if((edge.getnodeID1().getID() == node1 && edge.getnodeID2().getID() == node2)
-			|| (edge.getnodeID1().getID() == node2 && edge.getnodeID2().getID() == node1)){
+			if((edge.getNode1().getID() == node1 && edge.getNode2().getID() == node2)
+			|| (edge.getNode1().getID() == node2 && edge.getNode2().getID() == node1)){
 				return edge;
 			}
 		}
 		return null;
 	}
 
-	//cerca esegue una ricerca anche per i grafi non connessi
+	//computes DFS even in non-connected graphs
 	private void DepthFirstSearch() {
 		for (Node node : this.nodes) 
 			if(!node.isVisited() && !node.getAdjacentList().isEmpty()){
@@ -112,44 +95,18 @@ public final class Graph {
 	}
 
 	private void DepthFirstSearchCore(Node start){
-		start.setVisited();
+		start.setVisited(true);
 		for(Edge edge : start.getAdjacentList()){
 			if(edge.getLabel() == null){
-				Node w = Graph.getOpposite(edge, start);
-				if(!w.isVisited()){
+				Node opposite = this.nodes.get(edge.getOpposite(start).getID() - 1);
+				if(!opposite.isVisited()){
 					edge.setLabel(Label.DISCOVERY_EDGE);
-					w.setFather(start);
-					DepthFirstSearchCore(w);
+					DepthFirstSearchCore(opposite);
 				}
-				else{
-					edge.setAncestor(w);
+				else 
 					edge.setLabel(Label.BACK_EDGE);
-				}
 			}
 		}
-	}
-
-	public boolean cyclicity (){
-		this.DepthFirstSearch();
-		boolean ret = false;
-		for(Edge edge : this.edges){
-			if(edge.getLabel() != null && edge.getLabel() == Label.BACK_EDGE 
-				&& ((edge.getAncestor() == edge.getnodeID1()) || (edge.getAncestor() == edge.getnodeID2())))
-				ret = true;
-		}
-		for(Node node : this.nodes)
-			node.clear();
-		for(Edge edge : this.edges)
-			edge.clear();
-		return ret;
-	}
-
-	public static Node getOpposite(Edge e, Node n){
-		if(e.getnodeID1().getID() == n.getID())
-			return e.getnodeID2();
-		else if(e.getnodeID2().getID() == n.getID())
-			return e.getnodeID1();
-		return null;
 	}
 
 	@Override
