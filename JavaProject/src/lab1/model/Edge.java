@@ -2,7 +2,7 @@ package lab1.model;
 
 import java.util.Comparator;
 
-public final class Edge implements Comparable<Edge> {
+public final class Edge implements Comparable<Edge>, Comparator<Edge> {
 
 	public enum Label{
 		DISCOVERY_EDGE,
@@ -24,13 +24,6 @@ public final class Edge implements Comparable<Edge> {
 		this.node2 = v2;
 		this.weight = weight;
 		this.label = null;
-	}
-
-	public Edge(Edge edge) {
-		this.node1 = edge.node1;
-		this.node2 = edge.node2;
-		this.weight = Integer.valueOf(edge.weight);
-		this.label = edge.label;
 	}
 	
 	public Node getOpposite(Node start) {
@@ -127,4 +120,10 @@ public final class Edge implements Comparable<Edge> {
 		return -1;
 
 	}
+
+	@Override
+    public int compare(Edge arg0, Edge arg1) {
+	return Integer.compare(arg0.getWeight(), 
+		arg1.getWeight());
+    }
 }

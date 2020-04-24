@@ -19,9 +19,9 @@ public final class Graph {
 	public Graph(Graph graph) {
 		nodes = new ArrayList<Node>(graph.nodes.size());
 		edges = new ArrayList<Edge>(graph.edges.size());
-		this.nodes = graph.nodes;
-		this.edges = graph.edges;
-
+		buildNodes(graph.getNodes().size());
+		for(Edge edge : graph.getEdges())
+			addEdge(new Edge(getNodeByID(edge.getNode1().getID()), getNodeByID(edge.getNode2().getID()), edge.getWeight()));
 	}
 
 	public ArrayList<Node> getNodes() {
@@ -45,6 +45,7 @@ public final class Graph {
 		this.edges = new ArrayList<Edge>(edges);
 	}
 	
+	//Adds edge to graph and update adjacent lists of edge's vertexes
 	public void addEdge(Edge e) {
 		if(e.getNode1().getID().compareTo(e.getNode2().getID()) > 0) {
 			Node tmp = e.getNode1();
@@ -58,6 +59,7 @@ public final class Graph {
 
 	}
 	
+	//O(m + n)
 	public Boolean hasCycle() {
 		DepthFirstSearch();
 		Boolean ret = false;
@@ -78,6 +80,7 @@ public final class Graph {
 		return null;
 	}
 
+	//O(m)
 	public Edge findEdge(Integer node1, Integer node2){
 		for(Edge edge : edges){
 			if((edge.getNode1().getID() == node1 && edge.getNode2().getID() == node2)
@@ -88,7 +91,7 @@ public final class Graph {
 		return null;
 	}
 
-	//computes DFS even in non-connected graphs
+	//computes DFS even in non-connected graphs. O(n)
 	private void DepthFirstSearch() {
 		for (Node node : this.nodes) 
 			if(!node.isVisited() && !node.getAdjacentList().isEmpty()){

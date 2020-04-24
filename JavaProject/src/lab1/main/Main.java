@@ -18,18 +18,30 @@ import lab1.model.Edge;
 import lab1.model.Graph;
 import lab1.test.TestAlgorithm;
 
-import lab1.test.TestMinHeap;
-
 public class Main {
-
+	/**
+	 * @param args
+	 * @throws InterruptedException
+	 * 
+	 * To execute the algorithm selected and run test, uncomment compute function.
+	 * To execute only the test, uncomment test function.
+	 */
 	public static void main(String[] args) throws InterruptedException {
-//		TestMinHeap.testStructure();
-		compute("kruskal"); 
+		compute("prim"); 
 //		test("prim");
-		// TestPriorityQueue.test();
-		// TestDisjoinSet.test();
 	}
 
+	/**
+	 * @param algorithm = the algorithm to compute. This would be:
+	 * - prim -> Prim algorithm with Priority queue data structure
+	 * - naivekruskal -> Naive Kruskal algorithm
+	 * - kruskal -> Kruskal algorithm with DisjoindSet data structure
+	 * @throws InterruptedException
+	 * 
+	 * This function executes the algorithm choosen in 68 graphs that are
+	 * builded with mst_dataset folder. The results are stored in a file with the name of
+	 * algorithm choosen. 
+	 */
 	public static void compute(String algorithm) throws InterruptedException {
 		// fetch files
 		try (Stream<Path> walk = Files.walk(Paths.get("mst_dataset"))) {
@@ -47,11 +59,10 @@ public class Main {
 				throw new InvalidParameterException("Wrong choice of algorithm");
 			FileWriter fw = new FileWriter(outputPath, false);
 
+			System.out.println("Executing " + algorithm + " algorithm");
+
 			 mst_dataset.stream().forEach(entryset -> {
-//			for(int i = 0; i<57; i++){
-//				String entryset = mst_dataset.get(i);
 				try {
-//					entryset = "mst_dataset/input_random_57_40000.txt";
 					System.out.println("Input: " + entryset);
 
 					Graph G = new Graph();
@@ -91,14 +102,13 @@ public class Main {
 					double time = timeElapsed;
 					time = time / 1000000000;
 					buffer += "MST costs " + cost + "\n";
-					buffer += "Time elapsed: " + time + "s\n\n";
+					buffer += "Time elapsed: " + time + " s\n\n";
 					fw.write(buffer);
 
 				} catch (FileNotFoundException e) {
 				} catch (IOException e) {
 				}
 			 });
-//			}
 			fw.close();
 			System.out.println("Finish!");
 			test(algorithm);
@@ -108,6 +118,12 @@ public class Main {
 		}
 	}
 	
+	/**
+	 * @param algorithm = the algorithm choosen for the test
+	 * 
+	 * This function compare the results of compute function with the right solutions in results.txt,
+	 * so first execute this function make sure to have the results of choosen algorithm.
+	 */
 	public static void test(String algorithm) {
 		try { TestAlgorithm.test(algorithm); }
 		catch(AssertionError e) { System.out.println("Test not passed. " + e.getMessage());}

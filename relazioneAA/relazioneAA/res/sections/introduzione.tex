@@ -1,0 +1,20 @@
+\section{Introduzione}
+\subsection{Scelta del linguaggio di programmazione}
+Per lo svolgimento di tale assignment abbiamo scelto come linguaggio di programmazione Java 8, dato che è stato studiato da entrambi durante il percorso di laurea triennale. Inoltre, dato che Java lavora principalmente attraverso riferimenti, ha permesso lo sviluppo della struttura di grafi, vertici e lati più semplice.
+
+\subsection{Scelte implementative}
+Nell'implementazione abbiamo infatti cercato di creare meno oggetti possibile usando per lo più riferimenti. Questo ha permesso non solo un risparmio in termini di memoria, ma anche di prestazioni nel caso dell'algoritmo \textit{NaiveKruskal}, che in una sua prima implementazione eseguiva ad iterazione del ciclo \textit{for} una copia temporanea del grafo, più il lato preso in considerazione dall'algoritmo.
+
+Nello specifico le varie componenti del modello presentano le seguenti caratteristiche:
+\begin{itemize}
+	\item Graph: presenta una lista di nodi ed una lista di vertici ed una lista di lati. Nella costruzione del grafo non controlliamo se viene inserito un lato già presente, perciò un grafo può avere diversi pesi. Abbiamo fatto tale scelta perché la costruzione del grafo è più veloce dato che si evita un controllo di tutti i lati del grafo quando se ne aggiunge uno, riuscendo a mantenere comunque la correttezza degli algoritmi. Abbiamo implementato inoltre l'algoritmo per effettuare la DFS (Deep First Search), necessaria per gli algoritmi \textit{Kruskal} e \textit{Naive Kruskal};
+	\item Node: oltre ai campi \textit{ID} e \textit{Father}, sono presenti campi dati usati solo in alcuni algoritmi
+	\begin{itemize}
+		\item weight: dato usato esclusivamente per l'algoritmo \textit{Prim} ed indica il peso minimo del lato che collega il nodo al MST (Minimiìum Spanning Tree) creato fino a quel momento dall'algoritmo;
+		\item visited: dato usato solo dagli algoritmi \textit{Kruskal} e \textit{Naive Kruskal};
+		\item adjacentList: dato che non contiene i nodi adiacenti al nodo selezionato, come ci si potrebbe aspettare, ma contiene la lista dei lati che hanno come estremo il nodo selezionato. Abbiamo fatto tale scelta perché in tal modo, accedendo ad un elemento di \textit{adjacentList} abbiamo anche le informazioni dei lati, utile ad esempio per algoritmo \textit{Prim}, e se abbiamo bisogno del nodo adiacente al nodo selezionato è possibile chiamare \textup{Graph.opposite(edge, node)} in tempo costante.
+	\end{itemize}
+	Per utilizzare propriamente la struttura dati \textit{Priority Queue} la classe modo implementa l'interfaccia \textit{Comparator} e confronta i nodi in base al loro dato \textit{weight}
+	\item Edge: oltre ai riferimenti dei nodi estremi, è presente il campo \textit{Label} per effettuare la DFS. 
+\end{itemize} 
+

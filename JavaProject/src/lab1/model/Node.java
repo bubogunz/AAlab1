@@ -1,8 +1,10 @@
 package lab1.model;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 
-public final class Node implements Comparable<Node>{
+//Node implements Comparable and Comparator to be used in PriorityQueue and DisjointSet
+public final class Node implements Comparable<Node>, Comparator<Node>{
 	private Integer ID = null;
 	private Integer weight = null;
 	private Node father = null;
@@ -19,9 +21,7 @@ public final class Node implements Comparable<Node>{
 		this.ID = n.ID;
 		this.weight = n.weight;
 		this.father = n.father;
-		this.adjacentList = new ArrayList<Edge>(n.adjacentList.size()); //TODO verificare se si può passare direttamente l'array
-		for(Edge edgeadj : n.adjacentList) //senza fare...
-			this.adjacentList.add(edgeadj); //...questo
+		this.adjacentList = new ArrayList<Edge>();
 		this.visited = n.visited;
 	}
 	
@@ -157,4 +157,10 @@ public final class Node implements Comparable<Node>{
 			return 0;
 		return -1;
 	}
+
+	@Override
+    public int compare(Node o1, Node o2) {
+	return Integer.compare(o1.getWeight(), 
+		o2.getWeight());
+    }
 }

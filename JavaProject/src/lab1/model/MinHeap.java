@@ -3,8 +3,6 @@ package lab1.model;
 import java.util.ArrayList;
 import java.util.Comparator;
 
-import com.sun.org.apache.bcel.internal.generic.CASTORE;
-
 public class MinHeap<E> {
 	private ArrayList<E> heap;
 	private final Comparator<? super E> comparator;
@@ -21,13 +19,15 @@ public class MinHeap<E> {
 	public MinHeap(Comparator<? super E> comparator) {
 		this(1, comparator);
 	}
-
+	
+	//O(log n)
 	public void insert(E element) { 
 		heap.add(element); 
 		for(int i = heap.size()/2; i>=0; --i) 
 			minHeapify(i);
 	} 
 
+	//O(log n)
 	public E extractMin() {
 		if(isEmpty())
 			throw new IndexOutOfBoundsException("Tried to extract an item from an empty MinHeap");
@@ -49,6 +49,7 @@ public class MinHeap<E> {
 		}
 	}
 	
+	//O(log n)
 	public E extract(int pos) {
 		int size = heap.size();
 		if(pos >= heap.size())
@@ -62,6 +63,7 @@ public class MinHeap<E> {
 		return heap.remove(pos);
 	}
 	
+	//O(log n)
 	public Boolean remove(E item) {
 		int index = heap.indexOf(item);
 		if(index == -1)
@@ -109,6 +111,7 @@ public class MinHeap<E> {
 		heap.set(spos, tmp);
 	} 
 
+	//O(log n)
 	private void minHeapify(int pos) { 
 		if(isLeaf(pos))
 			return;
@@ -125,12 +128,8 @@ public class MinHeap<E> {
 			minHeapify(minIndex);
 		}
 	} 	
-	/**
-	 * Specific function that we built just for testing. 
-	 * Check if it's a min heap or not.
-	 * @param pos the position from which to begin the test
-	 * @return true if it's a min heap, false otherwise
-	 */
+	
+	//Check if it's a min heap or not.
 	public Boolean isMinHeap(int pos) {
 		if(isLeaf(pos) || pos > this.heap.size()) 
 			return true;
