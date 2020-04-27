@@ -1,7 +1,10 @@
 package lab1.model;
 
 import java.util.Comparator;
-
+/**
+ * @deprecated
+ * class used just for testing purposes
+ */
 public class SortEdgesByWeight implements Comparator<Edge> {
     @Override
     public int compare(Edge arg0, Edge arg1) {

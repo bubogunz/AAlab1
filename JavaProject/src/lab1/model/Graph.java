@@ -3,7 +3,9 @@ package lab1.model;
 import java.util.ArrayList;
 
 import lab1.model.Edge.Label;
-
+/**
+ * Graph class holds every properties that a graph has
+ */
 public final class Graph {
 
 	private ArrayList<Node> nodes;
@@ -14,8 +16,10 @@ public final class Graph {
 		this.nodes = new ArrayList<Node>();
 		this.edges = new ArrayList<Edge>();
 	}
-	
-	//shallow copy
+	/**
+	 * shallow copy of the graph
+	 * @param graph = the graph to copy the references to nodes and edges
+	 */
 	public Graph(Graph graph) {
 		nodes = new ArrayList<Node>(graph.nodes.size());
 		edges = new ArrayList<Edge>(graph.edges.size());
@@ -23,29 +27,47 @@ public final class Graph {
 		for(Edge edge : graph.getEdges())
 			addEdge(new Edge(getNodeByID(edge.getNode1().getID()), getNodeByID(edge.getNode2().getID()), edge.getWeight()));
 	}
-
+	/**
+	 * 
+	 * @return an ArrayList<Node> containing the references at the nodes of the graph
+	 */
 	public ArrayList<Node> getNodes() {
 		return nodes;
 	}
-
+	/**
+	 * 
+	 * @param nodes = set the ArrayList of nodes' references
+	 */
 	public void setNodes(ArrayList<Node> nodes) {
 		this.nodes = new ArrayList<Node>(nodes);
 	}
-
+	/**
+	 * automated procedure that builds n nodes starting from 1 to n
+	 * @param n = the nodes to add at the graph
+	 */
 	public void buildNodes(Integer n) {
 		for (int i = 1; i <= n.intValue(); i++) 
 			this.nodes.add(new Node(i));
 	}
-
+	/**
+	 * 
+	 * @return an ArrayList<Edge> containing the references at the edges of the graph
+	 */
 	public ArrayList<Edge> getEdges() {
 		return edges;
 	}
-
+	/**
+	 * 
+	 * @param edges = set the ArrayList of edges' references
+	 */
 	public void setEdges(ArrayList<Edge> edges) {
 		this.edges = new ArrayList<Edge>(edges);
 	}
-	
-	//Adds edge to graph and update adjacent lists of edge's vertexes
+	/**
+	 * Adds an edge's reference to graph and update adjacent lists of edge's vertexes
+	 * complexity = O(1)
+	 * @param e = the reference of the edge to add
+	 */
 	public void addEdge(Edge e) {
 		if(e.getNode1().getID().compareTo(e.getNode2().getID()) > 0) {
 			Node tmp = e.getNode1();
@@ -56,10 +78,12 @@ public final class Graph {
 		this.nodes.get(e.getNode1().getID()-1).updateAdjacentList(e);
 		if(!e.getNode1().getID().equals(e.getNode2().getID()))
 			this.nodes.get(e.getNode2().getID()-1).updateAdjacentList(e);
-
 	}
-	
-	//O(m + n)
+	/**
+	 * check if the graph has a cycle
+	 * complexity = O(m + n)
+	 * @return true if the graph has a cycle, false otherwise
+	 */
 	public Boolean hasCycle() {
 		DepthFirstSearch();
 		Boolean ret = false;
@@ -72,15 +96,24 @@ public final class Graph {
 		}
 		return ret;
 	}
-
+	/**
+	 * returns a node's reference fetching it by ID
+	 * @param id = the position inside the ArrayLis<Node> of the reference of node to find 
+	 * @return the reference of the node at position id, null if not present
+	 */
 	public Node getNodeByID(int id){
 		if(id <= nodes.size())
 			return nodes.get(id - 1);
-
 		return null;
 	}
-
-	//O(m)
+	/**
+	 * finds an edge, checking if its reference is present on the edge ArrayList<Edge>
+	 * complexity = O(m)
+	 * @param node1 = the first node of the edge
+	 * @param node2 = the second node of the edge
+	 * @return the reference of the edge if present, null otherwise
+	 * @deprecated
+	 */
 	public Edge findEdge(Integer node1, Integer node2){
 		for(Edge edge : edges){
 			if((edge.getNode1().getID() == node1 && edge.getNode2().getID() == node2)
@@ -90,15 +123,20 @@ public final class Graph {
 		}
 		return null;
 	}
-
-	//computes DFS even in non-connected graphs. O(n)
+	/**
+	 * computes DFS even in non-connected graphs. 
+	 * complexity = O(n)
+	 */
 	private void DepthFirstSearch() {
 		for (Node node : this.nodes) 
 			if(!node.isVisited() && !node.getAdjacentList().isEmpty()){
 				this.DepthFirstSearchCore(node);
 			}
 	}
-
+	/**
+	 * computes DFS in a connected component of the graph 
+	 * @param start = the reference of the node to start the procedure
+	 */
 	private void DepthFirstSearchCore(Node start){
 		start.setVisited(true);
 		for(Edge edge : start.getAdjacentList()){

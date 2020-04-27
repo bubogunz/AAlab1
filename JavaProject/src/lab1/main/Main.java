@@ -17,38 +17,42 @@ import lab1.algorithm.MinimumSpanningTreeFinding;
 import lab1.model.Edge;
 import lab1.model.Graph;
 import lab1.test.TestAlgorithm;
-
+/**
+ * The main class which contains the main(String[] args) method. Use this class
+ * to run algorithms, or just to test them.
+ */
 public class Main {
 	/**
+	 * To execute the algorithm selected and run test, uncomment compute function.
+	 * To execute only the test, uncomment test function.
 	 * @param args
 	 * @throws InterruptedException
 	 * 
-	 * To execute the algorithm selected and run test, uncomment compute function.
-	 * To execute only the test, uncomment test function.
 	 */
 	public static void main(String[] args) throws InterruptedException {
-		compute("prim"); 
+		compute("kruskal"); 
 //		test("prim");
 	}
-
 	/**
 	 * @param algorithm = the algorithm to compute. This would be:
 	 * - prim -> Prim algorithm with Priority queue data structure
 	 * - naivekruskal -> Naive Kruskal algorithm
-	 * - kruskal -> Kruskal algorithm with DisjoindSet data structure
+	 * - kruskal -> Kruskal algorithm with DisjointSet data structure
 	 * @throws InterruptedException
 	 * 
 	 * This function executes the algorithm choosen in 68 graphs that are
 	 * builded with mst_dataset folder. The results are stored in a file with the name of
-	 * algorithm choosen. 
+	 * the chosen algorithm. 
 	 */
 	public static void compute(String algorithm) throws InterruptedException {
 		// fetch files
 		try (Stream<Path> walk = Files.walk(Paths.get("mst_dataset"))) {
-			List<String> mst_dataset = walk.filter(Files::isRegularFile).map(x -> x.toString()).sorted()
+			List<String> mst_dataset = walk
+					.filter(Files::isRegularFile)
+					.map(x -> x.toString()).sorted()
 					.collect(Collectors.toList());  
+			//initialize the path for the output file
 			final File outputPath ;
-			
 			if(algorithm == "prim")
 				outputPath = new File("Prim.txt");
 			else if(algorithm == "naivekruskal")
@@ -60,8 +64,10 @@ public class Main {
 			FileWriter fw = new FileWriter(outputPath, false);
 
 			System.out.println("Executing " + algorithm + " algorithm");
-
-			 mst_dataset.stream().forEach(entryset -> {
+			
+			for(int i=0; i<40; ++i) {
+				String entryset = mst_dataset.get(i);
+//			mst_dataset.stream().forEach(entryset -> {
 				try {
 					System.out.println("Input: " + entryset);
 
@@ -108,21 +114,22 @@ public class Main {
 				} catch (FileNotFoundException e) {
 				} catch (IOException e) {
 				}
-			 });
+//			 });
+			}
 			fw.close();
 			System.out.println("Finish!");
 			test(algorithm);
-			
+    			
 		} catch (IOException e) {
 			e.printStackTrace();
-		}
+		} 
 	}
 	
 	/**
-	 * @param algorithm = the algorithm choosen for the test
+	 * @param algorithm = the algorithm chosen for the test
 	 * 
 	 * This function compare the results of compute function with the right solutions in results.txt,
-	 * so first execute this function make sure to have the results of choosen algorithm.
+	 * so first execute this function make sure to have the results of chosen algorithm.
 	 */
 	public static void test(String algorithm) {
 		try { TestAlgorithm.test(algorithm); }

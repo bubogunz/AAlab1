@@ -1,22 +1,28 @@
+
 package lab1.model;
 
 import java.util.ArrayList;
-import java.util.Comparator;
-
-//Node implements Comparable and Comparator to be used in PriorityQueue and DisjointSet
-public final class Node implements Comparable<Node>, Comparator<Node>{
+/**
+ * Edge class holds every properties that an edge in a graph has
+ */
+public final class Node implements Comparable<Node>{
 	private Integer ID = null;
 	private Integer weight = null;
 	private Node father = null;
 	//list of references to adjacent edges 
 	private ArrayList<Edge> adjacentList = new ArrayList<Edge>();
 	private Boolean visited = false;
-
+	/**
+	 * Constructor with only ID parameter
+	 * @param id = the ID of the node
+	 */
 	public Node(Integer id){
 		ID = id;
 	}
-
-	//shallow copy
+	/**
+	 * Copy constructor of the node with shallow copy of the adjacent list (reference copy)
+	 * @param n = the node to copy
+	 */
 	public Node(Node n) {
 		this.ID = n.ID;
 		this.weight = n.weight;
@@ -24,17 +30,26 @@ public final class Node implements Comparable<Node>, Comparator<Node>{
 		this.adjacentList = new ArrayList<Edge>();
 		this.visited = n.visited;
 	}
-	
+	/**
+	 * 
+	 * @return true if the node has a father, false otherwise
+	 */
 	public Boolean hasFather() {
 		if(father.getID().equals(null))
 			return false;
 		return true;
 	}
-	
+	/**
+	 * 
+	 * @return the reference of the father of this node
+	 */
 	public Node getFather() {
 		return father;
 	}
-
+	/**
+	 * 
+	 * @param father = the reference of the father of this node  
+	 */
 	public void setFather(Node father) {
 		this.father = father;
 	}
@@ -70,11 +85,16 @@ public final class Node implements Comparable<Node>, Comparator<Node>{
 	public void setVisited(Boolean vis) {
 		this.visited = vis;
 	}
-
+	/**
+	 * 
+	 * @return true if the node results visited, false otherwise
+	 */
 	public Boolean isVisited() {
 		return this.visited;
 	}
-
+	/**
+	 * clears the node from any label or any father set beforehand
+	 */
 	public void clear() {
 		this.father = null;
 		this.visited = false;
@@ -151,16 +171,10 @@ public final class Node implements Comparable<Node>, Comparator<Node>{
 
 	@Override
 	public int compareTo(Node n) {
-		if(this.weight > n.weight)
+		if(weight.compareTo(n.weight) > 0)
 			return 1;
-		else if(this.weight == n.weight)
+		else if(weight.compareTo(n.weight) == 0)
 			return 0;
 		return -1;
 	}
-
-	@Override
-    public int compare(Node o1, Node o2) {
-	return Integer.compare(o1.getWeight(), 
-		o2.getWeight());
-    }
 }

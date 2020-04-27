@@ -4,14 +4,20 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.security.InvalidParameterException;
 import java.util.Scanner;
-
+/**
+ * This class is for test purposes only.
+ * This class tests the goodness of the algorithm in lab1.algorithm
+ *
+ */
 public class TestAlgorithm {
-
+	/**
+	 * 
+	 * @param algorithm the algorithm to test. Can be "kruskal", "naivekruskal" or "prim".
+	 */
 	public static final void test(String algorithm){
 		try {
 			File src = new File("src/lab1/test/results.txt");
 			Scanner scanSrc = new Scanner(src);
-			
 			File out;
 			if(algorithm == "prim")
 				out = new File("Prim.txt");
@@ -22,10 +28,8 @@ public class TestAlgorithm {
 			else{
 				scanSrc.close();
 				throw new InvalidParameterException("Wrong choice of algorithm");
-
 			}
-			Scanner outSrc = new Scanner(out);
-			
+			Scanner outSrc = new Scanner(out);			
 			int count = 1;
 			while (scanSrc.hasNextLine()) {
 				String data1 = scanSrc.nextLine();
@@ -43,7 +47,6 @@ public class TestAlgorithm {
 					count++;
 				}
 			}	
-				
 			System.out.println("Test passed.");
 			scanSrc.close();
 			outSrc.close();

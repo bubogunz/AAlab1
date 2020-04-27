@@ -9,7 +9,10 @@ import lab1.model.MinHeap;
 import lab1.model.Node;
 import lab1.model.SortNodesByWeight;
 import lab1.model.DisjointSet;
-
+/**
+ * The main class implementing Kruskal with union-find, Kruskal with a "naive"
+ * approach and Prim using MinHeap structure
+ */
 public final class MinimumSpanningTreeFinding {
 
 	/**
@@ -30,7 +33,7 @@ public final class MinimumSpanningTreeFinding {
 		});
 		start.setWeight(0);
 		
-		MinHeap<Node> Q = new MinHeap<Node>(G.getNodes().size(), new SortNodesByWeight());
+		MinHeap<Node> Q = new MinHeap<Node>(G.getNodes().size());
 		
 		//O(nlog n)
 		G.getNodes().stream().forEach(node -> Q.insert(node));

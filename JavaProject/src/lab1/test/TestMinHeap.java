@@ -16,16 +16,21 @@ import lab1.model.Edge;
 import lab1.model.Graph;
 import lab1.model.MinHeap;
 import lab1.model.SortEdgesByWeight;
-
+/**
+ * This class is for test purposes only.
+ * This class tests the goodness of the algorithms in lab1.model.MinHeap
+ *
+ */
 public class TestMinHeap {
-
+	/**
+	 * tests the goodness of remove procedure
+	 */
 	public static final void testRemove(){
 		try (Stream<Path> walk = Files.walk(Paths.get("mst_dataset"))) {
 			List<String> mst_dataset = walk.filter(Files::isRegularFile).map(x -> x.toString()).sorted()
 					.collect(Collectors.toList());  
 			for(int i = 0; i<56; i++){
 				String entryset = mst_dataset.get(i);
-//        		String entryset = "mst_dataset/input_random_40_2000.txt";
 				System.out.println("file: " + entryset );
         		try {
         			MinHeap<Edge> heap = new MinHeap<Edge>(new SortEdgesByWeight());
@@ -70,7 +75,9 @@ public class TestMinHeap {
 			}
     	}catch(IOException e) { }
 	}
-	
+	/**
+	 * tests the structure of lab1.model.MinHeap
+	 */
 	public static void testStructure() {
 		String entryset = "mst_dataset/input_random_68_100000.txt";
 		try {
@@ -95,7 +102,7 @@ public class TestMinHeap {
 
 			G.getEdges().stream().forEach(edge -> {
 				heap.insert(edge);//O(n*log n)
-				queue.offer(edge);//O(n*log n)
+				queue.offer(edge);
 			});
 
 			while(!heap.isEmpty()) {
