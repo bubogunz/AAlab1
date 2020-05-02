@@ -1,20 +1,46 @@
 \section{Introduzione}
+Il presente documento descrive le scelte architetturali ed implementative del primo elaborato di laboratorio del corso di Algoritmi Avanzati. Di seguito, verrà offerta una panoramica sul lavoro svolto dagli studenti Nicola Carlesso e Federico Brian, riguardante lo studio ed il confronto dei tre diversi algoritmi visti a lezione per il calcolo del \emph{Minimum Spanning Tree}\footnote{d'ora in poi MST} 
+\begin{itemize}
+	\item l'algoritmo di Prim (in seguito: \texttt{Prim}) che utilizza la struttura dati \emph{Heap} e che, quindi, assegna una complessità asintotica pari a \comp{m\log n};
+	\item l'algoritmo di Kruskal:
+	\begin{itemize}
+		\item con un'implementazione \emph{na\"ive}, chiamato \texttt{NaiveKruskal}, in cui si utilizza l'algoritmo \emph{Depht-First Search}\footnote{d'ora in poi DFS} per determinare la presenza di cicli all'interno dello stesso. La sua complessità asintotica, quindi, risulta essere \comp{mn};
+		\item con un'implementazione che utilizza la struttura dati \emph{Disjoint Set} per determinare la presenza o meno di ciclicità, chiamato \texttt{Kruskal}. Questo porta la sua complessità asintotica a \comp{m\log n}.
+	\end{itemize}
+\end{itemize}
+ Infine, verranno esposti ed adeguatamente discussi i risultati ottenuti.
 \subsection{Scelta del linguaggio di programmazione}
-Per lo svolgimento di tale assignment abbiamo scelto come linguaggio di programmazione Java 8, dato che è stato studiato da entrambi durante il percorso di laurea triennale. Inoltre, dato che Java lavora principalmente attraverso riferimenti, ha permesso lo sviluppo della struttura di grafi, vertici e lati più semplice.
+Per lo svolgimento di questo \emph{assignment} è stato scelto, come linguaggio di programmazione, Java nella sua versione 8. La scelta è derivata, principalmente, da due fattori: 
+\begin{itemize}
+	\item è stato sia studiato durante il percorso di laurea triennale, sia approfondito autonomamente da entrambi gli studenti;
+	\item in Java, è possibile utilizzare riferimenti ad oggetti piuttosto che oggetti stessi. Questo ha permesso un'implementazione degli algoritmi \quotes{accademica}, coerente con la complessità dichiarata a lezione e semanticamente vicina allo pseudocodice visto a lezione. 
+\end{itemize}
+Questo ultimo punto ha bisogno di essere sviluppato ulteriormente per risultare chiaro. In una prima implementazione degli algoritmi gli studenti, utilizzando l'approccio \textit{object-oriented} senza l'utilizzo di riferimenti, si sono accorti che il codice aggiungeva complessità, anche abbastanza pesanti, rispetto allo pseudocodice illustrato a lezione. Questo accadeva perché inizialmente sono stati utilizzati costruttori di copia profonda che, oltre a raddoppiare l'utilizzo di memoria, aggiungevano complessità di ordine del numero dei lati, del numero dei nodi oppure di entrambe le due. \eqcapo
+Ad esempio, in una prima implementazione dell'algoritmo \texttt{NaiveKruskal}, ad ogni iterazione del ciclo principale, veniva creato un nuovo grafo, copiando il grafo ottenuto aggiungendo iterativamente un lato alla volta. Il costruttore di copia profonda provvedeva a creare due nuove liste: una di nodi ed una di lati, entrambi aventi le medesime caratteristiche delle liste del grafo da cui sono stati copiati.\eqcapo
+ Questo ha portato gli studenti a riflettere sul significato dello pseudocodice dei tre diversi algoritmi e li ha guidati verso uno sviluppo di un codice che:
+ \begin{itemize}
+ 	\item mantenesse la caratteristica di facile leggibilità propria della programmazione ad oggetti;
+	\item fosse coerente con le complessità dichiarate a lezione.
+ \end{itemize}
+Questi obiettivi sono stati raggiunti agendo su riferimenti di oggetti piuttosto che su oggetti stessi.
 
 \subsection{Scelte implementative}
-Nell'implementazione abbiamo infatti cercato di creare meno oggetti possibile usando per lo più riferimenti. Questo ha permesso non solo un risparmio in termini di memoria, ma anche di prestazioni nel caso dell'algoritmo \textit{NaiveKruskal}, che in una sua prima implementazione eseguiva ad iterazione del ciclo \textit{for} una copia temporanea del grafo, più il lato preso in considerazione dall'algoritmo.
+Come specificato nel precedente paragrafo, nell'implementazione dei tre algoritmi si è cercato di creare meno oggetti possibile usando per lo più riferimenti. Questo ha permesso non solo un risparmio in termini di memoria ma anche di prestazioni: in una prima implementazione dell'algoritmo \texttt{NaiveKruskal} serviva più di un'ora per trovare il peso del MST dei grafi, ora invece sono necessari \quotes{solamente} 17 minuti circa\footnote{nella macchina di Federico Brian, le cui specifiche hardware saranno illustrate di seguito}.\eqcapo
 
-Nello specifico le varie componenti del modello presentano le seguenti caratteristiche:
+Nello specifico, le varie componenti del modello presentano le seguenti caratteristiche:
 \begin{itemize}
-	\item Graph: presenta una lista di nodi ed una lista di vertici ed una lista di lati. Nella costruzione del grafo non controlliamo se viene inserito un lato già presente, perciò un grafo può avere diversi pesi. Abbiamo fatto tale scelta perché la costruzione del grafo è più veloce dato che si evita un controllo di tutti i lati del grafo quando se ne aggiunge uno, riuscendo a mantenere comunque la correttezza degli algoritmi. Abbiamo implementato inoltre l'algoritmo per effettuare la DFS (Deep First Search), necessaria per gli algoritmi \textit{Kruskal} e \textit{Naive Kruskal};
-	\item Node: oltre ai campi \textit{ID} e \textit{Father}, sono presenti campi dati usati solo in alcuni algoritmi
+	\item \texttt{Graph}: presenta una lista di nodi ed una lista di lati. Nella costruzione del grafo non v'è alcun controllo sull'inserimento di un lato già inserito, oppure di uno che condivide gli stessi nodi di un altro lato ma con peso diverso, perciò un grafo può avere diversi lati che collegano gli stessi vertici, anche con diversi pesi. È stata fatta tale scelta perché la costruzione del grafo risulta più veloce poiché si evita un controllo su tutti i lati del grafo quando se ne aggiunge uno, riuscendo a mantenere comunque la correttezza degli algoritmi. È stato altresì implementato l'algoritmo per effettuare la DFS, necessaria per l'algoritmo \texttt{NaiveKruskal};
+	\item \texttt{Node}: oltre ai campi \texttt{ID} e \texttt{Father}, sono presenti campi dati usati solo in alcuni algoritmi:
 	\begin{itemize}
-		\item weight: dato usato esclusivamente per l'algoritmo \textit{Prim} ed indica il peso minimo del lato che collega il nodo al MST (Minimiìum Spanning Tree) creato fino a quel momento dall'algoritmo;
-		\item visited: dato usato solo dagli algoritmi \textit{Kruskal} e \textit{Naive Kruskal};
-		\item adjacentList: dato che non contiene i nodi adiacenti al nodo selezionato, come ci si potrebbe aspettare, ma contiene la lista dei lati che hanno come estremo il nodo selezionato. Abbiamo fatto tale scelta perché in tal modo, accedendo ad un elemento di \textit{adjacentList} abbiamo anche le informazioni dei lati, utile ad esempio per algoritmo \textit{Prim}, e se abbiamo bisogno del nodo adiacente al nodo selezionato è possibile chiamare \textup{Graph.opposite(edge, node)} in tempo costante.
+		\item \texttt{weight}: attributo usato esclusivamente dall'algoritmo \texttt{Prim} che indica il peso minimo del lato che collega il nodo al MST creato iterativamente fino a quel momento dall'algoritmo;
+		\item \texttt{visited}: attributo usato solo dagli algoritmi \texttt{Kruskal} e \texttt{Naive Kruskal};
+		\item \texttt{adjacencyList}: attributo che non contiene i nodi adiacenti al nodo selezionato, come ci si potrebbe aspettare, ma contiene la lista dei lati che hanno come estremo il nodo selezionato. È stata fatta tale scelta perché così, accedendo ad un elemento di \texttt{adjacencyList}, si reperiscono pure le informazioni dei lati. Questo fatto è utile, ad esempio, per l'algoritmo \texttt{Prim} e, in caso di bisogno, è possibile reperire il nodo opposto al nodo selezionato chiamando semplicemente la funzione \texttt{edge.getOpposite(node)} in tempo costante.
 	\end{itemize}
-	Per utilizzare propriamente la struttura dati \textit{Priority Queue} la classe modo implementa l'interfaccia \textit{Comparator} e confronta i nodi in base al loro dato \textit{weight}
-	\item Edge: oltre ai riferimenti dei nodi estremi, è presente il campo \textit{Label} per effettuare la DFS. 
+	\item \texttt{Edge}: oltre ai riferimenti dei nodi agli estremi del lato, è presente anche il campo \texttt{label}, utilizzato dall'algoritmo che utilizza DFS per determinare la presenza di ciclicità in un grafo. Il campo \texttt{label} può avere due valori possibili:
+	\begin{itemize}
+		\item \texttt{DISCOVERY\_EDGE} se il lato in questione è stato percorso per estendere il grafo con un nuovo nodo, mantenendo la proprietà di essere aciclicico;
+		\item \texttt{BACK\_EDGE} se, invece, si tratta di un lato non percorso anche se i nodi agli estremi risultano visitati. La presenza di un lato con tale etichetta è considerata la prova della ciclicità dello stesso.
+	\end{itemize}	
+	\item 
 \end{itemize} 
 
