@@ -10,7 +10,7 @@ public final class Node implements Comparable<Node>{
 	private Integer weight = null;
 	private Node father = null;
 	//list of references to adjacent edges 
-	private ArrayList<Edge> adjacentList = new ArrayList<Edge>();
+	private ArrayList<Edge> adjacencyList = new ArrayList<Edge>();
 	private Boolean visited = false;
 	/**
 	 * Constructor with only ID parameter
@@ -27,7 +27,7 @@ public final class Node implements Comparable<Node>{
 		this.ID = n.ID;
 		this.weight = n.weight;
 		this.father = n.father;
-		this.adjacentList = new ArrayList<Edge>();
+		this.adjacencyList = new ArrayList<Edge>();
 		this.visited = n.visited;
 	}
 	/**
@@ -70,16 +70,16 @@ public final class Node implements Comparable<Node>{
 		this.weight = weight;
 	}
 
-	public ArrayList<Edge> getAdjacentList() {
-		return adjacentList;
+	public ArrayList<Edge> getAdjacencyList() {
+		return adjacencyList;
 	}
 
-	public void setAdjacentList(ArrayList<Edge> adjacentList) {
-		this.adjacentList = adjacentList;
+	public void setAdjacencyList(ArrayList<Edge> adjacentList) {
+		this.adjacencyList = adjacentList;
 	}
 
-	public void updateAdjacentList(Edge edge) {
-		this.adjacentList.add(edge);
+	public void updateAdjacencyList(Edge edge) {
+		this.adjacencyList.add(edge);
 	}
 
 	public void setVisited(Boolean vis) {
@@ -106,7 +106,7 @@ public final class Node implements Comparable<Node>{
 		int result = 1;
 		result = prime * result + ((father == null) ? 0 : father.hashCode());
 		result = prime * result + ((ID == null) ? 0 : ID.hashCode());
-		result = prime * result + ((adjacentList == null) ? 0 : adjacentList.hashCode());
+		result = prime * result + ((adjacencyList == null) ? 0 : adjacencyList.hashCode());
 		result = prime * result + ((visited == null) ? 0 : visited.hashCode());
 		result = prime * result + ((weight == null) ? 0 : weight.hashCode());
 		return result;
@@ -133,17 +133,17 @@ public final class Node implements Comparable<Node>{
 				return false;
 		} else if (!ID.equals(other.ID))
 			return false;
-		if (adjacentList == null) {
-			if (other.adjacentList != null)
+		if (adjacencyList == null) {
+			if (other.adjacencyList != null)
 				return false;
 		} else {
-			if(adjacentList.size() != other.adjacentList.size())
+			if(adjacencyList.size() != other.adjacencyList.size())
 				return false;
 			int i = 0;
 			Boolean guard = false;
-			while(i < adjacentList.size() && !guard) {
-				if(!adjacentList.get(i)
-						.equals(other.getAdjacentList().get(i)))
+			while(i < adjacencyList.size() && !guard) {
+				if(!adjacencyList.get(i)
+						.equals(other.getAdjacencyList().get(i)))
 					guard = true;
 				++i;
 			}

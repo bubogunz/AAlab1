@@ -75,9 +75,9 @@ public final class Graph {
 			e.setNode2(tmp);
 		}
 		this.edges.add(e);
-		this.nodes.get(e.getNode1().getID()-1).updateAdjacentList(e);
+		this.nodes.get(e.getNode1().getID()-1).updateAdjacencyList(e);
 		if(!e.getNode1().getID().equals(e.getNode2().getID()))
-			this.nodes.get(e.getNode2().getID()-1).updateAdjacentList(e);
+			this.nodes.get(e.getNode2().getID()-1).updateAdjacencyList(e);
 	}
 	/**
 	 * check if the graph has a cycle
@@ -129,7 +129,7 @@ public final class Graph {
 	 */
 	private void DepthFirstSearch() {
 		for (Node node : this.nodes) 
-			if(!node.isVisited() && !node.getAdjacentList().isEmpty()){
+			if(!node.isVisited() && !node.getAdjacencyList().isEmpty()){
 				this.DepthFirstSearchCore(node);
 			}
 	}
@@ -139,7 +139,7 @@ public final class Graph {
 	 */
 	private void DepthFirstSearchCore(Node start){
 		start.setVisited(true);
-		for(Edge edge : start.getAdjacentList()){
+		for(Edge edge : start.getAdjacencyList()){
 			if(edge.getLabel() == null){
 				Node opposite = this.nodes.get(edge.getOpposite(start).getID() - 1);
 				if(!opposite.isVisited()){

@@ -43,7 +43,7 @@ public final class MinimumSpanningTreeFinding {
 			lightNode.setVisited(true);
 			cost += lightNode.getWeight();
 			
-			for(Edge edge : lightNode.getAdjacentList()){//O(m)
+			for(Edge edge : lightNode.getAdjacencyList()){//O(m)
 				Node opposite = edge.getOpposite(lightNode);
 				if(!opposite.isVisited()
 						&& edge.getWeight().compareTo(opposite.getWeight()) < 0) {
@@ -69,29 +69,24 @@ public final class MinimumSpanningTreeFinding {
 		ArrayList<Edge> edges = new ArrayList<Edge>(G.getEdges());
 		//O(log n)
 		Collections.sort(edges);
-
 		Graph A = new Graph();
 		//O(n)
 		A.buildNodes(G.getNodes().size());
-		
 		//O(mn)
 		for (Edge edge : edges) {//O(m)
-			
 			Node node1 = A.getNodeByID(edge.getNode1().getID());
 			Node node2 = A.getNodeByID(edge.getNode2().getID());
-			
 			Edge edgeToInsert = new Edge(node1, node2, edge.getWeight());
-
+			//O(1)
 			A.addEdge(edgeToInsert);
-
-			//O(n)
+			//O(n+m)
 			if(!A.hasCycle())
 				cost += edge.getWeight();
 			else{
 				A.getEdges().remove(A.getEdges().size() - 1);
-				node1.getAdjacentList().remove(node1.getAdjacentList().size() - 1);
+				node1.getAdjacencyList().remove(node1.getAdjacencyList().size() - 1);
 				if(!node1.getID().equals(node2.getID()))
-					node2.getAdjacentList().remove(node2.getAdjacentList().size() - 1);
+					node2.getAdjacencyList().remove(node2.getAdjacencyList().size() - 1);
 			}	
 		}
 		return cost;
@@ -125,8 +120,8 @@ public final class MinimumSpanningTreeFinding {
 				Node tmp2 = edgetmp.getNode2();
 
 				A.getEdges().add(edgetmp);
-				tmp1.updateAdjacentList(edgetmp);
-				tmp2.updateAdjacentList(edgetmp);
+				tmp1.updateAdjacencyList(edgetmp);
+				tmp2.updateAdjacencyList(edgetmp);
 
 				ds.union(edge.getNode1().getID() - 1, edge.getNode2().getID() - 1);//O(log n)
 
