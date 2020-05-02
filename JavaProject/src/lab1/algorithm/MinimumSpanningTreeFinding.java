@@ -7,7 +7,6 @@ import lab1.model.Edge;
 import lab1.model.Graph;
 import lab1.model.MinHeap;
 import lab1.model.Node;
-import lab1.model.SortNodesByWeight;
 import lab1.model.DisjointSet;
 /**
  * The main class implementing Kruskal with union-find, Kruskal with a "naive"

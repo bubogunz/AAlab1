@@ -25,7 +25,7 @@ public final class Graph {
 		edges = new ArrayList<Edge>(graph.edges.size());
 		buildNodes(graph.getNodes().size());
 		for(Edge edge : graph.getEdges())
-			addEdge(new Edge(getNodeByID(edge.getNode1().getID()), getNodeByID(edge.getNode2().getID()), edge.getWeight()));
+			addEdge(edge);
 	}
 	/**
 	 * 

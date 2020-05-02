@@ -65,9 +65,7 @@ public class Main {
 
 			System.out.println("Executing " + algorithm + " algorithm");
 			
-			for(int i=0; i<40; ++i) {
-				String entryset = mst_dataset.get(i);
-//			mst_dataset.stream().forEach(entryset -> {
+			mst_dataset.stream().forEach(entryset -> {
 				try {
 					System.out.println("Input: " + entryset);
 
@@ -114,8 +112,7 @@ public class Main {
 				} catch (FileNotFoundException e) {
 				} catch (IOException e) {
 				}
-//			 });
-			}
+			 });
 			fw.close();
 			System.out.println("Finish!");
 			test(algorithm);
