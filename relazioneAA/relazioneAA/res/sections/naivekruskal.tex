@@ -1,9 +1,9 @@
-\subsection{Naive Kruskal}
-Anche per questo algoritmo non abbiamo fatto variazioni rispetto all'implementazione studiata a lezione, l'algoritmo infatti risulta avere una complessità finale di $O(mn)$. Se si osserva con attenzione però la complessità di ogni operazione all'interno dell'algoritmo, è possibile notare che dentro il ciclo \textit{for} è presente la funzione \textit{Graph.hasCycle()} che controlla se nel grafo selezionato è presente un ciclo. Tale funzione ha complessità $O(m+n)$ e farebbe dunque pensare che dunque l'algoritmo, nel totale, abbia na complessità $O(m(m+n))$; siccome però tale funzione viene invoca solo per MST, sappiamo che $m=n-1$, dunque la complessità dell'algoritmo infine è proprio $O(mn)$
+\subsection{NaiveKruskal}
+Anche per questo algoritmo non abbiamo fatto variazioni rispetto all'implementazione studiata a lezione: la complessità finale, infatti, risulta essere \comp{mn}. D'altro canto, la funzione presente nel ciclo principale dell'algoritmo \texttt{graph.hasCycle()}, che controlla se nel grafo selezionato è presente un ciclo, ha complessità $O(m+n)$. Questo potrebbe portare a pensare che, dunque, l'algoritmo abbia una complessità \comp{m(m+n)}. Tale affermazione risulta essere falsa, in quanto la funzione viene invoca solo dal MST che sappiamo avere la seguente proprietà: $m=n-1$, con $m = |E|$ il numero dei lati ed $n = |V|$ il numero dei nodi. Dunque, la complessità dell'algoritmo risulta essere proprio \comp{mn}.
 
-\image{}{Naive_Kruskal}{Performance dell'algoritmo Naive Kruskal}
+\image{0.9}{Naive_Kruskal}{Performance dell'algoritmo Naive Kruskal}
 
-\textit{Naive Kruskal} è molto efficiente con grafi fino a 4k nodi, mentre già a 20k nodi inizia a mostrare rallentamenti, richiedendo un tempo di ~30 secondi, fino ad un tempo di ~30 minuti per grafi di 100k nodi.
+\texttt{NaiveKruskal} è molto efficiente con grafi fino a 4K nodi, mentre già a 20K nodi inizia a mostrare rallentamenti, richiedendo un tempo di $\sim$30 secondi, fino ad un tempo di $\sim$30 minuti per grafi di 100K nodi.
 Inoltre, già a partire dai grafi di dimensione di 200 nodi, raddoppiare la grandezza del grafo richiede un aumento del tempo di risoluzione di un fattore 4 o 5.
 
 \begin{table}[H]

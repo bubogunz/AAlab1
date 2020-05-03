@@ -115,12 +115,8 @@ public final class MinimumSpanningTreeFinding {
 				Edge edgetmp = new Edge(A.getNodeByID(edge.getNode1().getID()), 
 						A.getNodeByID(edge.getNode2().getID()), 
 							edge.getWeight());
-				Node tmp1 = edgetmp.getNode1();
-				Node tmp2 = edgetmp.getNode2();
 
-				A.getEdges().add(edgetmp);
-				tmp1.updateAdjacencyList(edgetmp);
-				tmp2.updateAdjacencyList(edgetmp);
+				A.addEdge(edgetmp);
 
 				ds.union(edge.getNode1().getID() - 1, 
 						edge.getNode2().getID() - 1);//O(log n)
