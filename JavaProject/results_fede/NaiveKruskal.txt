@@ -1,0 +1,272 @@
+File:mst_dataset/input_random_01_10.txt
+MST costs 29316
+Time elapsed: 5.60029E-4s
+
+File:mst_dataset/input_random_02_10.txt
+MST costs 2126
+Time elapsed: 8.5044E-5s
+
+File:mst_dataset/input_random_03_10.txt
+MST costs -44765
+Time elapsed: 1.09528E-4s
+
+File:mst_dataset/input_random_04_10.txt
+MST costs 20360
+Time elapsed: 7.0003E-5s
+
+File:mst_dataset/input_random_05_20.txt
+MST costs -32021
+Time elapsed: 2.17742E-4s
+
+File:mst_dataset/input_random_06_20.txt
+MST costs 18596
+Time elapsed: 2.05306E-4s
+
+File:mst_dataset/input_random_07_20.txt
+MST costs -42560
+Time elapsed: 2.51243E-4s
+
+File:mst_dataset/input_random_08_20.txt
+MST costs -37205
+Time elapsed: 1.40594E-4s
+
+File:mst_dataset/input_random_09_40.txt
+MST costs -122078
+Time elapsed: 5.30655E-4s
+
+File:mst_dataset/input_random_10_40.txt
+MST costs -37021
+Time elapsed: 4.25697E-4s
+
+File:mst_dataset/input_random_11_40.txt
+MST costs -79570
+Time elapsed: 2.4775E-4s
+
+File:mst_dataset/input_random_12_40.txt
+MST costs -79741
+Time elapsed: 1.96186E-4s
+
+File:mst_dataset/input_random_13_80.txt
+MST costs -139926
+Time elapsed: 7.37096E-4s
+
+File:mst_dataset/input_random_14_80.txt
+MST costs -211345
+Time elapsed: 8.02938E-4s
+
+File:mst_dataset/input_random_15_80.txt
+MST costs -110571
+Time elapsed: 6.63801E-4s
+
+File:mst_dataset/input_random_16_80.txt
+MST costs -233320
+Time elapsed: 7.5189E-4s
+
+File:mst_dataset/input_random_17_100.txt
+MST costs -141960
+Time elapsed: 0.001142012s
+
+File:mst_dataset/input_random_18_100.txt
+MST costs -271743
+Time elapsed: 0.001048694s
+
+File:mst_dataset/input_random_19_100.txt
+MST costs -288906
+Time elapsed: 0.00106485s
+
+File:mst_dataset/input_random_20_100.txt
+MST costs -232178
+Time elapsed: 0.001062188s
+
+File:mst_dataset/input_random_21_200.txt
+MST costs -510185
+Time elapsed: 0.003979332s
+
+File:mst_dataset/input_random_22_200.txt
+MST costs -515136
+Time elapsed: 0.00237902s
+
+File:mst_dataset/input_random_23_200.txt
+MST costs -444357
+Time elapsed: 0.002511942s
+
+File:mst_dataset/input_random_24_200.txt
+MST costs -393278
+Time elapsed: 0.002382755s
+
+File:mst_dataset/input_random_25_400.txt
+MST costs -1122919
+Time elapsed: 0.008904292s
+
+File:mst_dataset/input_random_26_400.txt
+MST costs -788168
+Time elapsed: 0.004054465s
+
+File:mst_dataset/input_random_27_400.txt
+MST costs -895704
+Time elapsed: 0.004215928s
+
+File:mst_dataset/input_random_28_400.txt
+MST costs -733645
+Time elapsed: 0.004001736s
+
+File:mst_dataset/input_random_29_800.txt
+MST costs -1541291
+Time elapsed: 0.017189365s
+
+File:mst_dataset/input_random_30_800.txt
+MST costs -1578294
+Time elapsed: 0.01754511s
+
+File:mst_dataset/input_random_31_800.txt
+MST costs -1675534
+Time elapsed: 0.017843113s
+
+File:mst_dataset/input_random_32_800.txt
+MST costs -1652119
+Time elapsed: 0.016382689s
+
+File:mst_dataset/input_random_33_1000.txt
+MST costs -2091110
+Time elapsed: 0.02666359s
+
+File:mst_dataset/input_random_34_1000.txt
+MST costs -1934208
+Time elapsed: 0.026889521s
+
+File:mst_dataset/input_random_35_1000.txt
+MST costs -2229428
+Time elapsed: 0.027331791s
+
+File:mst_dataset/input_random_36_1000.txt
+MST costs -2359192
+Time elapsed: 0.028779077s
+
+File:mst_dataset/input_random_37_2000.txt
+MST costs -4811598
+Time elapsed: 0.141345103s
+
+File:mst_dataset/input_random_38_2000.txt
+MST costs -4739387
+Time elapsed: 0.133419127s
+
+File:mst_dataset/input_random_39_2000.txt
+MST costs -4717250
+Time elapsed: 0.138542937s
+
+File:mst_dataset/input_random_40_2000.txt
+MST costs -4537267
+Time elapsed: 0.135108372s
+
+File:mst_dataset/input_random_41_4000.txt
+MST costs -8722212
+Time elapsed: 0.707476168s
+
+File:mst_dataset/input_random_42_4000.txt
+MST costs -9314968
+Time elapsed: 0.689289844s
+
+File:mst_dataset/input_random_43_4000.txt
+MST costs -9845767
+Time elapsed: 0.697196581s
+
+File:mst_dataset/input_random_44_4000.txt
+MST costs -8681447
+Time elapsed: 0.700634409s
+
+File:mst_dataset/input_random_45_8000.txt
+MST costs -17844628
+Time elapsed: 3.102323985s
+
+File:mst_dataset/input_random_46_8000.txt
+MST costs -18800966
+Time elapsed: 3.096770812s
+
+File:mst_dataset/input_random_47_8000.txt
+MST costs -18741474
+Time elapsed: 3.081142442s
+
+File:mst_dataset/input_random_48_8000.txt
+MST costs -18190442
+Time elapsed: 3.137697114s
+
+File:mst_dataset/input_random_49_10000.txt
+MST costs -22086729
+Time elapsed: 4.896234627s
+
+File:mst_dataset/input_random_50_10000.txt
+MST costs -22338561
+Time elapsed: 4.913670002s
+
+File:mst_dataset/input_random_51_10000.txt
+MST costs -22581384
+Time elapsed: 4.940323414s
+
+File:mst_dataset/input_random_52_10000.txt
+MST costs -22606313
+Time elapsed: 4.935964403s
+
+File:mst_dataset/input_random_53_20000.txt
+MST costs -45978687
+Time elapsed: 20.618231825s
+
+File:mst_dataset/input_random_54_20000.txt
+MST costs -45195405
+Time elapsed: 20.443345376s
+
+File:mst_dataset/input_random_55_20000.txt
+MST costs -47854708
+Time elapsed: 20.155556454s
+
+File:mst_dataset/input_random_56_20000.txt
+MST costs -46420311
+Time elapsed: 20.351124712s
+
+File:mst_dataset/input_random_57_40000.txt
+MST costs -92003321
+Time elapsed: 89.807105168s
+
+File:mst_dataset/input_random_58_40000.txt
+MST costs -94397064
+Time elapsed: 89.372149459s
+
+File:mst_dataset/input_random_59_40000.txt
+MST costs -88783643
+Time elapsed: 89.697158306s
+
+File:mst_dataset/input_random_60_40000.txt
+MST costs -93017025
+Time elapsed: 89.39603408s
+
+File:mst_dataset/input_random_61_80000.txt
+MST costs -186834082
+Time elapsed: 590.700453947s
+
+File:mst_dataset/input_random_62_80000.txt
+MST costs -185997521
+Time elapsed: 582.496115085s
+
+File:mst_dataset/input_random_63_80000.txt
+MST costs -182065015
+Time elapsed: 579.599313318s
+
+File:mst_dataset/input_random_64_80000.txt
+MST costs -180803872
+Time elapsed: 580.37768589s
+
+File:mst_dataset/input_random_65_100000.txt
+MST costs -230698391
+Time elapsed: 1007.230509086s
+
+File:mst_dataset/input_random_66_100000.txt
+MST costs -230168572
+Time elapsed: 1114.130091458s
+
+File:mst_dataset/input_random_67_100000.txt
+MST costs -231393935
+Time elapsed: 1109.768834091s
+
+File:mst_dataset/input_random_68_100000.txt
+MST costs -231011693
+Time elapsed: 1052.638226358s
+

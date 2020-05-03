@@ -110,7 +110,9 @@ public class Main {
 					fw.write(buffer);
 
 				} catch (FileNotFoundException e) {
+					System.out.println("Error! File not found.");
 				} catch (IOException e) {
+					System.out.println("Error! Cannot write the result into a .txt file.");
 				}
 			 });
 			fw.close();
@@ -118,7 +120,7 @@ public class Main {
 			test(algorithm);
     			
 		} catch (IOException e) {
-			e.printStackTrace();
+			System.out.println("Error! Folder mst_dataset not found.");
 		} 
 	}
 	

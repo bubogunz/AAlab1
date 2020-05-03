@@ -28,12 +28,12 @@ hs_err_pid*
 .vscode/
 
 # Results
-Prim.txt
-NaiveKruskal.txt
-Kruskal.txt
-table_prim.txt
-table_kruskal.txt
-table_naivekruskal.txt
+#Prim.txt
+#NaiveKruskal.txt
+#Kruskal.txt
+#table_prim.txt
+#table_kruskal.txt
+#table_naivekruskal.txt
 
 
 ## LaTeX ###

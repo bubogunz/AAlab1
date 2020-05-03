@@ -9,7 +9,6 @@ public class DisjointSet{
     private ArrayList<Integer> parents = new ArrayList<Integer>();
     private ArrayList<Integer> ranks = new ArrayList<Integer>();
 
-    //Creates n subset wuth one element di ascending order. O(n)
     /**
      * constructor that creates n subset wuth one element di ascending order.
      * complexity= O(n)

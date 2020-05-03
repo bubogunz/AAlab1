@@ -22,9 +22,6 @@ public final class MinimumSpanningTreeFinding {
 	 * This algorithm has complexity O(nlogn)
 	 */
 	public static final int Prim(Graph G, Node start) {
-		
-		int cost = 0;
-
 		//O(n)
 		G.getNodes().stream().forEach(node -> {
 			node.setWeight(Integer.MAX_VALUE);
@@ -37,6 +34,7 @@ public final class MinimumSpanningTreeFinding {
 		//O(nlog n)
 		G.getNodes().stream().forEach(node -> Q.insert(node));
 		
+		int cost = 0;
 		//O(n(3log n)) = O(nlog n)
 		while(!Q.isEmpty()) {//O(n)
 			Node lightNode = Q.extractMin();//O(log n)
@@ -64,18 +62,17 @@ public final class MinimumSpanningTreeFinding {
 	 * This algorithm has complexity O(mn)
 	 */
 	public static final int NaiveKruskal(Graph G) {
-		int cost = 0;
-
 		ArrayList<Edge> edges = new ArrayList<Edge>(G.getEdges());
 		//O(log n)
 		Collections.sort(edges);
 		Graph A = new Graph();
 		//O(n)
 		A.buildNodes(G.getNodes().size());
+		int cost = 0;
 		//O(mn)
 		for (Edge edge : edges) {//O(m)
-			Node node1 = A.getNodeByID(edge.getNode1().getID());
-			Node node2 = A.getNodeByID(edge.getNode2().getID());
+			Node node1 = A.getNodeByID(edge.getNode1().getID()); //O(1)
+			Node node2 = A.getNodeByID(edge.getNode2().getID()); //O(1)
 			Edge edgeToInsert = new Edge(node1, node2, edge.getWeight());
 			//O(1)
 			A.addEdge(edgeToInsert);
@@ -83,6 +80,9 @@ public final class MinimumSpanningTreeFinding {
 			if(!A.hasCycle())
 				cost += edge.getWeight();
 			else{
+				/*removes the edge that caused a cycle from the graph
+				 * and updates the nodes' adjacency lists 
+				 */
 				A.getEdges().remove(A.getEdges().size() - 1);
 				node1.getAdjacencyList().remove(node1.getAdjacencyList().size() - 1);
 				if(!node1.getID().equals(node2.getID()))
@@ -99,23 +99,22 @@ public final class MinimumSpanningTreeFinding {
 	 * This algorithm has complexity O(mn)
 	 */
 	public static final int Kruskal(Graph G){
-		int cost = 0;
-
 		ArrayList<Edge> edges = new ArrayList<Edge>(G.getEdges());
 		//O(log n)
-		Collections.sort(edges);
-		
+		Collections.sort(edges);		
 		Graph A = new Graph();
 		//O(n)
 		A.buildNodes(G.getNodes().size());
-
 		//O(n)
 		DisjointSet ds = new DisjointSet(A.getNodes().size());
-		
+		int cost = 0;
 		//O(mlog n)
 		for(Edge edge : edges){//O(m)
-			if(ds.find(edge.getNode1().getID() - 1) != ds.find(edge.getNode2().getID() - 1)){//O(log n)
-				Edge edgetmp = new Edge(A.getNodeByID(edge.getNode1().getID()), A.getNodeByID(edge.getNode2().getID()), edge.getWeight());
+			if(ds.find(edge.getNode1().getID() - 1) != 
+					ds.find(edge.getNode2().getID() - 1)){//O(log n)
+				Edge edgetmp = new Edge(A.getNodeByID(edge.getNode1().getID()), 
+						A.getNodeByID(edge.getNode2().getID()), 
+							edge.getWeight());
 				Node tmp1 = edgetmp.getNode1();
 				Node tmp2 = edgetmp.getNode2();
 
@@ -123,7 +122,8 @@ public final class MinimumSpanningTreeFinding {
 				tmp1.updateAdjacencyList(edgetmp);
 				tmp2.updateAdjacencyList(edgetmp);
 
-				ds.union(edge.getNode1().getID() - 1, edge.getNode2().getID() - 1);//O(log n)
+				ds.union(edge.getNode1().getID() - 1, 
+						edge.getNode2().getID() - 1);//O(log n)
 
 				cost += edge.getWeight();
 			}

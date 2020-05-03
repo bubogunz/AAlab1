@@ -9,11 +9,11 @@ Il presente documento descrive le scelte architetturali ed implementative del pr
 	\end{itemize}
 \end{itemize}
  Infine, verranno esposti ed adeguatamente discussi i risultati ottenuti.
-\subsection{Scelta del linguaggio di programmazione}
+\section{Scelta del linguaggio di programmazione}
 Per lo svolgimento di questo \emph{assignment} è stato scelto, come linguaggio di programmazione, Java nella sua versione 8. La scelta è derivata, principalmente, da due fattori: 
 \begin{itemize}
 	\item è stato sia studiato durante il percorso di laurea triennale, sia approfondito autonomamente da entrambi gli studenti;
-	\item in Java, è possibile utilizzare riferimenti ad oggetti piuttosto che oggetti stessi. Questo ha permesso un'implementazione degli algoritmi \quotes{accademica}, coerente con la complessità dichiarata a lezione e semanticamente vicina allo pseudocodice visto a lezione. 
+	\item in Java, è possibile utilizzare riferimenti ad oggetti piuttosto che oggetti stessi. Questo ha permesso un'implementazione degli algoritmi che si potrebbe definire \quotes{accademica}, perché coerente con la complessità dichiarata e semanticamente vicina allo pseudocodice visto a lezione. 
 \end{itemize}
 Questo ultimo punto ha bisogno di essere sviluppato ulteriormente per risultare chiaro. In una prima implementazione degli algoritmi gli studenti, utilizzando l'approccio \textit{object-oriented} senza l'utilizzo di riferimenti, si sono accorti che il codice aggiungeva complessità, anche abbastanza pesanti, rispetto allo pseudocodice illustrato a lezione. Questo accadeva perché inizialmente sono stati utilizzati costruttori di copia profonda che, oltre a raddoppiare l'utilizzo di memoria, aggiungevano complessità di ordine del numero dei lati, del numero dei nodi oppure di entrambe le due. \eqcapo
 Ad esempio, in una prima implementazione dell'algoritmo \texttt{NaiveKruskal}, ad ogni iterazione del ciclo principale, veniva creato un nuovo grafo, copiando il grafo ottenuto aggiungendo iterativamente un lato alla volta. Il costruttore di copia profonda provvedeva a creare due nuove liste: una di nodi ed una di lati, entrambi aventi le medesime caratteristiche delle liste del grafo da cui sono stati copiati.\eqcapo
@@ -24,13 +24,15 @@ Ad esempio, in una prima implementazione dell'algoritmo \texttt{NaiveKruskal}, a
  \end{itemize}
 Questi obiettivi sono stati raggiunti agendo su riferimenti di oggetti piuttosto che su oggetti stessi.
 
-\subsection{Scelte implementative}
+\section{Scelte implementative}
 Come specificato nel precedente paragrafo, nell'implementazione dei tre algoritmi si è cercato di creare meno oggetti possibile usando per lo più riferimenti. Questo ha permesso non solo un risparmio in termini di memoria ma anche di prestazioni: in una prima implementazione dell'algoritmo \texttt{NaiveKruskal} serviva più di un'ora per trovare il peso del MST dei grafi, ora invece sono necessari \quotes{solamente} 17 minuti circa\footnote{nella macchina di Federico Brian, le cui specifiche hardware saranno illustrate di seguito}.\eqcapo
 
-Nello specifico, le varie componenti del modello presentano le seguenti caratteristiche:
+Benché il codice sia stato adeguatamente commentato\footnote{come si può vedere dal \texttt{Javadoc} automaticamente generato e accessibile all'interno della cartella \texttt{JavaLab1/doc/}, aprendo il file \texttt{index.html} con il browser preferito}, di seguito è riportata una \emph{summa} delle caratteristiche di ogni classe implementata che non compaiono nella documentazione, ripartita per \texttt{package}.
+
+\subsection{Modello}
+Le componenti del modello, vale a dire le classi presenti all'interno del \texttt{package} chiamato \texttt{lab1.model}, comprendono tutte le strutture dati utilizzate nella risoluzione dei tre problemi assegnati. 
 \begin{itemize}
-	\item \texttt{Graph}: presenta una lista di nodi ed una lista di lati. Nella costruzione del grafo non v'è alcun controllo sull'inserimento di un lato già inserito, oppure di uno che condivide gli stessi nodi di un altro lato ma con peso diverso, perciò un grafo può avere diversi lati che collegano gli stessi vertici, anche con diversi pesi. È stata fatta tale scelta perché la costruzione del grafo risulta più veloce poiché si evita un controllo su tutti i lati del grafo quando se ne aggiunge uno, riuscendo a mantenere comunque la correttezza degli algoritmi. È stato altresì implementato l'algoritmo per effettuare la DFS, necessaria per l'algoritmo \texttt{NaiveKruskal};
-	\item \texttt{Node}: oltre ai campi \texttt{ID} e \texttt{Father}, sono presenti campi dati usati solo in alcuni algoritmi:
+\item \texttt{Node}: oltre ai campi \texttt{ID} e \texttt{Father}, sono presenti campi dati usati solo in alcuni algoritmi:
 	\begin{itemize}
 		\item \texttt{weight}: attributo usato esclusivamente dall'algoritmo \texttt{Prim} che indica il peso minimo del lato che collega il nodo al MST creato iterativamente fino a quel momento dall'algoritmo;
 		\item \texttt{visited}: attributo usato solo dagli algoritmi \texttt{Kruskal} e \texttt{Naive Kruskal};
@@ -40,7 +42,75 @@ Nello specifico, le varie componenti del modello presentano le seguenti caratter
 	\begin{itemize}
 		\item \texttt{DISCOVERY\_EDGE} se il lato in questione è stato percorso per estendere il grafo con un nuovo nodo, mantenendo la proprietà di essere aciclicico;
 		\item \texttt{BACK\_EDGE} se, invece, si tratta di un lato non percorso anche se i nodi agli estremi risultano visitati. La presenza di un lato con tale etichetta è considerata la prova della ciclicità dello stesso.
-	\end{itemize}	
-	\item 
+		\end{itemize}
+	\item \texttt{Graph}: presenta una lista di nodi ed una lista di lati. Nella costruzione del grafo non v'è alcun controllo sull'inserimento di un lato già inserito, oppure di uno che condivide gli stessi nodi di un altro lato ma con peso diverso, perciò un grafo può avere diversi lati che collegano gli stessi vertici, anche con diversi pesi. È stata fatta tale scelta perché la costruzione del grafo risulta più veloce:  si evita un controllo su tutti i lati del grafo quando se ne aggiunge uno, riuscendo a mantenere comunque la correttezza degli algoritmi. È stato altresì implementato l'algoritmo per effettuare la DFS, necessaria per l'algoritmo \texttt{NaiveKruskal};	
+	\item \texttt{MinHeap}: questa è una classe \emph{Generics} che gestisce un \quotes{minheap}, cioè un albero binario con la seguente caratteristica: il nodo radice di un sotto-albero qualsiasi contiene un dato che, secondo una certa relazione d'ordine, è minore o uguale rispetto al suo sotto-albero destro e sinistro. Questa relazione d'ordine può essere definita, generalmente, in due modi:
+	\begin{enumerate}
+		\item staticamente, utilizzando l'\emph{override} del metodo \texttt{compareTo}: una volta definito, non è più possibile modificarlo senza apporre modifiche al codice precedentemente scritto;
+		\item dinamicamente, definendo un oggetto derivato dalla classe \texttt{Comparator<T>} e avendo la possibilità di intercambiare il criterio di ordinamento del minheap senza dover modificare la il metodo \texttt{compareTo} della classe-parametro \texttt{T} di \texttt{MinHeap}.
+	\end{enumerate}
+	Gli studenti hanno deciso di implementare una relazione d'ordine statica, sovrascrivendo cioè il metodo \texttt{compareTo}, poiché la relazione che ordina gli oggetti all'interno del minheap non cambia. L'unico criterio che è usato per ordinare gli elementi è, infatti, il peso dei nodi o dei lati. Gli stessi, per motivazioni di completezza, hanno ritenuto opportuno implementare anche la modalità dinamica di ordinamento della classe \texttt{MinHeap}. Quest'ultima sceglierà l'ordinamento dinamico se, al momento dell'istanziazione, è stato fornito al costruttore un \texttt{Comparator<T>} adeguato, altrimenti sceglierà l'ordinamento statico. \eqcapo
+	Al mero scopo didattico, sono state create le classi \texttt{SortNodesByWeight} e \texttt{SortEdgesByWeight}, contrassegnate con l'\emph{annotation} \texttt{@deprecated} ed utilizzate per le classi di test.\eqcapo
+	\item \texttt{DisjointSet}: questa struttura dati gestisce partizioni di oggetti, rappresentati con un numero intero che li identifica. Ogni oggetto può stare in una sola delle partizioni degli insiemi disgiunti presenti. La struttura dati è utilizzata all'interno dell'algoritmo \texttt{Kruskal} e, come si potrà vedere, porta notevoli vantaggi dal punto di vista del \emph{computational time}, seppur avendo la stessa complessità asintotica di \texttt{Prim}. Questo argomento sarà trattato nella sezione \ref{conc}, dedicata alle conclusioni.
 \end{itemize} 
 
+\subsection{Algoritmi}
+Il package \texttt{lab1.algorithm} contiene un'unica classe, \texttt{MinimumSpanningTreeFinding}, che permette di trovare i MST utilizzando gli algoritmi \texttt{Prim}, \texttt{NaiveKruskal} e \texttt{Kruskal}.
+\begin{itemize}
+	\item \texttt{Prim}: l'algoritmo risulta essere molto leggibile, da come si può evincere dal seguente \emph{snippet} che riporta il codice del ciclo principale:
+	\image{0.79}{prim}{Ciclo principale dell'algoritmo \texttt{Prim}}
+	\item \texttt{NaiveKruskal}: il codice del ciclo principale dell'algoritmo è così formulato:
+	\image{0.8}{naivekruskal}{Ciclo principale dell'algoritmo di \texttt{NaiveKruskal}}
+	\item \texttt{Kruskal}: il codice del ciclo principale dell'algoritmo è così formulato:
+	\image{0.8}{kruskall}{Ciclo principale dell'algoritmo \texttt{Kruskal}}
+\end{itemize}
+
+\subsection{Main}
+Il package \texttt{lab1.main} contiene la classe \texttt{Main}, responsabile dell'esecuzione degli algoritmi. All'interno vi sono tre funzioni:
+\begin{itemize}
+	\item la funzione \texttt{Main} che fa partire il calcolo oppure il test del costo del MST secondo l'algoritmo desiderato;
+	\item la funzione \texttt{compute} che si occupa di calcolare il costo del MST di ogni grafo presente nel dataset, di salvarlo in un file di testo e di proseguire al test dello stesso.\\
+	Per utilizzare/testare i tre diversi algoritmi, inserire all'interno della funzione \texttt{compute} una tra le seguenti stringhe:
+	\begin{itemize}
+		\item \texttt{prim} per l'algoritmo di Prim con heap;
+		\item \texttt{naivekruskal} per l'algoritmo di Kruskal con la sua implementazione \emph{na\"ive};
+		\item \texttt{kruskal} per l'algoritmo di Kruskal con la sua implementazione con disjoint set.
+	\end{itemize}
+    \item la funzione \texttt{test}, chiamata passando il nome dell'algoritmo desiderato con le stesse \emph{keyword} presentate qui sopra, prosegue con il test sui cost dei MST riportati nel file di testo dalla funzione \texttt{compute}.
+\end{itemize}
+
+\subsection{Test}
+Il package \texttt{lab1.test} contiene due classi:
+\begin{itemize}
+	\item \texttt{TestAlgorithm} il cui scopo è di testare la bontà delle soluzioni ritornate con i tre algoritmi sviluppati;
+	\item \texttt{TestMinHeap} che è servita per testare il funzionamento della classe \texttt{MinHeap} mettendola a confronto con la struttura dati \texttt{PriorityQueue}.
+\end{itemize}
+È bene sottolineare il fatto che i test fanno uso di \texttt{assert}, che occorre abilitare con l'opzione \texttt{-ea}.
+
+\section{Specifiche Hardware dei calcolatori utilizzati}
+Dato il considerevole divario di prestazioni ottenute dalle due diverse macchine, gli studenti hanno ritenuto opportuno riportare i differenti risultati ottenuti (anche se asintoticamente medesimi).
+\begin{center}
+	\begin{longtable}{ r | c | c } %\hline
+	\multicolumn{1}{c|}{\textbf{Caratteristica}} &\textbf{PC di Nicola}&\textbf{PC di Federico}\\ \hline 
+	\endfirsthead
+	\rowcolor{white}
+	\multicolumn{3}{|r|}{\textit{-- continuazione da pagina precedente}} \\ \hline 
+	\endhead
+	\hline
+	\rowcolor{white} 
+	\multicolumn{3}{|r|}{{\textit{-- continua a pagina successiva}}} \\
+	\endfoot
+	\endlastfoot
+	%table input should begin here
+	Nome processore & & Intel i7-8750H \\
+	Numero core & & 6\\
+	Numero thread & & 12 \\
+	Range velocità di clock [GHz] & & 2.20 - 4.10\\
+	Dimensione cache L1 [KiB] & & 384\\
+	Dimensione cache L2 [MiB] & & 1.5\\
+	Dimensione cache L3 [MiB] & & 9\\
+	Dimensione RAM [GiB] & & 31.2\\  \hline
+	
+	\caption{Specifiche dei calcolatori utilizzati.\\ Fonte: \url{http://intel.com}.}
+	\end{longtable}
+\end{center} 
