@@ -1,278 +1,86 @@
 import numpy as np
 import os
 
+def write_data_cost(file_n, file_f):
+    data_n = []
+    data_f = []
+    cost = []
+    for line_n, line_f in zip(file_n, file_f):
+        list_line_n = line_n.split(" ")
+        list_line_f = line_f.split(" ")
+        if list_line_n[0] == "Time":
+            data_n.append(float(list_line_n[2]))
+        if list_line_f[0] == "Time":
+            data_f.append(float(list_line_f[2]))
+        if list_line_n[0] == "MST":
+            cost.append(int(list_line_n[2]))
+    return np.array(data_n), np.array(data_f), np.array(cost) 
+
+def write_table(file, cost, data_n, data_f, name):
+    file.write("\\begin{center}\n"
+    "\\begin{longtable}{|c|c|c|c|c|}\n"
+    "\\caption{Risultati dell'algoritmo di " f"{name}" "} \\\\\n"
+    "\\hline\n"
+    "\\textbf{N.} & \\textbf{Graph Size (nodes)} & \\textbf{Time Federico (s)} & \\textbf{Time Nicola (s)} & \\textbf{MST cost} \\\\\n"
+    "\\hline\n"
+    "\\endfirsthead\n"
+    "\\multicolumn{5}{c}%\n"
+    "{\\tablename\\ \\thetable\\ -- \\textit{Continua dalla pagina precedente}} \\\\\n"
+    "\\hline\n"
+    "\\textbf{N.} & \\textbf{Graph Size (nodes)} & \\textbf{Time Federico (s)} & \\textbf{Time Nicola (s)} & \\textbf{MST cost} \\\\\n"
+    "\\hline\n"
+    "\\endhead\n"
+    "\\hline \\multicolumn{5}{r}{\\textit{Continua nella pagina seguente}} \\\\\n"
+    "\\endfoot\n"
+    "\\hline\n"
+    "\\endlastfoot\n")
+
+    count = 0
+    size = ["10", "20", "40", "80", "100", "200", "400", "800", "1k", "2k", "4k", "8k", "10k", "20k", "40k", "80k", "100k"]
+    for i in range(len(size)):
+        for j in range(4):
+            file.write(f"{count+1} & {size[i]} & {data_f[count]} & {data_f[count]} & {cost[count]}\\\\\n")
+            count = count + 1
+        if(i is not len(size) - 1):
+            file.write("\\hline\n")
+
+    file.write("\\end{longtable}\n"
+    "\\end{center}\n")
+
 my_path = os.path.abspath(os.path.dirname(__file__))
-path = os.path.join(my_path, "JavaProject/Prim.txt")
-prim = open(path, "r")
-path = os.path.join(my_path, "JavaProject/NaiveKruskal.txt")
-naivekruskal = open(path, "r")
-path = os.path.join(my_path, "JavaProject/Kruskal.txt")
-kruskal = open(path, "r")
+path = os.path.join(my_path, "JavaProject/results/Prim_N.txt")
+prim_n = open(path, "r")
+path = os.path.join(my_path, "JavaProject/results/NaiveKruskal_N.txt")
+naivekruskal_n = open(path, "r")
+path = os.path.join(my_path, "JavaProject/results/Kruskal_N.txt")
+kruskal_n = open(path, "r")
 
-if prim.mode == "r" and naivekruskal.mode == "r" and kruskal.mode == "r":
-    data_prim = []
-    data_naivekruskal = []
-    data_kruskal = []
+path = os.path.join(my_path, "JavaProject/results/Prim_F.txt")
+prim_f = open(path, "r")
+path = os.path.join(my_path, "JavaProject/results/NaiveKruskal_F.txt")
+naivekruskal_f = open(path, "r")
+path = os.path.join(my_path, "JavaProject/results/Kruskal_F.txt")
+kruskal_f = open(path, "r")
 
-    cost_prim = []
-    cost_kruskal = []
-    cost_naivekruskal = []
+if prim_n.mode == "r" and naivekruskal_n.mode == "r" and kruskal_n.mode == "r" and prim_n.mode == "r" and \
+    naivekruskal_n.mode == "r" and kruskal_n.mode == "r":
+    data_prim_n, data_prim_f, cost_prim = write_data_cost(prim_n, prim_f)
+    data_naivekruskal_n, data_naivekruskal_f, cost_naivekruskal = write_data_cost(naivekruskal_n, naivekruskal_f)
+    data_kruskal_n, data_kruskal_f, cost_kruskal = write_data_cost(kruskal_n, kruskal_f)
 
-    for line in prim:
-        list_line = line.split(" ")
-        if list_line[0] == "Time":
-            data_prim.append(float(list_line[2]))
-        if list_line[0] == "MST":
-            cost_prim.append(int(list_line[2]))
+    w_prim = open("table_prim.txt", "w")
+    w_kruskal = open("table_kruskal.txt", "w")
+    w_naivekruskal = open("table_naivekruskal.txt", "w")
 
-    for line in naivekruskal:
-        list_line = line.split(" ")
-        if list_line[0] == "Time":
-            data_naivekruskal.append(float(list_line[2]))
-        if list_line[0] == "MST":
-            cost_naivekruskal.append(int(list_line[2]))
+    write_table(w_prim, cost_prim, data_prim_n, data_prim_f, "Prim")
+    write_table(w_naivekruskal, cost_naivekruskal, data_naivekruskal_n, data_naivekruskal_f, "Naive Kruskal")
+    write_table(w_kruskal, cost_kruskal, data_kruskal_n, data_kruskal_f, "Kruskal")
 
-    for line in kruskal:
-        list_line = line.split(" ")
-        if list_line[0] == "Time":
-            data_kruskal.append(float(list_line[2]))
-        if list_line[0] == "MST":
-            cost_kruskal.append(int(list_line[2]))
+prim_n.close()
+naivekruskal_n.close()
+kruskal_n.close()
 
-    w_prim = open("table_prim", "w")
-    w_kruskal = open("table_kruskal", "w")
-    w_naivekruskal = open("table_naivekruskal", "w")
-
-    w_prim.write("\\begin{table}[H]\n\centering\n\\begin{tabular}{|c|c|c|c|}\n")
-    w_prim.write("\\hline\n\\textbf{N.} & \\textbf{Graph Size} & \\textbf{Time (s)} & \\textbf{MST cost}\\\\ \n")
-
-    w_kruskal.write("\\begin{table}[H]\n\centering\n\\begin{tabular}{|c|c|c|c|}\n")
-    w_kruskal.write("\\hline\n\\textbf{N.} & \\textbf{Graph Size} & \\textbf{Time (s)} & \\textbf{MST cost}\\\\ \n")
-
-    w_naivekruskal.write("\\begin{table}[H]\n\centering\n\\begin{tabular}{|c|c|c|c|}\n")
-    w_naivekruskal.write("\\hline\n\\textbf{N.} & \\textbf{Graph Size} & \\textbf{Time (s)} & \\textbf{MST cost}\\\\ \n")
-
-    count = 0
-    for i in range(4):
-        w_prim.write(f"\\hline\n{count+1} & 10 & {data_prim[count]} & {cost_prim[count]}\\\\\n")
-        count = count + 1
-    w_prim.write("\\hline") 
-    for i in range(4):
-        w_prim.write(f"\\hline\n{count+1} & 20 & {data_prim[count]} & {cost_prim[count]}\\\\\n")
-        count = count + 1
-    w_prim.write("\\hline")
-    for i in range(4):
-        w_prim.write(f"\\hline\n{count+1} & 40 & {data_prim[count]} & {cost_prim[count]}\\\\\n")
-        count = count + 1
-    w_prim.write("\\hline")
-    for i in range(4):
-        w_prim.write(f"\\hline\n{count+1} & 80 & {data_prim[count]} & {cost_prim[count]}\\\\\n")
-        count = count + 1
-    w_prim.write("\\hline")
-    for i in range(4):
-        w_prim.write(f"\\hline\n{count+1} & 100 & {data_prim[count]} & {cost_prim[count]}\\\\\n")
-        count = count + 1
-    w_prim.write("\\hline")
-    for i in range(4):
-        w_prim.write(f"\\hline\n{count+1} & 200 & {data_prim[count]} & {cost_prim[count]}\\\\\n")
-        count = count + 1
-    w_prim.write("\\hline")
-    for i in range(4):
-        w_prim.write(f"\\hline\n{count+1} & 400 & {data_prim[count]} & {cost_prim[count]}\\\\\n")
-        count = count + 1
-    w_prim.write("\\hline")
-    for i in range(4):
-        w_prim.write(f"\\hline\n{count+1} & 800 & {data_prim[count]} & {cost_prim[count]}\\\\\n")
-        count = count + 1
-    w_prim.write("\\hline")
-    for i in range(4):
-        w_prim.write(f"\\hline\n{count+1} & 1k & {data_prim[count]} & {cost_prim[count]}\\\\\n")
-        count = count + 1
-    w_prim.write("\\hline")
-    for i in range(4):
-        w_prim.write(f"\\hline\n{count+1} & 2k & {data_prim[count]} & {cost_prim[count]}\\\\\n")
-        count = count + 1
-    w_prim.write("\\hline")
-    for i in range(4):
-        w_prim.write(f"\\hline\n{count+1} & 4k & {data_prim[count]} & {cost_prim[count]}\\\\\n")
-        count = count + 1
-    w_prim.write("\\hline")
-    for i in range(4):
-        w_prim.write(f"\\hline\n{count+1} & 8k & {data_prim[count]} & {cost_prim[count]}\\\\\n")
-        count = count + 1
-    w_prim.write("\\hline")
-    for i in range(4):
-        w_prim.write(f"\\hline\n{count+1} & 10k & {data_prim[count]} & {cost_prim[count]}\\\\\n")
-        count = count + 1
-    w_prim.write("\\hline")
-    for i in range(4):
-        w_prim.write(f"\\hline\n{count+1} & 20k & {data_prim[count]} & {cost_prim[count]}\\\\\n")
-        count = count + 1
-    w_prim.write("\\hline")
-    for i in range(4):
-        w_prim.write(f"\\hline\n{count+1} & 40k & {data_prim[count]} & {cost_prim[count]}\\\\\n")
-        count = count + 1
-    w_prim.write("\\hline")
-    for i in range(4):
-        w_prim.write(f"\\hline\n{count+1} & 80k & {data_prim[count]} & {cost_prim[count]}\\\\\n")
-        count = count + 1
-    w_prim.write("\\hline")
-    for i in range(4):
-        w_prim.write(f"\\hline\n{count+1} & 100k & {data_prim[count]} & {cost_prim[count]}\\\\\n")
-        count = count + 1
-
-    w_prim.write("\\hline\n\\end{tabular}\n\\end{table}")
-
-
-    count = 0
-    for i in range(4):
-        w_kruskal.write(f"\\hline\n{count+1} & 10 & {data_kruskal[count]} & {cost_kruskal[count]}\\\\\n")
-        count = count + 1
-    w_kruskal.write("\\hline")    
-    for i in range(4):
-        w_kruskal.write(f"\\hline\n{count+1} & 20 & {data_kruskal[count]} & {cost_kruskal[count]}\\\\\n")
-        count = count + 1
-    w_kruskal.write("\\hline")   
-    for i in range(4):
-        w_kruskal.write(f"\\hline\n{count+1} & 40 & {data_kruskal[count]} & {cost_kruskal[count]}\\\\\n")
-        count = count + 1
-    w_kruskal.write("\\hline")
-    for i in range(4):
-        w_kruskal.write(f"\\hline\n{count+1} & 80 & {data_kruskal[count]} & {cost_kruskal[count]}\\\\\n")
-        count = count + 1
-    w_kruskal.write("\\hline")
-    for i in range(4):
-        w_kruskal.write(f"\\hline\n{count+1} & 100 & {data_kruskal[count]} & {cost_kruskal[count]}\\\\\n")
-        count = count + 1
-    w_kruskal.write("\\hline")
-    for i in range(4):
-        w_kruskal.write(f"\\hline\n{count+1} & 200 & {data_kruskal[count]} & {cost_kruskal[count]}\\\\\n")
-        count = count + 1
-    w_kruskal.write("\\hline")
-    for i in range(4):
-        w_kruskal.write(f"\\hline\n{count+1} & 400 & {data_kruskal[count]} & {cost_kruskal[count]}\\\\\n")
-        count = count + 1
-    w_kruskal.write("\\hline")
-    for i in range(4):
-        w_kruskal.write(f"\\hline\n{count+1} & 800 & {data_kruskal[count]} & {cost_kruskal[count]}\\\\\n")
-        count = count + 1
-    w_kruskal.write("\\hline")
-    for i in range(4):
-        w_kruskal.write(f"\\hline\n{count+1} & 1k & {data_kruskal[count]} & {cost_kruskal[count]}\\\\\n")
-        count = count + 1
-    w_kruskal.write("\\hline")
-    for i in range(4):
-        w_kruskal.write(f"\\hline\n{count+1} & 2k & {data_kruskal[count]} & {cost_kruskal[count]}\\\\\n")
-        count = count + 1
-    w_kruskal.write("\\hline")
-    for i in range(4):
-        w_kruskal.write(f"\\hline\n{count+1} & 4k & {data_kruskal[count]} & {cost_kruskal[count]}\\\\\n")
-        count = count + 1
-    w_kruskal.write("\\hline")
-    for i in range(4):
-        w_kruskal.write(f"\\hline\n{count+1} & 8k & {data_kruskal[count]} & {cost_kruskal[count]}\\\\\n")
-        count = count + 1
-    w_kruskal.write("\\hline")
-    for i in range(4):
-        w_kruskal.write(f"\\hline\n{count+1} & 10k & {data_kruskal[count]} & {cost_kruskal[count]}\\\\\n")
-        count = count + 1
-    w_kruskal.write("\\hline")
-    for i in range(4):
-        w_kruskal.write(f"\\hline\n{count+1} & 20k & {data_kruskal[count]} & {cost_kruskal[count]}\\\\\n")
-        count = count + 1
-    w_kruskal.write("\\hline")
-    for i in range(4):
-        w_kruskal.write(f"\\hline\n{count+1} & 40k & {data_kruskal[count]} & {cost_kruskal[count]}\\\\\n")
-        count = count + 1
-    w_kruskal.write("\\hline")
-    for i in range(4):
-        w_kruskal.write(f"\\hline\n{count+1} & 80k & {data_kruskal[count]} & {cost_kruskal[count]}\\\\\n")
-        count = count + 1
-    w_kruskal.write("\\hline")
-    for i in range(4):
-        w_kruskal.write(f"\\hline\n{count+1} & 100k & {data_kruskal[count]} & {cost_kruskal[count]}\\\\\n")
-        count = count + 1
-
-    w_kruskal.write("\\hline\n\\end{tabular}\n\\end{table}")
-
-
-
-    count = 0
-    for i in range(4):
-        w_naivekruskal.write(f"\\hline\n{count+1} & 10 & {data_naivekruskal[count]} & {cost_naivekruskal[count]}\\\\\n")
-        count = count + 1
-    w_naivekruskal.write("\\hline")    
-    for i in range(4):
-        w_naivekruskal.write(f"\\hline\n{count+1} & 20 & {data_naivekruskal[count]} & {cost_naivekruskal[count]}\\\\\n")
-        count = count + 1
-    w_naivekruskal.write("\\hline") 
-    for i in range(4):
-        w_naivekruskal.write(f"\\hline\n{count+1} & 40 & {data_naivekruskal[count]} & {cost_naivekruskal[count]}\\\\\n")
-        count = count + 1
-    w_naivekruskal.write("\\hline")
-    for i in range(4):
-        w_naivekruskal.write(f"\\hline\n{count+1} & 80 & {data_naivekruskal[count]} & {cost_naivekruskal[count]}\\\\\n")
-        count = count + 1
-    w_naivekruskal.write("\\hline")
-    for i in range(4):
-        w_naivekruskal.write(f"\\hline\n{count+1} & 100 & {data_naivekruskal[count]} & {cost_naivekruskal[count]}\\\\\n")
-        count = count + 1
-    w_naivekruskal.write("\\hline")
-    for i in range(4):
-        w_naivekruskal.write(f"\\hline\n{count+1} & 200 & {data_naivekruskal[count]} & {cost_naivekruskal[count]}\\\\\n")
-        count = count + 1
-    w_naivekruskal.write("\\hline")
-    for i in range(4):
-        w_naivekruskal.write(f"\\hline\n{count+1} & 400 & {data_naivekruskal[count]} & {cost_naivekruskal[count]}\\\\\n")
-        count = count + 1
-    w_naivekruskal.write("\\hline")
-    for i in range(4):
-        w_naivekruskal.write(f"\\hline\n{count+1} & 800 & {data_naivekruskal[count]} & {cost_naivekruskal[count]}\\\\\n")
-        count = count + 1
-    w_naivekruskal.write("\\hline")
-    for i in range(4):
-        w_naivekruskal.write(f"\\hline\n{count+1} & 1k & {data_naivekruskal[count]} & {cost_naivekruskal[count]}\\\\\n")
-        count = count + 1
-    w_naivekruskal.write("\\hline")
-    for i in range(4):
-        w_naivekruskal.write(f"\\hline\n{count+1} & 2k & {data_naivekruskal[count]} & {cost_naivekruskal[count]}\\\\\n")
-        count = count + 1
-    w_naivekruskal.write("\\hline")
-    for i in range(4):
-        w_naivekruskal.write(f"\\hline\n{count+1} & 4k & {data_naivekruskal[count]} & {cost_naivekruskal[count]}\\\\\n")
-        count = count + 1
-    w_naivekruskal.write("\\hline")
-    for i in range(4):
-        w_naivekruskal.write(f"\\hline\n{count+1} & 8k & {data_naivekruskal[count]} & {cost_naivekruskal[count]}\\\\\n")
-        count = count + 1
-    w_naivekruskal.write("\\hline")
-    for i in range(4):
-        w_naivekruskal.write(f"\\hline\n{count+1} & 10k & {data_naivekruskal[count]} & {cost_naivekruskal[count]}\\\\\n")
-        count = count + 1
-    w_naivekruskal.write("\\hline")
-    for i in range(4):
-        w_naivekruskal.write(f"\\hline\n{count+1} & 20k & {data_naivekruskal[count]} & {cost_naivekruskal[count]}\\\\\n")
-        count = count + 1
-    w_naivekruskal.write("\\hline")
-    for i in range(4):
-        w_naivekruskal.write(f"\\hline\n{count+1} & 40k & {data_naivekruskal[count]} & {cost_naivekruskal[count]}\\\\\n")
-        count = count + 1
-    w_naivekruskal.write("\\hline")
-    for i in range(4):
-        w_naivekruskal.write(f"\\hline\n{count+1} & 80k & {data_naivekruskal[count]} & {cost_naivekruskal[count]}\\\\\n")
-        count = count + 1
-    w_naivekruskal.write("\\hline")
-    for i in range(4):
-        w_naivekruskal.write(f"\\hline\n{count+1} & 100k & {data_naivekruskal[count]} & {cost_naivekruskal[count]}\\\\\n")
-        count = count + 1
-
-    w_naivekruskal.write("\\hline\n\\end{tabular}\n\\end{table}")
-
-prim.close()
-naivekruskal.close()
-kruskal.close()
-
-w_kruskal.close()
-w_naivekruskal.close()
-w_prim.close()
+prim_f.close()
+naivekruskal_f.close()
+kruskal_f.close()
     

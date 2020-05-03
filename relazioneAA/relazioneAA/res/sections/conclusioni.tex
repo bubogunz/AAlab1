@@ -3,7 +3,7 @@ In questa sezione risponderemo alla Domanda 2: si metteranno a confronto i risul
 
 Mettendo a confronto i tre algoritmi è subito evidente come ci sia una evidente differenza di performance tra \texttt{Kruskal} e \texttt{Prim} con \texttt{NaiveKruskal}.
 
-\image{0.9}{Algorithms}{Performance dei tre algoritmi a confronto} 
+\image{0.9}{compare_n}{Performance dei tre algoritmi a confronto} 
 
 Inizialmente \texttt{Prim} e \texttt{NaiveKruskal} delineano un andamento simile, tuttavia è possibile osservare come, già a partire dai grafi con 20K nodi, i tempi impiegati da \texttt{NaiveKruskal} risultino essere significativamente superiori a quelli di \texttt{Prim}. Questo perché, all'aumentare dei nodi, il tempo di esecuzione dell'algoritmo \texttt{NaiveKruskal}, con complessità \comp{mn}, cresce asintoticamente più rapidamente di quello impiegato dall'algoritmo \texttt{Prim}, avente complessità \comp{m\log n}.\eqcapo
 

@@ -1,173 +1,111 @@
 \subsection{NaiveKruskal}
 Anche per questo algoritmo non abbiamo fatto variazioni rispetto all'implementazione studiata a lezione: la complessità finale, infatti, risulta essere \comp{mn}. D'altro canto, la funzione presente nel ciclo principale dell'algoritmo \texttt{graph.hasCycle()}, che controlla se nel grafo selezionato è presente un ciclo, ha complessità $O(m+n)$. Questo potrebbe portare a pensare che, dunque, l'algoritmo abbia una complessità \comp{m(m+n)}. Tale affermazione risulta essere falsa, in quanto la funzione viene invoca solo dal MST che sappiamo avere la seguente proprietà: $m=n-1$, con $m = |E|$ il numero dei lati ed $n = |V|$ il numero dei nodi. Dunque, la complessità dell'algoritmo risulta essere proprio \comp{mn}.
 
-\image{0.9}{Naive_Kruskal}{Performance dell'algoritmo Naive Kruskal}
+\image{0.9}{naivekruskal_g}{Performance dell'algoritmo Naive Kruskal}
 
 \texttt{NaiveKruskal} è molto efficiente con grafi fino a 4K nodi, mentre già a 20K nodi inizia a mostrare rallentamenti, richiedendo un tempo di $\sim$30 secondi, fino ad un tempo di $\sim$30 minuti per grafi di 100K nodi.
 Inoltre, già a partire dai grafi di dimensione di 200 nodi, raddoppiare la grandezza del grafo richiede un aumento del tempo di risoluzione di un fattore 4 o 5.
 
-\begin{table}[H]
-	\centering
-	\begin{tabular}{|c|c|c|c|}
+\begin{center}
+	\begin{longtable}{|c|c|c|c|c|}
+		\caption{Risultati dell'algoritmo di Naive Kruskal} \\
 		\hline
-		\textbf{N.} & \textbf{Graph Size} & \textbf{Time (s)} & \textbf{MST cost}\\ 
+		\textbf{N.} & \textbf{Graph Size (nodes)} & \textbf{Time Federico (s)} & \textbf{Time Nicola (s)} & \textbf{MST cost} \\
 		\hline
-		1 & 10 & 0.0010596 & 29316\\
+		\endfirsthead
+		\multicolumn{5}{c}%
+		{\tablename\ \thetable\ -- \textit{Continua dalla pagina precedente}} \\
 		\hline
-		2 & 10 & 0.0002246 & 2126\\
+		\textbf{N.} & \textbf{Graph Size (nodes)} & \textbf{Time Federico (s)} & \textbf{Time Nicola (s)} & \textbf{MST cost} \\
 		\hline
-		3 & 10 & 0.0001755 & -44765\\
+		\endhead
+		\hline \multicolumn{5}{r}{\textit{Continua nella pagina seguente}} \\
+		\endfoot
 		\hline
-		4 & 10 & 0.0001161 & 20360\\
-		\hline\hline
-		5 & 20 & 0.0003615 & -32021\\
+		\endlastfoot
+		1 & 10 & 0.000560029 & 0.000560029 & 29316\\
+		2 & 10 & 8.5044e-05 & 8.5044e-05 & 2126\\
+		3 & 10 & 0.000109528 & 0.000109528 & -44765\\
+		4 & 10 & 7.0003e-05 & 7.0003e-05 & 20360\\
 		\hline
-		6 & 20 & 0.0002788 & 18596\\
+		5 & 20 & 0.000217742 & 0.000217742 & -32021\\
+		6 & 20 & 0.000205306 & 0.000205306 & 18596\\
+		7 & 20 & 0.000251243 & 0.000251243 & -42560\\
+		8 & 20 & 0.000140594 & 0.000140594 & -37205\\
 		\hline
-		7 & 20 & 0.0002375 & -42560\\
+		9 & 40 & 0.000530655 & 0.000530655 & -122078\\
+		10 & 40 & 0.000425697 & 0.000425697 & -37021\\
+		11 & 40 & 0.00024775 & 0.00024775 & -79570\\
+		12 & 40 & 0.000196186 & 0.000196186 & -79741\\
 		\hline
-		8 & 20 & 0.0002041 & -37205\\
-		\hline\hline
-		9 & 40 & 0.0019728 & -122078\\
+		13 & 80 & 0.000737096 & 0.000737096 & -139926\\
+		14 & 80 & 0.000802938 & 0.000802938 & -211345\\
+		15 & 80 & 0.000663801 & 0.000663801 & -110571\\
+		16 & 80 & 0.00075189 & 0.00075189 & -233320\\
 		\hline
-		10 & 40 & 0.0003499 & -37021\\
+		17 & 100 & 0.001142012 & 0.001142012 & -141960\\
+		18 & 100 & 0.001048694 & 0.001048694 & -271743\\
+		19 & 100 & 0.00106485 & 0.00106485 & -288906\\
+		20 & 100 & 0.001062188 & 0.001062188 & -232178\\
 		\hline
-		11 & 40 & 0.0003325 & -79570\\
+		21 & 200 & 0.003979332 & 0.003979332 & -510185\\
+		22 & 200 & 0.00237902 & 0.00237902 & -515136\\
+		23 & 200 & 0.002511942 & 0.002511942 & -444357\\
+		24 & 200 & 0.002382755 & 0.002382755 & -393278\\
 		\hline
-		12 & 40 & 0.0002773 & -79741\\
-		\hline\hline
-		13 & 80 & 0.0014311 & -139926\\
+		25 & 400 & 0.008904292 & 0.008904292 & -1122919\\
+		26 & 400 & 0.004054465 & 0.004054465 & -788168\\
+		27 & 400 & 0.004215928 & 0.004215928 & -895704\\
+		28 & 400 & 0.004001736 & 0.004001736 & -733645\\
 		\hline
-		14 & 80 & 0.0008544 & -211345\\
+		29 & 800 & 0.017189365 & 0.017189365 & -1541291\\
+		30 & 800 & 0.01754511 & 0.01754511 & -1578294\\
+		31 & 800 & 0.017843113 & 0.017843113 & -1675534\\
+		32 & 800 & 0.016382689 & 0.016382689 & -1652119\\
 		\hline
-		15 & 80 & 0.0009532 & -110571\\
+		33 & 1k & 0.02666359 & 0.02666359 & -2091110\\
+		34 & 1k & 0.026889521 & 0.026889521 & -1934208\\
+		35 & 1k & 0.027331791 & 0.027331791 & -2229428\\
+		36 & 1k & 0.028779077 & 0.028779077 & -2359192\\
 		\hline
-		16 & 80 & 0.0020361 & -233320\\
-		\hline\hline
-		17 & 100 & 0.0022148 & -141960\\
+		37 & 2k & 0.141345103 & 0.141345103 & -4811598\\
+		38 & 2k & 0.133419127 & 0.133419127 & -4739387\\
+		39 & 2k & 0.138542937 & 0.138542937 & -4717250\\
+		40 & 2k & 0.135108372 & 0.135108372 & -4537267\\
 		\hline
-		18 & 100 & 0.001367 & -271743\\
+		41 & 4k & 0.707476168 & 0.707476168 & -8722212\\
+		42 & 4k & 0.689289844 & 0.689289844 & -9314968\\
+		43 & 4k & 0.697196581 & 0.697196581 & -9845767\\
+		44 & 4k & 0.700634409 & 0.700634409 & -8681447\\
 		\hline
-		19 & 100 & 0.0011847 & -288906\\
+		45 & 8k & 3.102323985 & 3.102323985 & -17844628\\
+		46 & 8k & 3.096770812 & 3.096770812 & -18800966\\
+		47 & 8k & 3.081142442 & 3.081142442 & -18741474\\
+		48 & 8k & 3.137697114 & 3.137697114 & -18190442\\
 		\hline
-		20 & 100 & 0.0008953 & -232178\\
-		\hline\hline
-		21 & 200 & 0.0022246 & -510185\\
+		49 & 10k & 4.896234627 & 4.896234627 & -22086729\\
+		50 & 10k & 4.913670002 & 4.913670002 & -22338561\\
+		51 & 10k & 4.940323414 & 4.940323414 & -22581384\\
+		52 & 10k & 4.935964403 & 4.935964403 & -22606313\\
 		\hline
-		22 & 200 & 0.0018707 & -515136\\
+		53 & 20k & 20.618231825 & 20.618231825 & -45978687\\
+		54 & 20k & 20.443345376 & 20.443345376 & -45195405\\
+		55 & 20k & 20.155556454 & 20.155556454 & -47854708\\
+		56 & 20k & 20.351124712 & 20.351124712 & -46420311\\
 		\hline
-		23 & 200 & 0.0019732 & -444357\\
+		57 & 40k & 89.807105168 & 89.807105168 & -92003321\\
+		58 & 40k & 89.372149459 & 89.372149459 & -94397064\\
+		59 & 40k & 89.697158306 & 89.697158306 & -88783643\\
+		60 & 40k & 89.39603408 & 89.39603408 & -93017025\\
 		\hline
-		24 & 200 & 0.0025881 & -393278\\
-		\hline\hline
-		25 & 400 & 0.0069684 & -1122919\\
+		61 & 80k & 590.700453947 & 590.700453947 & -186834082\\
+		62 & 80k & 582.496115085 & 582.496115085 & -185997521\\
+		63 & 80k & 579.599313318 & 579.599313318 & -182065015\\
+		64 & 80k & 580.37768589 & 580.37768589 & -180803872\\
 		\hline
-		26 & 400 & 0.0055755 & -788168\\
-		\hline
-		27 & 400 & 0.0089353 & -895704\\
-		\hline
-		28 & 400 & 0.0060748 & -733645\\
-		\hline\hline
-		29 & 800 & 0.0252481 & -1541291\\
-		\hline
-		30 & 800 & 0.0258438 & -1578294\\
-		\hline
-		31 & 800 & 0.0269498 & -1675534\\
-		\hline
-		32 & 800 & 0.0250428 & -1652119\\
-		\hline
-	\end{tabular}
-\caption{Risultati dell'algoritmo \textit{Naive Kruskal} (1 di 3)}
-\end{table}
-		
-\begin{table}[H]
-	\centering
-	\begin{tabular}{|c|c|c|c|}
-		\hline
-		\textbf{N.} & \textbf{Graph Size} & \textbf{Time (s)} & \textbf{MST cost}\\
-		\hline
-		33 & 1k & 0.0396759 & -2091110\\
-		\hline
-		34 & 1k & 0.0365509 & -1934208\\
-		\hline
-		35 & 1k & 0.0376809 & -2229428\\
-		\hline
-		36 & 1k & 0.040684 & -2359192\\
-		\hline\hline
-		37 & 2k & 0.1869853 & -4811598\\
-		\hline
-		38 & 2k & 0.1927233 & -4739387\\
-		\hline
-		39 & 2k & 0.1956191 & -4717250\\
-		\hline
-		40 & 2k & 0.2264677 & -4537267\\
-		\hline\hline
-		41 & 4k & 0.9198784 & -8722212\\
-		\hline
-		42 & 4k & 1.0673374 & -9314968\\
-		\hline
-		43 & 4k & 1.176725 & -9845767\\
-		\hline
-		44 & 4k & 1.177549 & -8681447\\
-		\hline\hline
-		45 & 8k & 4.3709961 & -17844628\\
-		\hline
-		46 & 8k & 3.8505744 & -18800966\\
-		\hline
-		47 & 8k & 4.152138 & -18741474\\
-		\hline
-		48 & 8k & 3.9908528 & -18190442\\
-		\hline\hline
-		49 & 10k & 5.846408 & -22086729\\
-		\hline
-		50 & 10k & 6.316151 & -22338561\\
-		\hline
-		51 & 10k & 6.526546 & -22581384\\
-		\hline
-		52 & 10k & 7.4906781 & -22606313\\
-		\hline\hline
-		53 & 20k & 33.2681333 & -45978687\\
-		\hline
-		54 & 20k & 31.7596484 & -45195405\\
-		\hline
-		55 & 20k & 28.8519555 & -47854708\\
-		\hline
-		56 & 20k & 28.6587404 & -46420311\\
-		\hline\hline
-		57 & 40k & 157.6931358 & -92003321\\
-		\hline
-		58 & 40k & 167.1818835 & -94397064\\
-		\hline
-		59 & 40k & 160.0550749 & -88783643\\
-		\hline
-		60 & 40k & 162.5589424 & -93017025\\
-		\hline\hline
-		61 & 80k & 908.1871984 & -186834082\\
-		\hline
-		62 & 80k & 882.8654037 & -185997521\\
-		\hline
-		63 & 80k & 954.7231673 & -182065015\\
-		\hline
-		64 & 80k & 877.5672819 & -180803872\\
-		\hline
-	\end{tabular}
-\caption{Risultati dell'algoritmo \textit{Naive Kruskal} (2 di 3)}
-\end{table}
-
-\begin{table}[H]
-	\centering
-	\begin{tabular}{|c|c|c|c|}
-		\hline
-		\textbf{N.} & \textbf{Graph Size} & \textbf{Time (s)} & \textbf{MST cost}\\
-		\hline
-		65 & 100k & 1577.2524851 & -230698391\\
-		\hline
-		66 & 100k & 1909.1328731 & -230168572\\
-		\hline
-		67 & 100k & 1905.8766097 & -231393935\\
-		\hline
-		68 & 100k & 1908.9756497 & -231011693\\
-		\hline
-	\end{tabular}
-\caption{Risultati dell'algoritmo \textit{Naive Kruskal} (3 di 3)}
-\end{table}
+		65 & 100k & 1007.230509086 & 1007.230509086 & -230698391\\
+		66 & 100k & 1114.130091458 & 1114.130091458 & -230168572\\
+		67 & 100k & 1109.768834091 & 1109.768834091 & -231393935\\
+		68 & 100k & 1052.638226358 & 1052.638226358 & -231011693\\
+	\end{longtable}
+\end{center}
