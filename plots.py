@@ -46,6 +46,7 @@ if prim_n.mode == "r" and naivekruskal_n.mode == "r" and kruskal_n.mode == "r" a
     plt.title("Kruskal algorithm performance")
     plt.legend()
     plt.savefig(os.path.join(my_path, "relazioneAA/relazioneAA/imgs/kruskal_g.png"))
+    plt.close()
 
     plt.plot(range(68), data_prim_n, label="Nicola performance")
     plt.plot(range(68), data_prim_f, label="Federico performance")
@@ -55,6 +56,7 @@ if prim_n.mode == "r" and naivekruskal_n.mode == "r" and kruskal_n.mode == "r" a
     plt.title("Prim algorithm performance")
     plt.legend()
     plt.savefig(os.path.join(my_path, "relazioneAA/relazioneAA/imgs/prim_g.png"))
+    plt.close()
 
     plt.plot(range(68), data_naivekruskal_n, label="Nicola performance")
     plt.plot(range(68), data_naivekruskal_f, label="Fedrico performance")
@@ -64,6 +66,7 @@ if prim_n.mode == "r" and naivekruskal_n.mode == "r" and kruskal_n.mode == "r" a
     plt.title("Naive Kruskal Algorithm performance")
     plt.legend()
     plt.savefig(os.path.join(my_path, "relazioneAA/relazioneAA/imgs/naivekruskal_g.png"))
+    plt.close()
 
     plt.plot(range(68), data_kruskal_n, label="Kruskal")
     plt.plot(range(68), data_prim_n, label="Prim")
@@ -75,6 +78,7 @@ if prim_n.mode == "r" and naivekruskal_n.mode == "r" and kruskal_n.mode == "r" a
     plt.title("Nicola algorithms performance")
     plt.legend()
     plt.savefig(os.path.join(my_path, "relazioneAA/relazioneAA/imgs/compare_n.png"))
+    plt.close()
 
     plt.plot(range(68), data_kruskal_f, label="Kruskal")
     plt.plot(range(68), data_prim_f, label="Prim")
@@ -86,6 +90,7 @@ if prim_n.mode == "r" and naivekruskal_n.mode == "r" and kruskal_n.mode == "r" a
     plt.title("Federico algorithms performance")
     plt.legend()
     plt.savefig(os.path.join(my_path, "relazioneAA/relazioneAA/imgs/compare_f.png"))
+    plt.close()
 
 
 prim_n.close()
