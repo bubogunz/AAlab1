@@ -1,8 +1,8 @@
 \section{Risultati degli algoritmi}
-Questa sezione risponderà alla Domanda 1: verranno riportati i grafici del tempo impiegato in funzione della dimensione del grafo, le performance ed il costo dei MST calcolati dagli algoritmi \texttt{Prim}, \texttt{Kruskal} e \texttt{NaiveKruskal}.
+Questa sezione risponderà alla Domanda 1: verranno riportati i grafici del tempo impiegato in funzione della dimensione del grafo, le performance ed il costo dei MST calcolati dagli algoritmi \texttt{Prim}, \texttt{Kruskal} e \texttt{NaiveKruskal}.\vspace{-10pt}
 
 \subsection{Specifiche Hardware dei calcolatori utilizzati}
-Dato il considerevole divario di prestazioni ottenute dalle due diverse macchine, gli studenti hanno ritenuto opportuno riportare le differenti tempistiche impiegate per il calcolo dei costi degli MST.
+Dato il considerevole divario di prestazioni ottenute dalle due diverse macchine, abbiamo ritenuto opportuno riportare le differenti componenti hardware su cui abbiamo lavorato.
 \begin{center}
 	\begin{longtable}{ r | c | c } %\hline
 	\multicolumn{1}{c|}{\textbf{Caratteristica}} &\textbf{PC di Nicola}&\textbf{PC di Federico}\\ \hline 
@@ -16,129 +16,128 @@ Dato il considerevole divario di prestazioni ottenute dalle due diverse macchine
 	\endfoot
 	\endlastfoot
 	%table input should begin here
-	Architettura & 64 bit & 64 bit \\
-	Nome processore & & Intel i7-8750H \\
-	Numero core & & 6\\
-	Numero thread & & 12 \\
-	Range velocità di clock [GHz] & & 2.20 - 4.10\\
-	Dimensione cache L1 [KiB] & & 384\\
-	Dimensione cache L2 [MiB] & & 1.5\\
-	Dimensione cache L3 [MiB] & & 9\\
-	Dimensione RAM [GiB] & & 31.2\\  \hline
-	\caption{Specifiche dei calcolatori utilizzati\\ (Fonte: \url{http://intel.com}).}
-	\end{longtable}
-\end{center} 
+	Nome processore & Intel i5-7300HQ & Intel i7-8750H \\
+	Numero core & 4 & 6\\
+	Numero thread & 4 & 12 \\
+	Range velocità di clock [GHz] & 2.50 - 3.50 & 2.20 - 4.10\\
+	Dimensione cache L1 [KiB] & 256 & 384\\
+	Dimensione cache L2 [MiB] & 1 & 1.5\\
+	Dimensione cache L3 [MiB] & 6 & 9\\	
+	Dimensione RAM [GiB] & 8 & 31.2\\  \hline
+	\caption{Specifiche dei calcolatori utilizzati.\\ Fonte: \url{http://intel.com}.}
+	\end{longtable}\vspace{-30pt}
+\end{center} \vspace{-30pt}
 
 \subsection{Prim}
 L'algoritmo non presenta variazioni nell'implementazione rispetto all'algoritmo mostrato a lezione, dunque possiede una complessità di \comp{n\log n}.
-\image{0.9}{Prim}{Performance dell'algoritmo Prim}
+\image{0.741}{prim_g}{Performance dell'algoritmo Prim sui due sistemi}
 
-L'algoritmo è decisamente performante per grafi fino a 10K nodi, successivamente inizia ad essere relativamente lento per grafi da 40K nodi, impiegando $\sim$1 minuto, fino ad arrivare a grafi con 100K nodi impiegando $\sim$10 minuti.\acapo
+L'algoritmo è decisamente performante per grafi fino a 10K nodi, successivamente inizia ad essere relativamente lento per grafi da 80K nodi, impiegando $\sim$1 minuto e mezzo, fino ad arrivare a grafi con 100K nodi impiegando $\sim$4 minuti, nel caso della macchina di Federico Brian.\acapo
 
-Di seguito sono riportati il tempo computazionale, assieme ai pesi dei MST calcolati.
+Di seguito sono riportati il tempo computazionale ed i pesi dei MST calcolati.
 
 \begin{center}
 	\begin{longtable}{|c|c|c|c|c|}
-		\caption{Risultati dell'algoritmo di Prim} \\
 		\hline
 		\textbf{N.} & \textbf{Graph Size (nodes)} & \textbf{Time Federico (s)} & \textbf{Time Nicola (s)} & \textbf{MST cost} \\
 		\hline
 		\endfirsthead
-		\multicolumn{5}{c}%
-		{\tablename\ \thetable\ -- \textit{Continua dalla pagina precedente}} \\
+		\multicolumn{5}{|c|}%
+		{\tablename\ \thetable\ -- \textit{continuazione della pagina precedente}} \\
 		\hline
 		\textbf{N.} & \textbf{Graph Size (nodes)} & \textbf{Time Federico (s)} & \textbf{Time Nicola (s)} & \textbf{MST cost} \\
 		\hline
 		\endhead
-		\hline \multicolumn{5}{r}{\textit{Continua nella pagina seguente}} \\
+		\hline \multicolumn{5}{|r|}{\textit{Continua nella pagina seguente}} \\
 		\endfoot
-		\hline
+%		\hline
 		\endlastfoot
-		1 & 10 & 0.001516935 & 0.001516935 & 29316\\
-		2 & 10 & 0.000139756 & 0.000139756 & 2126\\
-		3 & 10 & 0.000149669 & 0.000149669 & -44765\\
-		4 & 10 & 0.000115304 & 0.000115304 & 20360\\
-		\hline
-		5 & 20 & 0.000201304 & 0.000201304 & -32021\\
-		6 & 20 & 0.000148581 & 0.000148581 & 18596\\
-		7 & 20 & 0.000130301 & 0.000130301 & -42560\\
-		8 & 20 & 9.9989e-05 & 9.9989e-05 & -37205\\
-		\hline
-		9 & 40 & 0.000255545 & 0.000255545 & -122078\\
-		10 & 40 & 0.000227131 & 0.000227131 & -37021\\
-		11 & 40 & 0.000223172 & 0.000223172 & -79570\\
-		12 & 40 & 0.000190513 & 0.000190513 & -79741\\
-		\hline
-		13 & 80 & 0.000461337 & 0.000461337 & -139926\\
-		14 & 80 & 0.000358958 & 0.000358958 & -211345\\
-		15 & 80 & 0.000312896 & 0.000312896 & -110571\\
-		16 & 80 & 0.000331155 & 0.000331155 & -233320\\
-		\hline
-		17 & 100 & 0.000222887 & 0.000222887 & -141960\\
-		18 & 100 & 0.000186166 & 0.000186166 & -271743\\
-		19 & 100 & 0.00020321 & 0.00020321 & -288906\\
-		20 & 100 & 0.000191939 & 0.000191939 & -232178\\
-		\hline
-		21 & 200 & 0.000556103 & 0.000556103 & -510185\\
-		22 & 200 & 0.000539168 & 0.000539168 & -515136\\
-		23 & 200 & 0.000626964 & 0.000626964 & -444357\\
-		24 & 200 & 0.000466611 & 0.000466611 & -393278\\
-		\hline
-		25 & 400 & 0.001343472 & 0.001343472 & -1122919\\
-		26 & 400 & 0.001259603 & 0.001259603 & -788168\\
-		27 & 400 & 0.001300368 & 0.001300368 & -895704\\
-		28 & 400 & 0.001263466 & 0.001263466 & -733645\\
-		\hline
-		29 & 800 & 0.004210081 & 0.004210081 & -1541291\\
-		30 & 800 & 0.004169337 & 0.004169337 & -1578294\\
-		31 & 800 & 0.004372859 & 0.004372859 & -1675534\\
-		32 & 800 & 0.004226525 & 0.004226525 & -1652119\\
-		\hline
-		33 & 1k & 0.006369881 & 0.006369881 & -2091110\\
-		34 & 1k & 0.00644721 & 0.00644721 & -1934208\\
-		35 & 1k & 0.006475871 & 0.006475871 & -2229428\\
-		36 & 1k & 0.006468983 & 0.006468983 & -2359192\\
-		\hline
-		37 & 2k & 0.025558904 & 0.025558904 & -4811598\\
-		38 & 2k & 0.02420279 & 0.02420279 & -4739387\\
-		39 & 2k & 0.024796339 & 0.024796339 & -4717250\\
-		40 & 2k & 0.025268448 & 0.025268448 & -4537267\\
-		\hline
-		41 & 4k & 0.103823489 & 0.103823489 & -8722212\\
-		42 & 4k & 0.103343875 & 0.103343875 & -9314968\\
-		43 & 4k & 0.112767785 & 0.112767785 & -9845767\\
-		44 & 4k & 0.102867612 & 0.102867612 & -8681447\\
-		\hline
-		45 & 8k & 0.466010458 & 0.466010458 & -17844628\\
-		46 & 8k & 0.457934774 & 0.457934774 & -18800966\\
-		47 & 8k & 0.45301853 & 0.45301853 & -18741474\\
-		48 & 8k & 0.463987517 & 0.463987517 & -18190442\\
-		\hline
-		49 & 10k & 0.745876695 & 0.745876695 & -22086729\\
-		50 & 10k & 0.748228046 & 0.748228046 & -22338561\\
-		51 & 10k & 0.752410272 & 0.752410272 & -22581384\\
-		52 & 10k & 0.741559471 & 0.741559471 & -22606313\\
-		\hline
-		53 & 20k & 3.366825299 & 3.366825299 & -45978687\\
-		54 & 20k & 3.317811526 & 3.317811526 & -45195405\\
-		55 & 20k & 3.31394422 & 3.31394422 & -47854708\\
-		56 & 20k & 3.35028821 & 3.35028821 & -46420311\\
-		\hline
-		57 & 40k & 14.907811327 & 14.907811327 & -92003321\\
-		58 & 40k & 15.069201141 & 15.069201141 & -94397064\\
-		59 & 40k & 16.985234135 & 16.985234135 & -88783643\\
-		60 & 40k & 17.136569027 & 17.136569027 & -93017025\\
-		\hline
-		61 & 80k & 99.832574806 & 99.832574806 & -186834082\\
-		62 & 80k & 95.712610549 & 95.712610549 & -185997521\\
-		63 & 80k & 87.760898325 & 87.760898325 & -182065015\\
-		64 & 80k & 81.084580784 & 81.084580784 & -180803872\\
-		\hline
-		65 & 100k & 170.88136533 & 170.88136533 & -230698391\\
-		66 & 100k & 180.640790693 & 180.640790693 & -230168572\\
-		67 & 100k & 190.185899105 & 190.185899105 & -231393935\\
-		68 & 100k & 232.491690129 & 232.491690129 & -231011693\\
+		1 & 10 & 0.001516935 & 0.005691 & 29316\\
+2 & 10 & 0.000139756 & 0.0002781 & 2126\\
+3 & 10 & 0.000149669 & 0.0002143 & -44765\\
+4 & 10 & 0.000115304 & 0.0001572 & 20360\\
+\hline
+5 & 20 & 0.000201304 & 0.002932 & -32021\\
+6 & 20 & 0.000148581 & 0.0002687 & 18596\\
+7 & 20 & 0.000130301 & 0.0005665 & -42560\\
+8 & 20 & 9.9989e-05 & 0.000397 & -37205\\
+\hline
+9 & 40 & 0.000255545 & 0.0004462 & -122078\\
+10 & 40 & 0.000227131 & 0.001578 & -37021\\
+11 & 40 & 0.000223172 & 0.0012624 & -79570\\
+12 & 40 & 0.000190513 & 0.0004704 & -79741\\
+\hline
+13 & 80 & 0.000461337 & 0.0022566 & -139926\\
+14 & 80 & 0.000358958 & 0.0004229 & -211345\\
+15 & 80 & 0.000312896 & 0.0004965 & -110571\\
+16 & 80 & 0.000331155 & 0.0055763 & -233320\\
+\hline
+17 & 100 & 0.000222887 & 0.0003762 & -141960\\
+18 & 100 & 0.000186166 & 0.0003986 & -271743\\
+19 & 100 & 0.00020321 & 0.0053806 & -288906\\
+20 & 100 & 0.000191939 & 0.0003545 & -232178\\
+\hline
+21 & 200 & 0.000556103 & 0.0008466 & -510185\\
+22 & 200 & 0.000539168 & 0.0012841 & -515136\\
+23 & 200 & 0.000626964 & 0.0007046 & -444357\\
+24 & 200 & 0.000466611 & 0.0007651 & -393278\\
+\hline
+25 & 400 & 0.001343472 & 0.0081984 & -1122919\\
+26 & 400 & 0.001259603 & 0.0062876 & -788168\\
+27 & 400 & 0.001300368 & 0.0024222 & -895704\\
+28 & 400 & 0.001263466 & 0.0022616 & -733645\\
+\hline
+29 & 800 & 0.004210081 & 0.0156534 & -1541291\\
+30 & 800 & 0.004169337 & 0.0170512 & -1578294\\
+31 & 800 & 0.004372859 & 0.0111666 & -1675534\\
+32 & 800 & 0.004226525 & 0.012685 & -1652119\\
+\hline
+33 & 1k & 0.006369881 & 0.0271609 & -2091110\\
+34 & 1k & 0.00644721 & 0.0261404 & -1934208\\
+35 & 1k & 0.006475871 & 0.0232982 & -2229428\\
+36 & 1k & 0.006468983 & 0.0134004 & -2359192\\
+\hline
+37 & 2k & 0.025558904 & 0.0526213 & -4811598\\
+38 & 2k & 0.02420279 & 0.0500484 & -4739387\\
+39 & 2k & 0.024796339 & 0.0477902 & -4717250\\
+40 & 2k & 0.025268448 & 0.0457845 & -4537267\\
+\hline
+41 & 4k & 0.103823489 & 0.1973502 & -8722212\\
+42 & 4k & 0.103343875 & 0.2438554 & -9314968\\
+43 & 4k & 0.112767785 & 0.2912372 & -9845767\\
+44 & 4k & 0.102867612 & 0.2805648 & -8681447\\
+\hline
+45 & 8k & 0.466010458 & 1.1943197 & -17844628\\
+46 & 8k & 0.457934774 & 1.4036635 & -18800966\\
+47 & 8k & 0.45301853 & 1.025199 & -18741474\\
+48 & 8k & 0.463987517 & 1.5333734 & -18190442\\
+\hline
+49 & 10k & 0.745876695 & 3.3735423 & -22086729\\
+50 & 10k & 0.748228046 & 1.9356491 & -22338561\\
+51 & 10k & 0.752410272 & 1.6555519 & -22581384\\
+52 & 10k & 0.741559471 & 1.7339627 & -22606313\\
+\hline
+53 & 20k & 3.366825299 & 7.2241058 & -45978687\\
+54 & 20k & 3.317811526 & 9.442905599 & -45195405\\
+55 & 20k & 3.31394422 & 9.409197101 & -47854708\\
+56 & 20k & 3.35028821 & 10.1661279 & -46420311\\
+\hline
+57 & 40k & 14.907811327 & 58.2513275 & -92003321\\
+58 & 40k & 15.069201141 & 56.572616 & -94397064\\
+59 & 40k & 16.985234135 & 63.9437065 & -88783643\\
+60 & 40k & 17.136569027 & 52.5889188 & -93017025\\
+\hline
+61 & 80k & 99.832574806 & 305.1820434 & -186834082\\
+62 & 80k & 95.712610549 & 292.0056872 & -185997521\\
+63 & 80k & 87.760898325 & 300.2967593 & -182065015\\
+64 & 80k & 81.084580784 & 317.9336533 & -180803872\\
+\hline
+65 & 100k & 170.88136533 & 505.2773482 & -230698391\\
+66 & 100k & 180.640790693 & 590.8584786 & -230168572\\
+67 & 100k & 190.185899105 & 589.5148767 & -231393935\\
+68 & 100k & 232.491690129 & 594.4183702 & -231011693\\ \hline
+		\caption{Risultati dell'algoritmo di Prim} \\
 	\end{longtable}
 \end{center}
-
-
+\input{./res/sections/Naivekruskal}
+\input{./res/sections/Kruskal}

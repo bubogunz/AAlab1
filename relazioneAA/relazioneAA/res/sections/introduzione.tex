@@ -13,12 +13,12 @@ Il presente documento descrive le scelte architetturali ed implementative del pr
 \section{Scelta del linguaggio di programmazione}
 Per lo svolgimento di questo \emph{assignment} è stato scelto, come linguaggio di programmazione, Java nella sua versione 8. La scelta è derivata, principalmente, da due fattori: 
 \begin{itemize}
-	\item è stato sia studiato durante il percorso di laurea triennale, sia approfondito autonomamente da entrambi gli studenti;
+	\item è stato sia studiato durante il percorso di laurea triennale, sia approfondito autonomamente da entrambi;
 	\item in Java, è possibile utilizzare riferimenti ad oggetti piuttosto che oggetti stessi. Questo ha permesso un'implementazione degli algoritmi che si potrebbe definire \quotes{accademica}, perché coerente con la complessità dichiarata e semanticamente vicina allo pseudocodice visto a lezione. 
 \end{itemize}
-Questo ultimo punto ha bisogno di essere sviluppato ulteriormente per risultare chiaro. In una prima implementazione degli algoritmi gli studenti, utilizzando l'approccio \textit{object-oriented} senza l'utilizzo di riferimenti, si sono accorti che il codice aggiungeva complessità, anche abbastanza pesanti, rispetto allo pseudocodice illustrato a lezione. Questo accadeva perché inizialmente sono stati utilizzati costruttori di copia profonda che, oltre a raddoppiare l'utilizzo di memoria, aggiungevano complessità di ordine del numero dei lati, del numero dei nodi oppure di entrambe le due. \eqcapo
-Ad esempio, in una prima implementazione dell'algoritmo \texttt{NaiveKruskal}, ad ogni iterazione del ciclo principale, veniva creato un nuovo grafo, copiando il grafo ottenuto aggiungendo iterativamente un lato alla volta. Il costruttore di copia profonda provvedeva a creare due nuove liste: una di nodi ed una di lati, entrambi aventi le medesime caratteristiche delle liste del grafo da cui sono stati copiati.\eqcapo
- Questo ha portato gli studenti a riflettere sul significato dello pseudocodice dei tre diversi algoritmi e li ha guidati verso uno sviluppo di un codice che:
+Questo ultimo punto ha bisogno di essere sviluppato ulteriormente per risultare chiaro. In una prima implementazione degli algoritmi utilizzando l'approccio \textit{object-oriented} senza l'utilizzo di riferimenti, ci siamo accorti che il codice aggiungeva complessità, anche abbastanza pesanti, rispetto allo pseudocodice illustrato a lezione. Questo accadeva perché inizialmente sono stati utilizzati costruttori di copia profonda che, oltre a raddoppiare l'utilizzo di memoria, aggiungevano una complessità rispetto al numero dei lati, al numero dei nodi oppure ad entrambe. \eqcapo
+Ad esempio, in una prima implementazione dell'algoritmo \texttt{NaiveKruskal}, ad ogni iterazione del ciclo principale veniva creato un nuovo grafo, copiando il grafo che era stato ottenuto aggiungendo iterativamente un lato alla volta. Il costruttore di copia profonda provvedeva a creare due nuove liste: una di nodi ed una di lati, entrambi aventi le medesime caratteristiche delle liste del grafo da cui sono stati copiati.\eqcapo
+ Questo ci ha portato a riflettere sul significato dello pseudocodice dei tre diversi algoritmi e li ha guidati verso uno sviluppo di un codice che:
  \begin{itemize}
  	\item mantenesse la caratteristica di facile leggibilità propria della programmazione ad oggetti;
 	\item fosse coerente con le complessità dichiarate a lezione.
@@ -28,7 +28,7 @@ Questi obiettivi sono stati raggiunti agendo su riferimenti di oggetti piuttosto
 \section{Scelte implementative}
 Come specificato nel precedente paragrafo, nell'implementazione dei tre algoritmi si è cercato di creare meno oggetti possibile usando per lo più riferimenti. Questo ha permesso non solo un risparmio in termini di memoria ma anche di prestazioni: in una prima implementazione dell'algoritmo \texttt{NaiveKruskal} serviva più di un'ora per trovare il peso del MST dei grafi, ora invece sono necessari \quotes{solamente} 17 minuti circa\footnote{nella macchina di Federico Brian, le cui specifiche hardware saranno illustrate di seguito}.\eqcapo
 
-Benché il codice sia stato adeguatamente commentato\footnote{come si può vedere dal \texttt{Javadoc} automaticamente generato e accessibile all'interno della cartella \texttt{JavaLab1/doc/}, aprendo il file \texttt{index.html} con il browser preferito}, di seguito è riportata una \emph{summa} delle caratteristiche di ogni classe implementata che non compaiono nella documentazione, ripartita per \texttt{package}.
+Benché il codice sia stato adeguatamente commentato\footnote{come si può vedere dal \texttt{Javadoc}, automaticamente generato e accessibile all'interno della cartella \texttt{JavaLab1/doc/}, aprendo il file \texttt{index.html} con il browser preferito}, di seguito è riportata una \emph{summa} delle caratteristiche di ogni classe implementata che non compaiono nella documentazione, ripartita per \texttt{package}.
 
 \subsection{Modello}
 Le componenti del modello, vale a dire le classi presenti all'interno del \texttt{package} chiamato \texttt{lab1.model}, comprendono tutte le strutture dati utilizzate nella risoluzione dei tre problemi assegnati. 
@@ -50,7 +50,7 @@ Le componenti del modello, vale a dire le classi presenti all'interno del \textt
 		\item staticamente, utilizzando l'\emph{override} del metodo \texttt{compareTo}: una volta definito, non è più possibile modificarlo senza apporre modifiche al codice precedentemente scritto;
 		\item dinamicamente, definendo un oggetto derivato dalla classe \texttt{Comparator<T>} e avendo la possibilità di intercambiare il criterio di ordinamento del minheap senza dover modificare la il metodo \texttt{compareTo} della classe-parametro \texttt{T} di \texttt{MinHeap}.
 	\end{enumerate}
-	Gli studenti hanno deciso di implementare una relazione d'ordine statica, sovrascrivendo cioè il metodo \texttt{compareTo}, poiché la relazione che ordina gli oggetti all'interno del minheap non cambia. L'unico criterio che è usato per ordinare gli elementi è, infatti, il peso dei nodi o dei lati. Gli stessi, per motivazioni di completezza, hanno ritenuto opportuno implementare anche la modalità dinamica di ordinamento della classe \texttt{MinHeap}. Quest'ultima sceglierà l'ordinamento dinamico se, al momento dell'istanziazione, è stato fornito al costruttore un \texttt{Comparator<T>} adeguato, altrimenti sceglierà l'ordinamento statico. \eqcapo
+	Noi abbiamo deciso di implementare una relazione d'ordine statica, sovrascrivendo cioè il metodo \texttt{compareTo}, poiché la relazione che ordina gli oggetti all'interno del minheap non cambia. L'unico criterio che è usato per ordinare gli elementi è, infatti, il peso dei nodi o dei lati. Per motivazioni di completezza, abbiamo ritenuto opportuno implementare anche la modalità dinamica di ordinamento della classe \texttt{MinHeap}. Quest'ultima sceglierà l'ordinamento dinamico se, al momento dell'istanziazione, è stato fornito al costruttore un \texttt{Comparator<T>} adeguato, altrimenti sceglierà l'ordinamento statico. \eqcapo
 	Al mero scopo didattico, sono state create le classi \texttt{SortNodesByWeight} e \texttt{SortEdgesByWeight}, contrassegnate con l'\emph{annotation} \texttt{@deprecated} ed utilizzate per le classi di test.\eqcapo
 	\item \texttt{DisjointSet}: questa struttura dati gestisce partizioni di oggetti, rappresentati con un numero intero che li identifica. Ogni oggetto può stare in una sola delle partizioni degli insiemi disgiunti presenti. La struttura dati è utilizzata all'interno dell'algoritmo \texttt{Kruskal} e, come si potrà vedere, porta notevoli vantaggi dal punto di vista del \emph{computational time}, seppur con la stessa complessità asintotica di \texttt{Prim}. Questo argomento sarà trattato nella sezione \ref{conc}, dedicata alle conclusioni.
 \end{itemize} 
@@ -93,31 +93,3 @@ Il package \texttt{lab1.test} contiene due classi:
 
 \subsection{Documentazione}
 Il codice, opportunamente commentato, possiede una documentazione auto-generata con la funzionalità \texttt{javadoc}: la si può consultare accedendo alla directory \texttt{JavaProject/doc} ed aprendo il file \texttt{index.html} con il proprio browser preferito. 
-
-\section{Specifiche Hardware dei calcolatori utilizzati}
-Dato il considerevole divario di prestazioni ottenute dalle due diverse macchine, gli studenti hanno ritenuto opportuno riportare i differenti risultati ottenuti (anche se asintoticamente medesimi).
-\begin{center}
-	\begin{longtable}{ r | c | c } %\hline
-	\multicolumn{1}{c|}{\textbf{Caratteristica}} &\textbf{PC di Nicola}&\textbf{PC di Federico}\\ \hline 
-	\endfirsthead
-	\rowcolor{white}
-	\multicolumn{3}{|r|}{\textit{-- continuazione da pagina precedente}} \\ \hline 
-	\endhead
-	\hline
-	\rowcolor{white} 
-	\multicolumn{3}{|r|}{{\textit{-- continua a pagina successiva}}} \\
-	\endfoot
-	\endlastfoot
-	%table input should begin here
-	Nome processore & Intel i5-7300HQ & Intel i7-8750H \\
-	Numero core & 4 & 6\\
-	Numero thread & 4 & 12 \\
-	Range velocità di clock [GHz] & 2.50 - 3.50 & 2.20 - 4.10\\
-	Dimensione cache L1 [KiB] & 256 & 384\\
-	Dimensione cache L2 [MiB] & 1 & 1.5\\
-	Dimensione cache L3 [MiB] & 6 & 9\\
-	Dimensione RAM [GiB] & 8 & 31.2\\  \hline
-	
-	\caption{Specifiche dei calcolatori utilizzati.\\ Fonte: \url{http://intel.com}.}
-	\end{longtable}
-\end{center} 

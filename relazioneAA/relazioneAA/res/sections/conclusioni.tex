@@ -1,10 +1,9 @@
 \section{Conclusioni} \label{conc}
 In questa sezione risponderemo alla Domanda 2: si metteranno a confronto i risultati ottenuti dai tre algoritmi, accompagnati da un adeguato commento.\acapo
 
-Mettendo a confronto i tre algoritmi è subito evidente come ci sia una evidente differenza di performance tra \texttt{Kruskal} e \texttt{Prim} con \texttt{NaiveKruskal}.
-
-\image{0.9}{compare_n}{Performance dei tre algoritmi a confronto} 
-
+Mettendo a confronto i tre algoritmi è subito chiaro come ci sia una evidente differenza di performance tra \texttt{Kruskal} e \texttt{Prim} con \texttt{NaiveKruskal}.
+\image{0.71}{compare_n}{Performance dei tre algoritmi a confronto nella macchina di Nicola Carlesso} 
+\image{0.71}{compare_f}{Performance dei tre algoritmi a confronto nella macchina di Federico Brian}
 Inizialmente \texttt{Prim} e \texttt{NaiveKruskal} delineano un andamento simile, tuttavia è possibile osservare come, già a partire dai grafi con 20K nodi, i tempi impiegati da \texttt{NaiveKruskal} risultino essere significativamente superiori a quelli di \texttt{Prim}. Questo perché, all'aumentare dei nodi, il tempo di esecuzione dell'algoritmo \texttt{NaiveKruskal}, con complessità \comp{mn}, cresce asintoticamente più rapidamente di quello impiegato dall'algoritmo \texttt{Prim}, avente complessità \comp{m\log n}.\eqcapo
 
 D'altra parte, l'algoritmo \texttt{Kruskal} riesce sempre ad impiegare meno tempo degli altri algoritmi: è infatti possibile vedere come, anche nei grafi da 100K nodi, impieghi solamente $\sim$0.1-0.2 secondi per calcolare il costo del MST. Questo potrebbe essere considerato un comportamento sospetto, poiché i due algoritmi \texttt{Prim} e \texttt{Kruskal} impiegano tempi d'esecuzione molto distanti pur avendo la stessa complessità asintotica. \\
@@ -14,6 +13,6 @@ In realtà, il concetto di complessità asintotica è molto diverso dal \emph{co
 	\item che questo tempo rimanga costante nel tempo.
 \end{itemize} 
 Infatti, per il calcolo della complessità, viene assunto che ogni istruzione elementare abbia complessità \comp{1}. Si tratta, però, di un calcolo puramente teorico che serve per dare l'idea del comportamento asintotico dell'algoritmo all'aumentare della dimensione dell'input.\eqcapo
-Questo concetto si scontra con il \emph{computational time}: nella realtà, infatti, ogni istruzione atomica può impiegare tempi molto diversi. Inoltre, non si tiene conto di alcune operazioni necessarie che il processore deve compiere, come ad esempio il \emph{context switch} della cache. Anche la politica di scrittura utilizzata per mantenere la coerenza della memoria, può occupare il bus di sistema e, conseguentemente, causare ritardi nei tempi di esecuzione.\acapo
+Questo concetto si scontra con il \emph{computational time}: nella realtà, infatti, ogni istruzione atomica può impiegare tempi molto diversi. Inoltre, non si tiene conto di alcune operazioni necessarie che il processore deve compiere, come ad esempio il \emph{context switch} della cache. Anche la politica di scrittura utilizzata per mantenere la coerenza della memoria può occupare il bus di sistema e, conseguentemente, causare ritardi nei tempi di esecuzione.\acapo
 
-Un altro fatto che potrebbe destare qualche perplessità è la sostanziale differenza tra le tempistiche misurare dal calcolatore di Federico rispetto a quelle misurate dal calcolatore di Nicola. Anche qui si può vedere come, in realtà, il \emph{computational time} non sia un indicatore valido della complessità di un algoritmo: si può vedere come i tempi misurati utilizzando un determinato processore siano quasi la metà rispetto ai tempi misurati con un altro processore, a riprova del fatto che complessità asintotica e \emph{computational time} siano due cose completamente diverse.
+Un altro fatto che potrebbe destare qualche perplessità è la sostanziale differenza tra le tempistiche misurare dal calcolatore di Federico rispetto a quelle misurate dal calcolatore di Nicola. Anche qui si può vedere come, in realtà, il \emph{computational time} non sia un indicatore valido della complessità di un algoritmo: i tempi misurati utilizzando un determinato processore sono quasi la metà rispetto ai tempi misurati con un altro processore, a riprova del fatto che complessità asintotica e \emph{computational time} siano due cose completamente diverse.
